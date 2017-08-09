@@ -1,13 +1,11 @@
 # ExecuteJMetal
-Bash Script to help statistical tests of Multi-Objective Evolutionary Algorithms.
-Only for Linux Users.
+Bash Script to help statistical tests of Multi-Objective Evolutionary Algorithms.<br>
+This Scripts use <a href="https://jmetal.github.io/jMetal/">JMetal Framework 5.2</a>.<br>
+Only for Linux Users.<br>
 
-  1. Structure of tests<br>
-    Execute.sh<br>
-    QualityIndicator.sh<br>
-    JMetal.jar<br>
-    experiment/MyExperiments/data/<br>
- 
+  1. Use the src in additional files to programming you JMetalMain<br>
+ Look at the end of this files for more informations.<br>
+  
   2. You need LaTeX - For .tex files<br>
 sudo apt install texlive-latex-base<br>
 sudo apt install texlive-generic-extra<br>
@@ -45,5 +43,30 @@ Rename All files in ".0 .1 .2  ...  .max" to ".tsv".<br>
 <br>
 <b>Source:</b> How to read input parameters to execute JMetal with this scripts.
 
-
-
+=======================================<br>
+<b>Structure of tests<b><br>
+  <ul>
+    <li>Execute.sh</li>
+    <li>QualityIndicator.sh</li>
+    <li>JMetal.jar <i>Put You'r compilation here</i></li>
+    <li>Additional/ </li>
+      <ul>
+      <li>renameAll.sh</li>
+      <li>renameScript.sh</li>
+      <li>src/</li>
+        <ul>
+        <li>Configuration.java</li>
+        <li>ExecuteExperiment.java</li>
+        <li>JMetalMain.java</li>
+        <li>MyRunner.java</li>
+        </ul>
+      </ul>
+    <li>lib/ <i>Lib of project</i></li>
+    <li>experiment/</li>
+    <ul>
+      <li>MyExperiments/</li>
+      <ul>
+        <li>data/</li>
+      </ul>
+    </ul>
+ </ul>
