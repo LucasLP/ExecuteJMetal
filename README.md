@@ -41,10 +41,16 @@ If you have this problem, set in this script algorithm and instance to rename.<b
 Rename All files in ".0 .1 .2  ...  .max" to ".tsv".<br>
 <br>
 <br>
-<b>Source:</b> How to read input parameters to execute JMetal with this scripts.
+<b>Source:</b> How to read input parameters to execute JMetal with this scripts.<br>
+"MyRunne.java" is a single runner of algorithm configured by "Configuration.java"<br>
+"ExecuteExperiment.java" can execute several runs and get all data for statistical test<br>
+"Configuration.java" configure all tests, algorithms and benchmark<br>
+"JMetalMain.java" read first argument to configure how it will execute<br>
+<i>Example of execution: $ java -jar JMetal.java --statistic ZDT --algorithm NSGAII --algorithm MOEAD --tag test<br>
+It will execute NSGAII and MOEAD algorithm in benchmark ZDT, and MOEAD will save its data in "test" folder.<br></i>
 
 =======================================<br>
-<b>Structure of tests<b><br>
+<b>Structure of tests</b><br>
   <ul>
     <li>Execute.sh</li>
     <li>QualityIndicator.sh</li>
@@ -61,7 +67,7 @@ Rename All files in ".0 .1 .2  ...  .max" to ".tsv".<br>
         <li>MyRunner.java</li>
         </ul>
       </ul>
-    <li>lib/ <i>Lib of project</i></li>
+    <li>lib/ <i>Lib of you'r project</i></li>
     <li>experiment/</li>
     <ul>
       <li>MyExperiments/</li>
