@@ -28,6 +28,7 @@ sudo apt-get install r-base-dev<br>
   5. Execute<br>
 sh Execute.sh<br>
 
+  6. Analyse the results in folder: experiment/MyExperiments/Result_$experimentName_$benchmark/
 
 =======================================<br>
 <b>In Additional Folder</b><br>

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#tagert-runner will receiver the parameter int this order:
+	#<id.configuration> <id.instance> <seed> <instance> [<extra parameters>] <configuration>
+
+#irace is maximizer
+
+CANDIDATENUM=$1
+INSTANCE=$4
+
+shift 4 #remove 4 firsts arg
+
+PARAMS=$*
+
+
+STDOUT="./Irace/Output/c${CANDIDATENUM}.stdout"
+
+java -jar JMetal.jar --single-run $INSTANCE --algorithm MOEADDRA $PARAMS > $STDOUT
+
+
+#COST=$STDOUT
+COST=$(grep -oE '[-+0-9.e]+' $STDOUT  | tail -1)
+
+#if ! [[ "${ COST }" = ̃ ˆ[-+0-9.e]+$ ]] ; then
+#	error "${ STDOUT }: Output is not a number"
+#fi
+
+
+echo $COST
+exit 0

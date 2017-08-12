@@ -1,0 +1,34 @@
+###################################################### -*- mode: r -*- #####
+## Configuration for Iterated Race (iRace).
+############################################################################
+parameterFile = "./parameters.txt"
+execDir =  "../"
+targetRunner = "./target-runner"
+
+
+
+#trainInstancesFile = "./Instances/training_Concave.txt"
+#trainInstancesFile = "./Instances/training_Convex.txt"
+#trainInstancesFile = "./Instances/training_Disconnect.txt"
+#trainInstancesFile = "./Instances/training_Linear.txt"
+#trainInstancesFile = "./Instances/training_2f.txt"
+trainInstancesFile = "./Instances/training_3f.txt"
+
+
+maxExperiments = 300
+## 100
+## 500
+## 1000
+
+
+digits = 2
+
+#testInstancesDir = "./Instances/"
+
+#testInstancesFile = "test.txt"
+
+#testNbElites = 1
+
+#testIterationElites = 1
+## END of configuration file
+############################################################################

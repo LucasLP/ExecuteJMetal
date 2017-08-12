@@ -21,20 +21,25 @@
 
 benchmark="WFG"
 
-testName="_UCBNewVersionDRA_"
+testName="_example-test_"
 
-algorithm1="MOEADDRAUCB"
-tag1="MOEADDRAUCBnew"
-algorithm2="MOEADDRA"
+algorithm1="MOEADDRA"
+tag1="MOEADDRA"
 
+algorithm2="NSGAII"
+tag2="NSGAII"
 
+OutputFiles="experiment/OutputFiles/output_"$benchmark"_"
+
+echo "Executing JMetal : "$benchmark
 
 	#Execution Line - Execute the algorithm and save the results in algorithm tag 
-#java -jar JMetal.jar --statistic /$benchmark --algorithm $algorithm1 --tag $tag1
+#java -jar JMetal.jar --statistic /$benchmark --algorithm $algorithm1 --tag $tag1 > $OutputFiles$tag1.out
+#java -jar JMetal.jar --statistic /$benchmark --algorithm $algorithm2 --tag $tag2 > $OutputFiles$tag2.out
 
 
 	#Comparative Line	- Make the comparative tables and organize the folders
-sh QualityIndicators.sh Result$testName$benchmark/ $benchmark --algorithm $algorithm1 --tag $tag1 --algorithm $algorithm2 
+sh QualityIndicators.sh Result$testName$benchmark/ $benchmark --algorithm $algorithm1 --tag $tag1 --algorithm $algorithm2 --tag2
 
 
 

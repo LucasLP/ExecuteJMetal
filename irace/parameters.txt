@@ -1,0 +1,6 @@
+# name		switch		     type	values			[conditions (using R syntax)]
+F	       	"--F "            r		(0.00, 1.00)
+CR	       	"--CR " 		      r   	(0.00, 1.00)
+DE_VARIANT  "--DE "           c  	(rand/1/bin, rand/2/bin, current-to-rand/1/bin, current-to-rand/2/bin)
+delta			"--delta "			r		(0.00, 1.00)
+nr				"--nr "				i		(1,10)
