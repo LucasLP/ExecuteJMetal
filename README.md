@@ -6,16 +6,16 @@ Only for Linux Users.<br>
   1. Use the src in additional files to programming you JMetalMain<br>
  Look at the end of this files for more informations.<br>
   
-  2. You need LaTeX - For .tex files<br>
+  2. You need <b>LaTeX</b> - For .tex files<br>
 sudo apt install texlive-latex-base<br>
 sudo apt install texlive-generic-extra<br>
 sudo apt-get install texlive-latex-extra<br>
 
-  3. You need R Language - for .R files<br>
+  3. You need <b>R Language</b> - for .R files<br>
 sudo apt-get update<br>
 sudo apt-get install r-base<br>
 sudo apt-get install r-base-dev<br>
-    3.1 (optinal) Install Irace<br>
+    3.1 (optinal) Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
        R<br>
         R> install.packages("irace")<br>
 
@@ -66,6 +66,10 @@ It will execute NSGAII and MOEAD algorithm in benchmark ZDT, and MOEAD will save
         <li>ExecuteExperiment.java</li>
         <li>JMetalMain.java</li>
         <li>MyRunner.java</li>
+        <li>my-algorithms-jmetal4.2/</li>
+				<ul>
+				<li>MOEAD_DRA_UCB/</li>
+				</ul>
         </ul>
       </ul>
     <li>lib/ <i>Lib of you'r project</i></li>

@@ -31,11 +31,15 @@ tag2="NSGAII"
 
 OutputFiles="experiment/OutputFiles/output_"$benchmark"_"
 
+#================================================================
+
 echo "Executing JMetal : "$benchmark
+
 
 	#Execution Line - Execute the algorithm and save the results in algorithm tag 
 #java -jar JMetal.jar --statistic /$benchmark --algorithm $algorithm1 --tag $tag1 > $OutputFiles$tag1.out
 #java -jar JMetal.jar --statistic /$benchmark --algorithm $algorithm2 --tag $tag2 > $OutputFiles$tag2.out
+
 
 
 	#Comparative Line	- Make the comparative tables and organize the folders
