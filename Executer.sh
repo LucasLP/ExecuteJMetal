@@ -48,6 +48,7 @@ sh QualityIndicators.sh Result$testName$benchmark/ $benchmark --algorithm $algor
 
 
 
+aplay Additional/sound.wav
 
 
 
