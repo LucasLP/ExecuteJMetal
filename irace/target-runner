@@ -13,7 +13,7 @@ shift 4 #remove 4 firsts arg
 PARAMS=$*
 
 
-STDOUT="./Irace/Output/c${CANDIDATENUM}.stdout"
+STDOUT="./irace/Output/c${CANDIDATENUM}.stdout"
 
 java -jar JMetal.jar --single-run $INSTANCE --algorithm MOEADDRA $PARAMS > $STDOUT
 
@@ -26,5 +26,6 @@ COST=$(grep -oE '[-+0-9.e]+' $STDOUT  | tail -1)
 #fi
 
 
+#Using a Hypervolume (max) don't need '-'
 echo $COST
 exit 0

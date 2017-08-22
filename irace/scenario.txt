@@ -7,12 +7,12 @@ targetRunner = "./target-runner"
 
 
 
-#trainInstancesFile = "./Instances/training_Concave.txt"
+trainInstancesFile = "./Instances/training_Concave.txt"
 #trainInstancesFile = "./Instances/training_Convex.txt"
 #trainInstancesFile = "./Instances/training_Disconnect.txt"
 #trainInstancesFile = "./Instances/training_Linear.txt"
 #trainInstancesFile = "./Instances/training_2f.txt"
-trainInstancesFile = "./Instances/training_3f.txt"
+#trainInstancesFile = "./Instances/training_3f.txt"
 
 
 maxExperiments = 300

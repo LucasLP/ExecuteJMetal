@@ -3,9 +3,15 @@
 #How to execute IRace
 # 1 - Set paramenters.txt
 # 2 - Set instances (tune-conf)
-# 3 - Code hook-run to print only an float value to be maximized
+# 3 - Code target-runner to print only an float value to be maximized
 # 4 - Execute THIS sh "sh execute.sh name" the parameter name is for output data
 # 5 - Results at output directory "Tests"
+
+
+# OBS:
+#	1. The JMetalLogger don't can print anything, else it will generate an error.
+#	2. certify if the last thing of you program will show is the quality indicator.
+#	3. Remember, Irace is a maximizer, then, if you use a minimization, you need multiply by -1.
 
 
 name="Default"
@@ -37,12 +43,13 @@ Start:" $start "End" $end "
 
 cd ../
 
-mv irace.Rdata Irace/Tests/
+mv irace.Rdata irace/Tests/
 
-cd ./Irace/Tests/
+cd ./irace/Tests/
 
 # Gera o txt dos resultados na pasta /Irace/Tests/
 R -f Results.R > "./"$name"_output_Rdata.txt"
+
 
 #rename Rdata
 mv irace.Rdata $name"_irace.Rdata"
