@@ -1,4 +1,4 @@
-package JMetalMain;
+package pesquisajmetalcode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,7 +73,6 @@ public class ExecuteExperiment {
         new ExecuteAlgorithms<>(experiment).run();
     }if(configuration.executeQualityIndicators){
         System.out.println("Executing Quality Indicators...");
-        //new ComputeQualityIndicators<>(experiment).run() ;
         new ComputeQualityIndicators<>(experiment).run() ;
     }if(configuration.executeTablesComparative){
         System.out.println("Executing Comparatives...");
@@ -92,24 +91,21 @@ public class ExecuteExperiment {
    * @return
    */
    void configureAlgorithmList() {       
+       System.out.println("N. of Algorithms: "+configuration.NameList.size());
+       System.out.println("N. Problems     : "+problemList.size());
     for (int i = 0; i < configuration.NameList.size(); i++) {
-       // System.out.println("Creating: "+configuration.NameList[i]);
         try {
-            createAlgorithm(i);//configuration.NameList.get(i));
+            createAlgorithm(i);
         } catch (JMException | IllegalArgumentException | IllegalAccessException | ClassNotFoundException ex) {
             Logger.getLogger(ExecuteExperiment.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
   }
-   //String name
+  
     void createAlgorithm(int idAlgorithm) throws JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
         for (int i = 0; i < problemList.size(); i++) {
-            //System.out.println("Creating "+name+" for "+problemList.get(i).getProblem().getName());
-            Algorithm<List<DoubleSolution>> algorithm = configuration.create((DoubleProblem) problemList.get(i).getProblem(), configuration.NameList.get(idAlgorithm));//name);
-            //System.out.println(algorithm.toString());
-            //algorithmList.add(new ExperimentAlgorithm<>(algorithm, name, problemList.get(i).getTag()));
+            Algorithm<List<DoubleSolution>> algorithm = configuration.create((DoubleProblem) problemList.get(i).getProblem(), configuration.NameList.get(idAlgorithm));
             algorithmList.add(new ExperimentAlgorithm<>(algorithm, configuration.NameTagList.get(idAlgorithm), problemList.get(i).getTag()));
         }
-
     }
 }
