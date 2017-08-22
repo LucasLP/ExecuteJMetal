@@ -20,11 +20,8 @@ public class PesquisaJMetalCode {
     public static void main(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
         //Test input
         //args = "--single-run /WFG1 --algorithm MOEADDRA --algorithm MOEADDRAUCB".split(" ");
-        
         //args = "--single-run /ZDT4 --algorithm MOEADDRA".split(" ");
-        
         //args = "--statistic /ZDT --algorithm MOEAD".split(" ");
-        //args = "--comparative ZDT --algorithm MOEADDRAUCB --tag MOEADDRAUCBnew --algorithm MOEADDRA".split(" ");
         
         args = "--single-run /UF10 --algorithm MOEADDRA".split(" ");
         execute(args);

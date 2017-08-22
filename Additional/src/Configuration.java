@@ -17,8 +17,7 @@ import javax.management.JMException;
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.moead.AbstractMOEAD;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder;
-import static org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder.Variant.MOEADDRAUCBv5;
-import static org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder.Variant.MOEADDRAqs;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRA;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCB;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv5;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAqs;
@@ -138,15 +137,16 @@ public class Configuration {
             }
             
             //read other parameters
-            System.out.print("\n\n--algorithm\t--tag");
+            System.out.print("\n--algorithm\t--tag");
             for (int i = 2; i < args.length; i++) {
                 if (null != args[i]) {
                     if (args[i].startsWith("--")) {
                         String aux = args[i];
                         i++;
                         parameters.replace(aux, args[i]);
-                        System.out.print("\n"+args[i]);
+                        
                         if(aux.equals("--algorithm")){
+                            System.out.print("\n"+args[i]);
                             NameList.add(args[i]);
                             if(i+1<args.length && args[i+1].equals("--tag")){
                                 i++;//tag
@@ -163,6 +163,7 @@ public class Configuration {
             }
             System.out.println("");
         }
+        printParameters();
     }
     
     
@@ -334,6 +335,7 @@ public class Configuration {
                         .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
                         .setDataDirectory("resources/MOEAD_Weights")
                         .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
                 return a;
 
@@ -350,11 +352,12 @@ public class Configuration {
                         .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
                         .setDataDirectory("resources/MOEAD_Weights")
                         .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
                 return a;
 
             } else if (algorithm.equals("MOEADDRA") ){
-                return new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRA)
+                 MOEADDRA a = (MOEADDRA) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRA)
                         .setCrossover(crossover)
                         .setMutation(mutation)
                         .setMaxEvaluations(this.MaxEvaluations)
@@ -366,7 +369,8 @@ public class Configuration {
                         .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
                         .setDataDirectory("resources/MOEAD_Weights")
                         .build();
-
+                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                return a;
 
 
             }else if (algorithm.equals("MOEADDRAqs")){
@@ -382,6 +386,7 @@ public class Configuration {
                         .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
                         .setDataDirectory("resources/MOEAD_Weights")
                         .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
                 return a;
             }
@@ -478,158 +483,18 @@ public class Configuration {
         
         parameters.put("--pm"         , "1.0"       );
         parameters.put("--tau"        , "20.0"      );
-        parameters.put("--fun"        , "TCHE"    );
+        parameters.put("--fun"        , "TCHE"      );
         
         parameters.put("--problem"    , "UF"        );
-        
-       // parameters.put("--varproblem" , "30"      );
-        /*
-        parameters.put("--ls"         , "null"      );
-        parameters.put("--frec"       , "15000"     );
-        parameters.put("--scope"      , "pop"       );
-        parameters.put("--selection"  , "all"       );
-        parameters.put("--returnls"   , "6"         );
-        /**/
-        parameters.put("--name"       , "algorithm"  );
-        parameters.put("--showHV"     ,     "0"      );
+        parameters.put("--draTime"    , "30"        );
     }
      
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-    
-        if (algorithm.equals("MOEAD") ){
-            double cr = 1.0;
-            double f = 0.5;
-            DifferentialEvolutionCrossover crossover = new DifferentialEvolutionCrossover(cr, f, "rand/1/bin");
-
-            double mutationProbability = 1.0 / problem.getNumberOfVariables();
-            double mutationDistributionIndex = 20.0;
-            MutationOperator<DoubleSolution> mutation = new PolynomialMutation(mutationProbability, mutationDistributionIndex);
-
-            return new MOEADBuilder(problem, MOEADBuilder.Variant.MOEAD)
-                    .setCrossover(crossover)
-                    .setMutation(mutation)
-                    .setMaxEvaluations(this.MaxEvaluations)
-                    .setPopulationSize(600)
-                    .setResultPopulationSize(600)
-                    .setNeighborhoodSelectionProbability(0.9)
-                    .setMaximumNumberOfReplacedSolutions(2)
-                    .setNeighborSize(20)
-                    .setFunctionType(AbstractMOEAD.FunctionType.TCHE)
-                    .setDataDirectory("resources/MOEAD_Weights")
-                    .build();
-            
-            
-            
-        } else if (algorithm.equals("MOEADDRAUCB") || 
-                algorithm.equals("MOEADDRAUCBv1") || 
-                algorithm.equals("MOEADDRAUCBv2") ){
-            double cr = 1.0;
-            double f = 0.5;
-            DifferentialEvolutionCrossover crossover = new DifferentialEvolutionCrossover(cr, f, "rand/1/bin");
-
-            double mutationProbability = 1.0 / problem.getNumberOfVariables();
-            double mutationDistributionIndex = 20.0;
-            MutationOperator<DoubleSolution> mutation = new PolynomialMutation(mutationProbability, mutationDistributionIndex);
-
-            MOEADDRAUCB a = (MOEADDRAUCB) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCB)
-                    .setCrossover(crossover)
-                    .setMutation(mutation)
-                    .setMaxEvaluations(this.MaxEvaluations)
-                    .setPopulationSize(600)
-                    .setResultPopulationSize(600)
-                    .setNeighborhoodSelectionProbability(0.9)
-                    .setMaximumNumberOfReplacedSolutions(2)
-                    .setNeighborSize(20)
-                    .setFunctionType(AbstractMOEAD.FunctionType.TCHE)
-                    .setDataDirectory("resources/MOEAD_Weights")
-                    .build();
-            a.setName(algorithm);
-            return a;
-            
-        } else if (algorithm.equals("MOEADDRAUCBv5") ){
-            double cr = 1.0;
-            double f = 0.5;
-            DifferentialEvolutionCrossover crossover = new DifferentialEvolutionCrossover(cr, f, "rand/1/bin");
-            System.out.println("Creating UCBv5");
-            double mutationProbability = 1.0 / problem.getNumberOfVariables();
-            double mutationDistributionIndex = 20.0;
-            MutationOperator<DoubleSolution> mutation = new PolynomialMutation(mutationProbability, mutationDistributionIndex);
-
-            MOEADDRAUCBv5 a = (MOEADDRAUCBv5) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBv5)
-                    .setCrossover(crossover)
-                    .setMutation(mutation)
-                    .setMaxEvaluations(this.MaxEvaluations)
-                    .setPopulationSize(600)
-                    .setResultPopulationSize(600)
-                    .setNeighborhoodSelectionProbability(0.9)
-                    .setMaximumNumberOfReplacedSolutions(2)
-                    .setNeighborSize(20)
-                    .setFunctionType(AbstractMOEAD.FunctionType.TCHE)
-                    .setDataDirectory("resources/MOEAD_Weights")
-                    .build();
-            a.setName(algorithm);
-            return a;
-            
-        } else if (algorithm.equals("MOEADDRA") ){
-            double cr = 1.0;
-            double f = 0.5;
-            DifferentialEvolutionCrossover crossover = new DifferentialEvolutionCrossover(cr, f, "rand/1/bin");
-
-            double mutationProbability = 1.0 / problem.getNumberOfVariables();
-            double mutationDistributionIndex = 20.0;
-            MutationOperator<DoubleSolution> mutation = new PolynomialMutation(mutationProbability, mutationDistributionIndex);
-
-            return new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRA)
-                    .setCrossover(crossover)
-                    .setMutation(mutation)
-                    .setMaxEvaluations(this.MaxEvaluations)
-                    .setPopulationSize(600)
-                    .setResultPopulationSize(600)
-                    .setNeighborhoodSelectionProbability(0.9)
-                    .setMaximumNumberOfReplacedSolutions(2)
-                    .setNeighborSize(20)
-                    .setFunctionType(AbstractMOEAD.FunctionType.TCHE)
-                    .setDataDirectory("resources/MOEAD_Weights")
-                    .build();
-            
-            
-            
-        }else if (algorithm.equals("MOEADDRAqs")){
-            double cr = 1.0;
-            double f = 0.5;
-            DifferentialEvolutionCrossover crossover = new DifferentialEvolutionCrossover(cr, f, "rand/1/bin");
-
-            double mutationProbability = 1.0 / problem.getNumberOfVariables();
-            double mutationDistributionIndex = 20.0;
-            MutationOperator<DoubleSolution> mutation = new PolynomialMutation(mutationProbability, mutationDistributionIndex);
-
-            MOEADDRAqs a = (MOEADDRAqs) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAqs)
-                    .setCrossover(crossover)
-                    .setMutation(mutation)
-                    .setMaxEvaluations(this.MaxEvaluations)
-                    .setPopulationSize(600)
-                    .setResultPopulationSize(600)
-                    .setNeighborhoodSelectionProbability(0.9)
-                    .setMaximumNumberOfReplacedSolutions(2)
-                    .setNeighborSize(20)
-                    .setFunctionType(AbstractMOEAD.FunctionType.TCHE)
-                    .setDataDirectory("resources/MOEAD_Weights")
-                    .build();
-            a.setName(algorithm);
-            return a;
-            
-    */
+    private void printParameters(){
+        Set<String> keys = parameters.keySet();
+        for (String key : keys) {
+            System.out.println(key+" : "+parameters.get(key));
+        }
+    }
 }
