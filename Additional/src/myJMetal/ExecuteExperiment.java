@@ -1,4 +1,4 @@
-package pesquisajmetalcode;
+package myJMetal;
 
 import java.io.IOException;
 import java.util.ArrayList;

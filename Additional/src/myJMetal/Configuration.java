@@ -1,4 +1,4 @@
-package pesquisajmetalcode;
+package myJMetal;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,7 +19,6 @@ import org.uma.jmetal.algorithm.multiobjective.moead.AbstractMOEAD;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRA;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCB;
-import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv5;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAqs;
 import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
@@ -339,24 +338,7 @@ public class Configuration {
                 a.setName(algorithm);
                 return a;
 
-            } else if (algorithm.equals("MOEADDRAUCBv5") ){
-                MOEADDRAUCBv5 a = (MOEADDRAUCBv5) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBv5)
-                        .setCrossover(crossover)
-                        .setMutation(mutation)
-                        .setMaxEvaluations(this.MaxEvaluations)
-                        .setPopulationSize(600)
-                        .setResultPopulationSize(600)
-                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
-                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
-                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
-                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
-                        .setDataDirectory("resources/MOEAD_Weights")
-                        .build();
-                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
-                a.setName(algorithm);
-                return a;
-
-            } else if (algorithm.equals("MOEADDRA") ){
+            }  else if (algorithm.equals("MOEADDRA") ){
                  MOEADDRA a = (MOEADDRA) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRA)
                         .setCrossover(crossover)
                         .setMutation(mutation)

@@ -1,4 +1,4 @@
-package pesquisajmetalcode.UCB;
+package myJMetal.UCB;
 
 import java.util.ArrayList;
 import java.util.HashMap;

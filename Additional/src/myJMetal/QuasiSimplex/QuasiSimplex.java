@@ -1,4 +1,4 @@
-package pesquisajmetalcode.QuasiSImplex;
+package myJMetal.QuasiSimplex;
 
 /**
  *
@@ -48,7 +48,6 @@ public class QuasiSimplex implements LocalSearchOperator {
     protected NeighborType scope; 
     
     
-    protected int operationNumber =0;
     protected int lastNumImprovements = 0;
     
     
@@ -113,7 +112,7 @@ public class QuasiSimplex implements LocalSearchOperator {
     
     
     public List<DoubleSolution> execute(List<DoubleSolution> population, double[] lambda){
-        operationNumber = implementation.getEvaluations();
+        int operationNumber = implementation.getEvaluations();
         //Passos baseados no código C
         int N = problem.getNumberOfVariables();
         int sizeBestSet = N + 1;// [0] to [N]
@@ -155,13 +154,13 @@ public class QuasiSimplex implements LocalSearchOperator {
         //Passo 5: Aplicar os operadores
         applyOperators(operacoes, centroide, population.get(worst), population.get(0), N);
         
-        //Passo 6: Reparação - Não é necessário
+        //Passo 6: Repair
         for (int i = 0; i < operationNumber; i++) {
             for (int j = 0; j < N; j++) {
                 if (operacoes[i].getVariableValue(j) < problem.getLowerBound(j)) {
-                    operacoes[i].setVariableValue(i,problem.getLowerBound(j));
+                    operacoes[i].setVariableValue(j,problem.getLowerBound(j));
                 } else if (operacoes[i].getVariableValue(j) > problem.getUpperBound(j)) {
-                    operacoes[i].setVariableValue(i,problem.getUpperBound(j));
+                    operacoes[i].setVariableValue(j,problem.getUpperBound(j));
                 }
             }
         }
@@ -172,12 +171,46 @@ public class QuasiSimplex implements LocalSearchOperator {
         int c = 0;
         for (int i = population.size()-operationNumber; i < population.size(); i++) {
             operacoes[c].setAttribute("Fitness", moead.fitnessFunction(operacoes[c], lambda));
+            problem.evaluate(operacoes[c]);
             if ((Double) population.get(i).getAttribute("Fitness") > (Double) operacoes[c].getAttribute("Fitness")) {
                 qs.add(operacoes[c]);
             }
             c++;
         }
-        lastNumImprovements = qs.size();
+        lastNumImprovements = qs.size();/**/
+        
+        
+        
+        
+        /*DoubleSolution[] ops = new DoubleSolution[operationNumber];
+        boolean[] mark = new boolean[operationNumber];
+        for (int i = 0; i < operationNumber; i++) {
+            ops[i] = (DoubleSolution) operacoes[i].copy();
+            problem.evaluate(ops[i]);
+            ops[i].setAttribute("Fitness", moead.fitnessFunction(ops[i], lambda));
+             mark[i] = false;
+            //Obs: (N-1) is last position from vector 'Nmelhores'
+        }
+        List<DoubleSolution> qs = new ArrayList();
+        int num = 0;
+        for (int i = population.size() - 1; i >= 0; i--) {
+            for (int k = 0; k < operationNumber; k++) {
+                if (mark[k] == false) {
+                    if ((double) population.get(i).getAttribute("Fitness") > (double) ops[k].getAttribute("Fitness")) {
+                        mark[k] = true;
+                        qs.add(ops[k]);
+                        num++;
+                        k = operationNumber;
+                    }
+                }
+            }
+        }/**/
+        
+        
+        
+        
+        
+        
         return qs;
     }
     
@@ -237,7 +270,7 @@ public class QuasiSimplex implements LocalSearchOperator {
 
     @Override
     public int getEvaluations() {
-        return operationNumber;// * Gen;
+        return implementation.getEvaluations();// * Gen;
     }
     
     public boolean isAvaible(int l){

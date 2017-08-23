@@ -11,7 +11,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package pesquisajmetalcode;
+package myJMetal;
 
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.problem.DoubleProblem;
@@ -23,8 +23,6 @@ import org.uma.jmetal.util.ProblemUtils;
 
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.management.JMException;
 
 /**
@@ -77,7 +75,7 @@ public class MyRunner extends AbstractAlgorithmRunner {
         
         double computingTime = ((double) algorithmRunner.getComputingTime())/1000 ;
 
-        JMetalLogger.logger.info("Total execution time: " + computingTime + "s");
+        System.out.println("Total execution time: " + computingTime + "s");
 
         printFinalSolutionSet(population);
         if (!referenceParetoFront.equals("")) {

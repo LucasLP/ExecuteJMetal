@@ -1,4 +1,4 @@
-package JMetalMain;
+package myJMetal;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,18 +14,23 @@ import javax.management.JMException;
  * @author lucas
  */
 public class JMetalMain {
-    public static String myVersion(){return "v1.2   8/8/2017";}
+    public static String myVersion(){return "v1.3.1   23/8/2017";}
     
 
     public static void main(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
-        
         //Test input
-        //args = "--single-run /WFG6 --algorithm MOEADDRAUCB".split(" ");
+        //args = "--single-run /WFG1 --algorithm MOEADDRA --algorithm MOEADDRAUCB".split(" ");
         //args = "--single-run /ZDT4 --algorithm MOEADDRA".split(" ");
-        
         //args = "--statistic /ZDT --algorithm MOEAD".split(" ");
-        //args = "--comparative ZDT --algorithm MOEADDRAUCB --tag MOEADDRAUCBnew --algorithm MOEADDRA".split(" ");
         
+        //args = "--single-run /DTLZ1 --algorithm MOEADDRA --DE rand/2/bin".split(" ");
+        //args = "--single-run /UF8 --algorithm MOEADDRAUCB".split(" ");
+        execute(args);
+        
+    }
+    
+    
+    public static void execute(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException{
         Configuration conf = new Configuration(args);
         if (args != null && args.length > 0) {
             switch (args[0]) {
@@ -43,6 +48,20 @@ public class JMetalMain {
                     System.out.println("\nMode Selected: Statistic");
                     System.out.println("================================");
                     MultiTest(conf);
+                    break;
+                case "--indicators": 
+                    System.out.println("\nMode Selected: Indicators");
+                    System.out.println("================================");
+                    conf.parameters.replace("--problem", args[1]);
+                    if(args.length > 2 ){
+                        conf.executeNewAlgorithm      = false;
+                        conf.executeQualityIndicators = true;
+                        conf.executeTablesComparative = false;
+                        MultiTest(conf);
+                    }else{
+                        System.out.println("Need more than one algorithm for comparison!");
+                    }
+                    
                     break;
                 case "--comparative": 
                     System.out.println("\nMode Selected: Comparative");
@@ -69,7 +88,6 @@ public class JMetalMain {
             help();
         }
     }
-    
     
     
     public static void MultiTest(Configuration configuration) {
@@ -104,15 +122,14 @@ public class JMetalMain {
         System.out.println("Set arg[0] with: --single-run|--statistic|--comparative");
         System.out.println("\t--single-run, is a just one execution of algorithm");
         System.out.println("\t--statistic, is executed several runs and save data files");
+        System.out.println("\t--indicators, is executed only the quality indicator");
         System.out.println("\t--comparative, send in arg[1] benchmark to compare and other args the algorithms");
         System.out.println("Set arg[1] with instance to execute, example \"/UF1@1\"");
         System.out.println("Another instances are parameters to set the --algothim algorithm (optional) --tag algorithmTag"
                 + "\nif you don't set, will be a default value. You can set these parameters:"
                 + "\n--F, --CR, --DE, "
-                + "\n--algorithm, --pm, --tau, --fun, "
-                + "\n--problem, --varproblem"
-                + "\n--ls, --frec, --scope, --selection"
-                + "\n--name"
+                + "\n--algorithm, --pm, --tau, --fun, --delta, --nr, --nrSize"
+                + "\n--tag"
         );
         System.out.println("\nJMetal framework"
                 + "\nThis is a branch version, modified by Lucas Prestes");

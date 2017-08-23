@@ -1,9 +1,10 @@
+<html>
 # ExecuteJMetal
 Bash Script to help statistical tests of Multi-Objective Evolutionary Algorithms.<br>
 This Scripts use <a href="https://jmetal.github.io/jMetal/">JMetal Framework 5.2</a>.<br>
 Only for Linux Users.<br>
 
-  1. Use the src in additional files to programming you JMetalMain<br>
+  1. Use the src in additional files to programming your JMetalMain<br>
  Look at the end of this files for more informations.<br>
   
   2. You need <b>LaTeX</b> - For .tex files<br>
@@ -81,3 +82,4 @@ It will execute NSGAII and MOEAD algorithm in benchmark ZDT, and MOEAD will save
       </ul>
     </ul>
  </ul>
+</html>
