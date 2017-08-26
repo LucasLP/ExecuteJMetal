@@ -26,6 +26,6 @@ COST=$(grep -oE '[-+0-9.e]+' $STDOUT  | tail -1)
 #fi
 
 
-#Using a Hypervolume (max) don't need '-'
+#Using a Hypervolume (max) need '-'
 echo -$COST
 exit 0
