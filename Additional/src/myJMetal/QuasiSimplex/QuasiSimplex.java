@@ -28,10 +28,11 @@ import org.uma.jmetal.solution.Solution;
  */
 public class QuasiSimplex implements LocalSearchOperator {
     public enum Implementation {
-        Dong, Coello;
+        Dong, Coello, All;
             public int getEvaluations(){
                 if(this.equals(Dong)) return 6;
                 if(this.equals(Coello)) return 4;
+                if(this.equals(All)) return 10;
                 return 0;
             }
     }
@@ -58,7 +59,7 @@ public class QuasiSimplex implements LocalSearchOperator {
         scope = NeighborType.NEIGHBOR;
         select = MarkType.mark;
         implementation = Implementation.Coello;
-        frequency = 15050;
+        frequency = 15001;
         mark = new boolean[populationSize];
         if (select.equals(QuasiSimplex.MarkType.mark) ||
             select.equals(QuasiSimplex.MarkType.all)) {
@@ -72,40 +73,19 @@ public class QuasiSimplex implements LocalSearchOperator {
         }
     }
     
+    public void configurate(Implementation impl, MarkType mark, NeighborType nrType, int freq){
+        implementation = impl;
+        select = mark;
+        scope = nrType;
+        frequency = freq;
+    }
+    
     public void configurate(HashMap<String, Object> parameters){
         if(parameters!=null){
             if(parameters.containsKey("--frec")) frequency = (Integer)parameters.get("--frec");
             if(parameters.containsKey("--selection")) select = (MarkType) parameters.get("--selection");
             if(parameters.containsKey("--scope")) scope = (NeighborType) parameters.get("--scope");
             if(parameters.containsKey("--impl")) implementation = (Implementation) parameters.get("--impl");
-        }
-    }
-
-
-    
-    
-
-    
-    public class MyComparator<S extends Solution<?>> implements Comparator<S>, Serializable {
-        @Override
-        public int compare(S solution1, S solution2) {
-            if (solution1 == null) {
-                return 1;
-            } else if (solution2 == null) {
-                return -1;
-            }
-
-            double fitness1 = (double) solution1.getAttribute("Fitness");
-            double fitness2 = (double) solution2.getAttribute("Fitness");
-            if (fitness1 < fitness2) {
-                return -1;
-            }
-
-            if (fitness1 > fitness2) {
-                return 1;
-            }
-
-            return 0;
         }
     }
 
@@ -163,6 +143,8 @@ public class QuasiSimplex implements LocalSearchOperator {
                     operacoes[i].setVariableValue(j,problem.getUpperBound(j));
                 }
             }
+            problem.evaluate(operacoes[i]);
+            operacoes[i].setAttribute("Fitness", moead.fitnessFunction(operacoes[i], lambda));
         }
         
          //Passo 7: Substituir os piores do conjunto dos melhores 
@@ -170,8 +152,8 @@ public class QuasiSimplex implements LocalSearchOperator {
         List<DoubleSolution> qs = new ArrayList();
         int c = 0;
         for (int i = population.size()-operationNumber; i < population.size(); i++) {
-            operacoes[c].setAttribute("Fitness", moead.fitnessFunction(operacoes[c], lambda));
-            problem.evaluate(operacoes[c]);
+            //operacoes[c].setAttribute("Fitness", moead.fitnessFunction(operacoes[c], lambda));
+            //problem.evaluate(operacoes[c]);
             if ((Double) population.get(i).getAttribute("Fitness") > (Double) operacoes[c].getAttribute("Fitness")) {
                 qs.add(operacoes[c]);
             }
@@ -206,11 +188,6 @@ public class QuasiSimplex implements LocalSearchOperator {
             }
         }/**/
         
-        
-        
-        
-        
-        
         return qs;
     }
     
@@ -221,34 +198,57 @@ public class QuasiSimplex implements LocalSearchOperator {
         double omega = 0.5;
         double alfaE = r.nextDouble();//Math.random();
         double alfaC = r.nextDouble();//Math.random();
-        if(implementation.equals(Implementation.Dong)){
-            for (int i = 0; i < N; i++) {
-                //centroide
-                double c = centroide[i];
-                //worst element
-                double w = worst.getVariableValue(i);
-                //best element
-                double b = best.getVariableValue(i);
-
-                operacoes[0].setVariableValue(i, (w + (w - c)));                    //Reflexao pior 
-                operacoes[1].setVariableValue(i, (b + (c - b)));                    //Reflexao melhor
-                operacoes[2].setVariableValue(i, (w + ((1.0 + alfaE) * (w - c))));  //Expansao pior
-                operacoes[3].setVariableValue(i, (b + (alfaE * (c - b))));          //Expansao melhor
-                operacoes[4].setVariableValue(i, (w - (alfaC * (w - c))));          //Compressao pior
-                operacoes[5].setVariableValue(i, (b - (alfaC * (c - b))));          //Compressao melhor
-            }
-        }else if(implementation.equals(Implementation.Coello)){
-            for (int i = 0; i < N; i++) {
-                //centroide
-                double c = centroide[i];
-                //worst element
-                double w = worst.getVariableValue(i);
-
-                operacoes[0].setVariableValue(i,(1 + alfa) * c - alfa * w);
-                operacoes[1].setVariableValue(i,(1 + alfa * omega) * c - alfa * omega * w);
-                operacoes[2].setVariableValue(i,(1 + alfa * beta) * c - alfa * beta * w);
-                operacoes[3].setVariableValue(i,(1 - beta) * c - beta * w);
-            }
+        switch (implementation) {
+            case Dong:
+                for (int i = 0; i < N; i++) {
+                    //centroide
+                    double c = centroide[i];
+                    //worst element
+                    double w = worst.getVariableValue(i);
+                    //best element
+                    double b = best.getVariableValue(i);
+                    
+                    operacoes[0].setVariableValue(i, (w + (w - c)));                    //Reflexao pior
+                    operacoes[1].setVariableValue(i, (b + (c - b)));                    //Reflexao melhor
+                    operacoes[2].setVariableValue(i, (w + ((1.0 + alfaE) * (w - c))));  //Expansao pior
+                    operacoes[3].setVariableValue(i, (b + (alfaE * (c - b))));          //Expansao melhor
+                    operacoes[4].setVariableValue(i, (w - (alfaC * (w - c))));          //Compressao pior
+                    operacoes[5].setVariableValue(i, (b - (alfaC * (c - b))));          //Compressao melhor
+                }   break;
+            case Coello:
+                for (int i = 0; i < N; i++) {
+                    //centroide
+                    double c = centroide[i];
+                    //worst element
+                    double w = worst.getVariableValue(i);
+                    
+                    operacoes[0].setVariableValue(i,(1 + alfa) * c - alfa * w);
+                    operacoes[1].setVariableValue(i,(1 + alfa * omega) * c - alfa * omega * w);
+                    operacoes[2].setVariableValue(i,(1 + alfa * beta) * c - alfa * beta * w);
+                    operacoes[3].setVariableValue(i,(1 - beta) * c - beta * w);
+                }   break;
+            case All:
+                for (int i = 0; i < N; i++) {
+                    //centroide
+                    double c = centroide[i];
+                    //worst element
+                    double w = worst.getVariableValue(i);
+                    //best element
+                    double b = best.getVariableValue(i);
+                    
+                    operacoes[0].setVariableValue(i, (w + (w - c)));                    //Reflexao pior
+                    operacoes[1].setVariableValue(i, (b + (c - b)));                    //Reflexao melhor
+                    operacoes[2].setVariableValue(i, (w + ((1.0 + alfaE) * (w - c))));  //Expansao pior
+                    operacoes[3].setVariableValue(i, (b + (alfaE * (c - b))));          //Expansao melhor
+                    operacoes[4].setVariableValue(i, (w - (alfaC * (w - c))));          //Compressao pior
+                    operacoes[5].setVariableValue(i, (b - (alfaC * (c - b))));          //Compressao melhor
+                    operacoes[6].setVariableValue(i,(1 + alfa) * c - alfa * w);
+                    operacoes[7].setVariableValue(i,(1 + alfa * omega) * c - alfa * omega * w);
+                    operacoes[8].setVariableValue(i,(1 + alfa * beta) * c - alfa * beta * w);
+                    operacoes[9].setVariableValue(i,(1 - beta) * c - beta * w);
+                }   break;
+            default:
+                break;
         }
     }
     
@@ -298,5 +298,32 @@ public class QuasiSimplex implements LocalSearchOperator {
     public Integer getFrequency() {
         return frequency;
     }
+    
+    
+    
+     
+    public class MyComparator<S extends Solution<?>> implements Comparator<S>, Serializable {
+        @Override
+        public int compare(S solution1, S solution2) {
+            if (solution1 == null) {
+                return 1;
+            } else if (solution2 == null) {
+                return -1;
+            }
+
+            double fitness1 = (double) solution1.getAttribute("Fitness");
+            double fitness2 = (double) solution2.getAttribute("Fitness");
+            if (fitness1 < fitness2) {
+                return -1;
+            }
+
+            if (fitness1 > fitness2) {
+                return 1;
+            }
+
+            return 0;
+        }
+    }
+
 
 }

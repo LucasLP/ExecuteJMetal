@@ -16,15 +16,14 @@ package org.uma.jmetal.algorithm.multiobjective.moead;
 import org.uma.jmetal.algorithm.multiobjective.moead.util.MOEADUtils;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
-import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
 import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.solution.DoubleSolution;
-import org.uma.jmetal.util.JMetalException;
-import org.uma.jmetal.util.pseudorandom.JMetalRandom;
 
 import java.util.ArrayList;
 import java.util.List;
-import pesquisajmetalcode.UCB.UCB_set;
+import java.util.Map;
+import myJMetal.UCB.UCBWeighted;
+import myJMetal.UCB.UCB_set;
 
 /**
  * Class implementing the MOEA/D-DRA algorithm described in :
@@ -39,7 +38,13 @@ import pesquisajmetalcode.UCB.UCB_set;
 @SuppressWarnings("serial")
 public class MOEADDRAUCB extends MOEADDRA {
     String name = "";
+    Map<String, String> parameters;
 
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
+    }
+
+    
     @Override
     public String getName() {
         return name;
@@ -63,18 +68,17 @@ public class MOEADDRAUCB extends MOEADDRA {
 
     int generation = 0 ;
     evaluations = populationSize ;
-                 
     
-    UCB_set hh = new UCB_set((int)(0.5*populationSize), //Window Size
+    //Versao 3 
+    UCB_set hh = new UCB_set((int)(2.0*populationSize), //Window Size
                              75000,                     //Init
                              0,                     //End
-                             1000,                      //Step  
+                             100,                      //Step  
                              5.0,                       //C
                              1.0);                      //D
-    hh.addSelector("set", new Integer[]{1,2,3,4,5,6,7,8,9,10});
-    //System.out.println(hh.info());
-    ucb_configuration(1);/*_vIrace*/
-
+    //hh.addSelector("set", new Integer[]{1,2,3,4,5,6,7,8,9,10});
+    hh.addSelector("set", new UCBWeighted(new Integer[]{1,2,3,4,5,6,7,8,9,10}));//, 11,12
+    ucb_configuration(1);
       
     
     do {
@@ -90,6 +94,7 @@ public class MOEADDRAUCB extends MOEADDRA {
         if(hh.isWorking(evaluations, maxEvaluations)&&(!hh.isWSfull() || (evaluations-populationSize)%hh.maxStep==0)){
             hh.selectOperators();
            ucb_configuration((Integer)hh.getOperator("set"));
+            //System.out.println((Integer)hh.getOperator("set"));
         }
 
         NeighborType neighborType = chooseNeighborType() ;
@@ -114,6 +119,11 @@ public class MOEADDRAUCB extends MOEADDRA {
         evaluations++;
         updateIdealPoint(child);
         updateNeighborhood(child, subProblemId, neighborType);
+        
+        /*if(evaluations%50000==0){
+            System.out.println("=============");
+            hh.printHistory("set");
+        }/**/
       }
 
       generation++;
@@ -122,11 +132,14 @@ public class MOEADDRAUCB extends MOEADDRA {
       }
 
     } while (evaluations < maxEvaluations);
-
-    
-    
-   hh.printHistory("set");
+    /**
+    System.out.println("=============");
+    System.out.println(hh.info());
+    hh.printHistory("set");
+    /**/
   }
+  
+  
   
   
   
@@ -139,7 +152,6 @@ public class MOEADDRAUCB extends MOEADDRA {
                 differentialEvolutionCrossover.setCr(1.0);
                 differentialEvolutionCrossover.setF(0.5);
                 differentialEvolutionCrossover.setVariant("rand/1/bin");
-              //  draTime = 30;
                 break;
             case 2://PARTE DA CONFIGURAÇÃO ENCONTRADA PELO IRACE
                 neighborhoodSelectionProbability = 0.95;
@@ -148,7 +160,6 @@ public class MOEADDRAUCB extends MOEADDRA {
                 differentialEvolutionCrossover.setCr(0.4);
                 differentialEvolutionCrossover.setF(0.37);
                 differentialEvolutionCrossover.setVariant("rand/1/bin");
-             //   draTime = 20;
                 break;
             case 3:
                 neighborhoodSelectionProbability = 0.8;
@@ -157,7 +168,6 @@ public class MOEADDRAUCB extends MOEADDRA {
                 differentialEvolutionCrossover.setCr(0.8);
                 differentialEvolutionCrossover.setF(0.7);
                 differentialEvolutionCrossover.setVariant("current-to-rand/2/bin");
-               // draTime = 25;
                 break;
             case 4:
                 neighborhoodSelectionProbability = 1.0;
@@ -166,7 +176,6 @@ public class MOEADDRAUCB extends MOEADDRA {
                 differentialEvolutionCrossover.setCr(0.6);
                 differentialEvolutionCrossover.setF(0.7);
                 differentialEvolutionCrossover.setVariant("current-to-rand/1/bin");
-           //     draTime = 40;
                 break;
             case 5:
                 neighborhoodSelectionProbability = 0.6;
@@ -175,7 +184,6 @@ public class MOEADDRAUCB extends MOEADDRA {
                 differentialEvolutionCrossover.setCr(0.4);
                 differentialEvolutionCrossover.setF(0.1);
                 differentialEvolutionCrossover.setVariant("rand/1/bin");
-                //draTime = 35;
                 break;
             case 6:
                 neighborhoodSelectionProbability = 0.95;
@@ -184,7 +192,6 @@ public class MOEADDRAUCB extends MOEADDRA {
                 differentialEvolutionCrossover.setCr(1.0);
                 differentialEvolutionCrossover.setF(0.4);
                 differentialEvolutionCrossover.setVariant("rand/2/bin");
-                //draTime = 33;
                 break;
             case 7:
                 neighborhoodSelectionProbability = 0.3;
@@ -193,7 +200,6 @@ public class MOEADDRAUCB extends MOEADDRA {
                 differentialEvolutionCrossover.setCr(0.2);
                 differentialEvolutionCrossover.setF(0.8);
                 differentialEvolutionCrossover.setVariant("current-to-rand/1/bin");
-                //draTime = 27;
                 break;
             case 8:
                 neighborhoodSelectionProbability = 0.75;
@@ -202,7 +208,6 @@ public class MOEADDRAUCB extends MOEADDRA {
                 differentialEvolutionCrossover.setCr(0.8);
                 differentialEvolutionCrossover.setF(0.1);
                 differentialEvolutionCrossover.setVariant("current-to-rand/2/bin");
-                //draTime = 24;
                 break;    
             case 9:
                 neighborhoodSelectionProbability = 1.0;
@@ -210,8 +215,7 @@ public class MOEADDRAUCB extends MOEADDRA {
                 
                 differentialEvolutionCrossover.setCr(1.0);
                 differentialEvolutionCrossover.setF(0.7);
-                differentialEvolutionCrossover.setVariant("rand/1/bin");//1
-                //draTime = 37;
+                differentialEvolutionCrossover.setVariant("rand/1/bin");
                 break;
             case 10:
                 neighborhoodSelectionProbability = 1.0;
@@ -219,16 +223,33 @@ public class MOEADDRAUCB extends MOEADDRA {
                 
                 differentialEvolutionCrossover.setCr(1.0);
                 differentialEvolutionCrossover.setF(0.9);
-                differentialEvolutionCrossover.setVariant("rand/1/bin");//1
-                //draTime = 30;
+                differentialEvolutionCrossover.setVariant("rand/1/bin");
                 break;
+                
+                
+                
+            case 11:
+                neighborhoodSelectionProbability = 0.1;
+                maximumNumberOfReplacedSolutions = 2;
+                
+                differentialEvolutionCrossover.setCr(0.3);
+                differentialEvolutionCrossover.setF(0.6);
+                differentialEvolutionCrossover.setVariant("rand/1/bin");
+                break;
+            case 12:
+                neighborhoodSelectionProbability = 0.3;
+                maximumNumberOfReplacedSolutions = 1;
+                
+                differentialEvolutionCrossover.setCr(0.80);
+                differentialEvolutionCrossover.setF(0.3);
+                differentialEvolutionCrossover.setVariant("current-to-rand/1/bin");
+                break;
+            
       }
   }
   
   
-  
-
-  
+    @Override
       protected List<DoubleSolution> parentSelection(int subProblemId, NeighborType neighborType, String variant) {
         List<DoubleSolution> parents = null;
         if (variant.equals("rand/1/bin") || variant.equals("rand/1/exp") 
@@ -256,5 +277,6 @@ public class MOEADDRAUCB extends MOEADDRA {
         } 
         return parents;
     }
-
+      
+      
 }

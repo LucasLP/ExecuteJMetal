@@ -24,7 +24,9 @@ public class JMetalMain {
         //args = "--statistic /ZDT --algorithm MOEAD".split(" ");
         
         //args = "--single-run /DTLZ1 --algorithm MOEADDRA --DE rand/2/bin".split(" ");
-        //args = "--single-run /UF8 --algorithm MOEADDRAUCB".split(" ");
+        //args = "--single-run /DTLZ7 --algorithm MOEADDRAUCB".split(" ");
+        
+        //args = "--single-run /UF5 --algorithm MOEADDRAUCB".split(" ");
         execute(args);
         
     }

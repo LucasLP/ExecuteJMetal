@@ -28,7 +28,8 @@ public class UCB_set {
     public Double D;    //Decaying Factor
     
     private int WS;                     //Sliding Window Size
-    private Map<String, UCB> selector;  //label and UCB correspondent
+    //private Map<String, UCB> selector;  //label and UCB correspondent
+    private Map<String, UCBInterface> selector;  //label and UCB correspondent
     private List<Double> SW_reward;     //value calculate with fitness function
     
     private Double x, y;//for fitness value of vector and its child
@@ -88,7 +89,7 @@ public class UCB_set {
      * @param name
      * @param ucb 
      */
-    public void addSelector(String name, UCB ucb){
+    public void addSelector(String name, UCBInterface ucb){
         selector.put(name, ucb);
         ucb.setSetUCB(this);
     }
@@ -102,8 +103,8 @@ public class UCB_set {
     
     
     public void selectOperators(){
-        for (Map.Entry<String, UCB> entrySet : selector.entrySet()) {
-            UCB value = entrySet.getValue();
+        for (Map.Entry<String, UCBInterface> entrySet : selector.entrySet()) {
+            UCBInterface value = entrySet.getValue();
             value.selectOperator();   
         }
     }
@@ -124,13 +125,13 @@ public class UCB_set {
         }
         Double v = (x - y) / x;
         SW_reward.add(v);
-        for (Map.Entry<String, UCB> entrySet : selector.entrySet()) {
+        for (Map.Entry<String, UCBInterface> entrySet : selector.entrySet()) {
             entrySet.getValue().adjustSlidingWindow();
         }
     }
     
     public void creditAssignment(){
-        for (Map.Entry<String, UCB> entrySet : selector.entrySet()) {
+        for (Map.Entry<String, UCBInterface> entrySet : selector.entrySet()) {
             entrySet.getValue().creditAssignment();
         }
     }
@@ -150,9 +151,9 @@ public class UCB_set {
     public String toString(){
         String str="Operators = {";
         int n=1;
-        for (Map.Entry<String, UCB> entrySet : selector.entrySet()) {
+        for (Map.Entry<String, UCBInterface> entrySet : selector.entrySet()) {
             String key = entrySet.getKey();
-            UCB value = entrySet.getValue();
+            UCBInterface value = entrySet.getValue();
             
             str += key+":"+value.getOperator();
             if(n<selector.size()){str+=", ";}
@@ -198,7 +199,7 @@ public class UCB_set {
     }
     
     public void printHistory(String tag){
-        UCB ucb = selector.get(tag);
+        UCBInterface ucb = selector.get(tag);
         Integer[] hist = ucb.getHistory_using();
         Object[] pool = ucb.getOperatorPool();        
         for (int i = 0; i < hist.length; i++) {

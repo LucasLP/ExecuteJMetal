@@ -19,6 +19,9 @@ sudo apt-get install r-base-dev<br>
     3.1 (optinal) Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
        R<br>
         R> install.packages("irace")<br>
+	 3.2 (optional) Install <a href="https://plot.ly/r/getting-started/#installation">Graphic Library in R</a><br>
+		R<br>
+		 R>install.packages("plotly")<br>
 
   4. Configure Execute.sh<br>
     4.1 Set Benchmark<br>
@@ -47,9 +50,16 @@ Rename All files in ".0 .1 .2  ...  .max" to ".tsv".<br>
 "MyRunne.java" is a single runner of algorithm configured by "Configuration.java"<br>
 "ExecuteExperiment.java" can execute several runs and get all data for statistical test<br>
 "Configuration.java" configure all tests, algorithms and benchmark<br>
-"JMetalMain.java" read first argument to configure how it will execute<br>
-<i>Example of execution: $ java -jar JMetal.java --statistic ZDT --algorithm NSGAII --algorithm MOEAD --tag test<br>
-It will execute NSGAII and MOEAD algorithm in benchmark ZDT, and MOEAD will save its data in "test" folder.<br></i>
+"JMetalMain.java" read first argument to configure how it will execute<br><br>
+<b>Example of execution: </b><br>
+$ java -jar JMetal.java --statistic ZDT --algorithm NSGAII --algorithm MOEAD --tag test<br>
+It will execute NSGAII and MOEAD algorithm in benchmark ZDT, and MOEAD will save its data in "test" folder.<br>
+<br>
+$ java -jar JMetal.java --single-run ZDT1 --algorithm MOEAD<br>
+It will execute MOEAD in ZDT1 instance<br>
+
+
+
 
 =======================================<br>
 <b>Structure of tests</b><br>

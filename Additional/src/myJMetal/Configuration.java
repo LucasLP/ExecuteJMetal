@@ -46,6 +46,12 @@ import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ3;
 import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ4;
 import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ6;
 import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ7;
+import org.uma.jmetal.problem.multiobjective.glt.GLT1;
+import org.uma.jmetal.problem.multiobjective.glt.GLT2;
+import org.uma.jmetal.problem.multiobjective.glt.GLT3;
+import org.uma.jmetal.problem.multiobjective.glt.GLT4;
+import org.uma.jmetal.problem.multiobjective.glt.GLT5;
+import org.uma.jmetal.problem.multiobjective.glt.GLT6;
 import org.uma.jmetal.problem.multiobjective.mop.MOP1;
 import org.uma.jmetal.problem.multiobjective.mop.MOP2;
 import org.uma.jmetal.problem.multiobjective.mop.MOP3;
@@ -142,8 +148,8 @@ public class Configuration {
                     if (args[i].startsWith("--")) {
                         String aux = args[i];
                         i++;
-                        parameters.replace(aux, args[i]);
-                        
+                        //parameters.replace(aux, args[i]);
+                        parameters.put(aux, args[i]);
                         if(aux.equals("--algorithm")){
                             System.out.print("\n"+args[i]);
                             NameList.add(args[i]);
@@ -218,6 +224,14 @@ public class Configuration {
                 problemList.add(new ExperimentProblem<>(new ZDT4()));
                 problemList.add(new ExperimentProblem<>(new ZDT6()));
                 break;
+            case "GLT":
+                problemList.add(new ExperimentProblem<>(new GLT1()));
+                problemList.add(new ExperimentProblem<>(new GLT2()));
+                problemList.add(new ExperimentProblem<>(new GLT3()));
+                problemList.add(new ExperimentProblem<>(new GLT4()));
+                problemList.add(new ExperimentProblem<>(new GLT5()));
+                problemList.add(new ExperimentProblem<>(new GLT6()));
+                break;
         }
         return problemList;
     }
@@ -258,8 +272,8 @@ public class Configuration {
                         return Arrays.asList(new String[]{"DTLZ1","DTLZ2","DTLZ3","DTLZ4",//"DTLZ5",
                                             "DTLZ6","DTLZ7"});
                     case "paretoFront":
-                        return Arrays.asList(new String[]{"DTLZ1.3D.pf","DTLZ2.3D.pf","DTLZ3.3D.pf","DTLZ4.3D.pf",//"DTLZ5.2D.pf",
-                            "DTLZ6.3D.pf","DTLZ7.3D.pf"});
+                        return Arrays.asList(new String[]{"DTLZ1.pf","DTLZ2.pf","DTLZ3.pf","DTLZ4.pf",//"DTLZ5.2D.pf",
+                            "DTLZ6.pf","DTLZ7.pf"});
                 }
             case "MOP":
                 switch (choice) {
@@ -268,6 +282,15 @@ public class Configuration {
                     case "paretoFront":
                         return Arrays.asList(new String[]{"MOP1.2D.pf","MOP2.2D.pf","MOP3.2D.pf","MOP4.2D.pf","MOP5.2D.pf",
                             "MOP6.2D.pf","MOP7.2D.pf"});
+                }
+            case "GLT":
+                switch (choice) {
+                    case "problems":
+                        return Arrays.asList(new String[]{"GLT1","GLT2","GLT3","GLT4",
+                                "GLT5","GLT6"});
+                    case "paretoFront":
+                        return Arrays.asList(new String[]{"GLT1.pf","GLT2.pf","GLT3.pf","GLT4.pf","GLT5.pf",
+                            "GLT6.pf"});
                 }
         }
         }
@@ -288,6 +311,7 @@ public class Configuration {
         }else if(getParameter("problems", "DTLZ").contains(p)){
             return "dtlz";
         }
+        
         return null;
     }
     
@@ -336,6 +360,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
+                a.setParameters(parameters);
                 return a;
 
             }  else if (algorithm.equals("MOEADDRA") ){
@@ -351,9 +376,22 @@ public class Configuration {
                         .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
                         .setDataDirectory("resources/MOEAD_Weights")
                         .build();
-                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));/**/
                 return a;
-
+                /*
+                return new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRA)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(0.9)// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(2)//2)
+                        .setNeighborSize(20)//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.TCHE)//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                */
 
             }else if (algorithm.equals("MOEADDRAqs")){
                 MOEADDRAqs a = (MOEADDRAqs) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAqs)

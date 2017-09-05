@@ -9,7 +9,8 @@ import java.util.Random;
  *
  * @author lucas
  */
-public class UCB implements UCBInterface{
+public class UCBWeighted implements UCBInterface{
+
     private UCB_set setUCB;
 
     private Object K_operators[];
@@ -24,7 +25,7 @@ public class UCB implements UCBInterface{
     
     private Integer[] history_using;
 
-    public UCB(Object operator_pool[]){
+    public UCBWeighted(Object operator_pool[]){
         SW_operator = new ArrayList<>();
         K_operators = operator_pool;
         n = new Integer[K_operators.length];
@@ -95,11 +96,13 @@ public class UCB implements UCBInterface{
             }
             for (int j = 0; j < setUCB.getWS(); j++) {
                 op = SW_operator.get(j);
-                Reward[op] += setUCB.getSW_reward().get(j);
+                //Reward[op] += setUCB.getSW_reward().get(j);
+                Reward[op] += decayFactorFunction(setUCB.getSW_reward().get(j), setUCB.getWS()-j,setUCB.getWS() );
                 n[op]++;
             }
             Integer rank[] = findRank(Reward);//rank reward in descending order
             Double TotalDecayedReward = 0.0;
+
             for (int j = 0; j < K_operators.length; j++) {//compute decayedReward
                 DecayedReward[j] = Math.pow(setUCB.D, rank[j]) * Reward[j] ;
                 TotalDecayedReward += DecayedReward[j];//compute totaldecayedReward
@@ -109,6 +112,13 @@ public class UCB implements UCBInterface{
                 FRR[j] = DecayedReward[j] / TotalDecayedReward;
             }
         }
+    }
+    
+    
+    private static Double decayFactorFunction(Double x, int i, int max){
+        //return x*x;
+        Double v = (double)(i/max+1);
+        return x*(v);
     }
 
     

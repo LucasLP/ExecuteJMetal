@@ -38,6 +38,10 @@ import pesquisajmetalcode.UCB.UCB_set;
  * @author Juan J. Durillo
  * @author Antonio J. Nebro
  * @version 1.0
+
+
+
+	@decrepted
  */
 @SuppressWarnings("serial")
 public class MOEADDRAUCBv5 extends MOEADDRA {
