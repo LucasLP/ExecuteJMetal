@@ -59,3 +59,9 @@ echo "
  | |  | |  / _ \  | '_ \   / _ \ | |
  | |__| | | (_) | | | | | |  __/ |_|
  |_____/   \___/  |_| |_|  \___| (_)"
+
+
+
+#if you want to suspend after the execution
+#systemctl suspend
+

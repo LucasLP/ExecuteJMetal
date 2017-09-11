@@ -95,7 +95,7 @@ public class UCB_set {
     }
     
     public void addSelector(String name, Object[] operator_pool){
-        UCB ucb = new UCB(operator_pool);
+        UCBInterface ucb = new UCB(operator_pool);
         selector.put(name, ucb);
         ucb.setSetUCB(this);
     }

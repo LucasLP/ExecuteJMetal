@@ -10,6 +10,9 @@ import java.util.Random;
  * @author lucas
  */
 public class UCB implements UCBInterface{
+    
+    private WeightFunction function;
+    
     private UCB_set setUCB;
 
     private Object K_operators[];
@@ -40,8 +43,27 @@ public class UCB implements UCBInterface{
             history_using[i] = 0;
         }
         lastOperator=0;//-1
+        function = WeightFunction.Null;
     }
 
+    public UCB(Object operator_pool[], WeightFunction function){
+        SW_operator = new ArrayList<>();
+        K_operators = operator_pool;
+        n = new Integer[K_operators.length];
+        FRR = new Double[K_operators.length];
+        
+        Reward = new Double[K_operators.length];
+        DecayedReward = new Double[K_operators.length];
+        history_using = new Integer[K_operators.length];
+        
+        for (int i = 0; i < K_operators.length; i++) {
+            n[i] = 0;
+            FRR[i] = 0.0;
+            history_using[i] = 0;
+        }
+        lastOperator=0;//-1
+        this.function = function;
+    }
     /**
      * Select operator and put in 'lastOperator' variable
      */
@@ -81,6 +103,7 @@ public class UCB implements UCBInterface{
             SW_operator.remove(0);
         }
         SW_operator.add(lastOperator);
+        
        // lastOperator=-1;
     }
 
@@ -95,11 +118,16 @@ public class UCB implements UCBInterface{
             }
             for (int j = 0; j < setUCB.getWS(); j++) {
                 op = SW_operator.get(j);
-                Reward[op] += setUCB.getSW_reward().get(j);
+                //Reward[op] += setUCB.getSW_reward().get(j);
+                
+                //The Sliding window is inverted, the last element is the last use
+                //UCB3f Reward[op] += setUCB.getSW_reward().get(j)  *  function.decayFactorFunction(setUCB.getWS()-j,setUCB.getWS()+1 );
+                Reward[op] += setUCB.getSW_reward().get(j)  *  function.decayFactorFunction((double)j+1, (double)setUCB.getWS() );
                 n[op]++;
             }
             Integer rank[] = findRank(Reward);//rank reward in descending order
             Double TotalDecayedReward = 0.0;
+
             for (int j = 0; j < K_operators.length; j++) {//compute decayedReward
                 DecayedReward[j] = Math.pow(setUCB.D, rank[j]) * Reward[j] ;
                 TotalDecayedReward += DecayedReward[j];//compute totaldecayedReward
@@ -110,6 +138,8 @@ public class UCB implements UCBInterface{
             }
         }
     }
+    
+    
 
     
     private static Integer[] findRank(Double[] x) {
