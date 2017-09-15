@@ -13,11 +13,10 @@ sudo apt install texlive-generic-extra<br>
 sudo apt-get install texlive-latex-extra<br>
 
   3. You need <b>R Language</b> - for .R files<br>
-<code>
-sudo apt-get update<br>
-sudo apt-get install r-base<br>
-sudo apt-get install r-base-dev<br>
-</code>
+<code>sudo apt-get update</code><br>
+<code>sudo apt-get install r-base</code><br>
+<code>sudo apt-get install r-base-dev</code><br>
+
     3.1 (optinal) Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
        R<br>
         R> install.packages("irace")<br>
