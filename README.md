@@ -13,9 +13,11 @@ sudo apt install texlive-generic-extra<br>
 sudo apt-get install texlive-latex-extra<br>
 
   3. You need <b>R Language</b> - for .R files<br>
+<code>
 sudo apt-get update<br>
 sudo apt-get install r-base<br>
 sudo apt-get install r-base-dev<br>
+</code>
     3.1 (optinal) Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
        R<br>
         R> install.packages("irace")<br>
@@ -52,13 +54,14 @@ Rename All files in ".0 .1 .2  ...  .max" to ".tsv".<br>
 "Configuration.java" configure all tests, algorithms and benchmark<br>
 "JMetalMain.java" read first argument to configure how it will execute<br><br>
 <b>Example of execution: </b><br>
-$ java -jar JMetal.java --statistic ZDT --algorithm NSGAII --algorithm MOEAD --tag test<br>
+<code>$ java -jar JMetal.java --statistic ZDT --algorithm NSGAII --algorithm MOEAD --tag test</code><br>
 It will execute NSGAII and MOEAD algorithm in benchmark ZDT, and MOEAD will save its data in "test" folder.<br>
 <br>
-$ java -jar JMetal.java --single-run ZDT1 --algorithm MOEAD<br>
+<code>$ java -jar JMetal.java --single-run ZDT1 --algorithm MOEAD</code><br>
 It will execute MOEAD in ZDT1 instance<br>
-
-
+<br>
+<code>$ java -jar JMetal.jar --comparative UF --algorithm MOEAD --algorithm MOEADDRA</code><br>
+It will generate latex and R files of statistical comparisons.<br>
 
 
 =======================================<br>

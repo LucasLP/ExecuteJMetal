@@ -30,10 +30,14 @@ algorithm2="NSGAII"
 tag2="NSGAII"
 
 OutputFiles="experiment/OutputFiles/output_"$benchmark"_"
+DiretoryData="Result"$testName$benchmark"/"
 
 #================================================================
-
-echo "Executing JMetal : "$benchmark
+echo "=============================="
+echo "Executing JMetal "
+echo "Benchmark		  : "$benchmark
+echo "Test Name        : "$testName
+echo "Data Files       : "$DirectoryData
 
 
 	#Execution Line - Execute the algorithm and save the results in algorithm tag 
@@ -43,7 +47,7 @@ echo "Executing JMetal : "$benchmark
 
 
 	#Comparative Line	- Make the comparative tables and organize the folders
-sh QualityIndicators.sh Result$testName$benchmark/ $benchmark --algorithm $algorithm1 --tag $tag1 --algorithm $algorithm2 --tag2
+sh QualityIndicators.sh $DirectoryData  $benchmark --algorithm $algorithm1 --tag $tag1 --algorithm $algorithm2 --tag2
 
 
 

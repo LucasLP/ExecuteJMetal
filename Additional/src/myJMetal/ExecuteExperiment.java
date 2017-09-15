@@ -79,7 +79,7 @@ public class ExecuteExperiment {
         new GenerateLatexTablesWithStatistics(experiment).run() ;
         new GenerateWilcoxonTestTablesWithR<>(experiment).run() ;
         new GenerateFriedmanTestTables<>(experiment).run();
-        new GenerateBoxplotsWithR<>(experiment).setRows(3).setColumns(3).setDisplayNotch().run() ;
+        new GenerateBoxplotsWithR<>(experiment).setRows(4).setColumns(3).setDisplayNotch().run() ;
     }
   }
 
