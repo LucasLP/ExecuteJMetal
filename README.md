@@ -8,21 +8,18 @@ Only for Linux Users.<br>
  Look at the end of this files for more informations.<br>
   
   2. You need <b>LaTeX</b> - For .tex files<br>
-sudo apt install texlive-latex-base<br>
-sudo apt install texlive-generic-extra<br>
-sudo apt-get install texlive-latex-extra<br>
+<code>sudo apt install texlive-latex-base</code><br>
+<code>sudo apt install texlive-generic-extra</code><br>
+<code>sudo apt-get install texlive-latex-extra</code><br>
 
   3. You need <b>R Language</b> - for .R files<br>
 <code>sudo apt-get update</code><br>
 <code>sudo apt-get install r-base</code><br>
 <code>sudo apt-get install r-base-dev</code><br>
 
-    3.1 (optinal) Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
-       R<br>
-        R> install.packages("irace")<br>
-	 3.2 (optional) Install <a href="https://plot.ly/r/getting-started/#installation">Graphic Library in R</a><br>
-		R<br>
-		 R>install.packages("plotly")<br>
+  3.1 (optinal) Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
+     <code>R</code><br>
+       <code>R> install.packages("irace")</code><br>
 
   4. Configure Execute.sh<br>
     4.1 Set Benchmark<br>
@@ -31,11 +28,13 @@ sudo apt-get install texlive-latex-extra<br>
     4.4 Set Comparative Line<br>
     
   5. Execute<br>
-sh Execute.sh<br>
+<code>sh Execute.sh</code><br>
 
   6. Analyse the results in folder: experiment/MyExperiments/Result_$experimentName_$benchmark/
 
-=======================================<br>
+<hr>
+
+<br>
 <b>In Additional Folder</b><br>
 <b>Script:</b> renameAll.sh<br>
 Call the renameScript.sh for rename data files<br>
@@ -63,7 +62,8 @@ It will execute MOEAD in ZDT1 instance<br>
 It will generate latex and R files of statistical comparisons.<br>
 
 
-=======================================<br>
+<hr>
+<br>
 <b>Structure of tests</b><br>
   <ul>
     <li>Execute.sh</li>
