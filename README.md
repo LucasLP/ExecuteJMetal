@@ -29,10 +29,10 @@ Only for Linux Users.<br>
 	<code>sudo apt-get install pdftk</code><br>
 
   3. Configure Execute.sh<br>
-    4.1 Set Benchmark<br>
-    4.2 Set Algorithm and its Tag (tag is the name of data files)<br>
-    4.3 Set Execution line<br>
-    4.4 Set Comparative Line<br>
+    3.1. Set Benchmark<br>
+    3.2. Set Algorithm and its Tag (tag is the name of data files)<br>
+    3.3. Set Execution line<br>
+    3.4. Set Comparative Line<br>
     
   4. Execute<br>
 <code>sh Execute.sh</code><br>
