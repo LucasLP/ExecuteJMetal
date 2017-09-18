@@ -7,30 +7,37 @@ Only for Linux Users.<br>
   1. Use the src in additional files to programming your JMetalMain<br>
  Look at the end of this files for more informations.<br>
   
-  2. You need <b>LaTeX</b> - For .tex files<br>
+  2. Install some programs<br>
+	2.1. You need <b>LaTeX</b> - For .tex files<br>
+<code>sudo apt-get install texlive-full</code><br>
 <code>sudo apt install texlive-latex-base</code><br>
 <code>sudo apt install texlive-generic-extra</code><br>
 <code>sudo apt-get install texlive-latex-extra</code><br>
+<code>sudo apt-get install texlive-science</code><br>
 
-  3. You need <b>R Language</b> - for .R files<br>
+
+   2.2. You need <b>R Language</b> - for .R files<br>
 <code>sudo apt-get update</code><br>
 <code>sudo apt-get install r-base</code><br>
 <code>sudo apt-get install r-base-dev</code><br>
 
-  3.1 (optinal) Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
+   2.3. (optinal) Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
      <code>R</code><br>
        <code>R> install.packages("irace")</code><br>
+	
+	2.4. (optional) Install pdftk<br>
+	<code>sudo apt-get install pdftk</code><br>
 
-  4. Configure Execute.sh<br>
+  3. Configure Execute.sh<br>
     4.1 Set Benchmark<br>
     4.2 Set Algorithm and its Tag (tag is the name of data files)<br>
     4.3 Set Execution line<br>
     4.4 Set Comparative Line<br>
     
-  5. Execute<br>
+  4. Execute<br>
 <code>sh Execute.sh</code><br>
 
-  6. Analyse the results in folder: experiment/MyExperiments/Result_$experimentName_$benchmark/
+  5. Analyse the results in folder: experiment/MyExperiments/Result_$experimentName_$benchmark/
 
 <hr>
 
