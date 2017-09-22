@@ -13,7 +13,7 @@
 
 package myJMetal;
 
-import myJMetal.Chart.EvaluationsAlgorithm;
+
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.problem.DoubleProblem;
 import org.uma.jmetal.runner.AbstractAlgorithmRunner;
@@ -83,10 +83,10 @@ public class MyRunner extends AbstractAlgorithmRunner {
           printQualityIndicators(population, referenceParetoFront) ;
         }
         
-        if(configuration.generateChart){
+      /*  if(configuration.generateChart){
             configuration.chart.addAlgorithm(alg_index, configuration.NameTagList.get(alg_index), ((EvaluationsAlgorithm)algorithm).getIndicatorValues());
             alg_index++;
-        }
+        }*/
        // System.out.println("================================");
     }
     

@@ -1,15 +1,26 @@
 
 package myJMetal.Chart;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import myJMetal.Configuration;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv4;
+import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.util.FrontNormalizer;
+import org.uma.jmetal.util.front.util.FrontUtils;
+import org.uma.jmetal.util.point.util.PointSolution;
 
 /**
  *
@@ -19,21 +30,55 @@ public class EvaluationsChart {
     Configuration configuration;
     int algorithmNum ;
     
+    int lastIndex;
+    
     String[] names;
     List<Double>[] values;
     
-    public EvaluationsChart(Configuration configuration, int num) {
+    public EvaluationsChart(Configuration configuration, int algorithmNum, List<String> tags) {
         this.configuration = configuration;
-        algorithmNum = num;
-        names = new String[num];
-        values = new ArrayList[num];
+        this.algorithmNum = algorithmNum;
+        names = new String[this.algorithmNum];
+        int n =0;
+        for (String tag : tags) {
+            names[n] = tag;
+            n++;
+        }
+        
+        values = new ArrayList[this.algorithmNum];
+        for (int i = 0; i < values.length; i++) {
+            values[i]=new ArrayList<>();
+        }
+        lastIndex = -1;
     }
-    
-    
-    public void addAlgorithm(int i, String name, List<Double> value){
-        names[i]  = name;
-        values[i] = value;
+
+    public int getNextIndex() {
+        lastIndex++;
+        return lastIndex;
     }
+
+    
+    public void printQualityIndicator(int algorithmIndex, List<DoubleSolution> population, int evaluation){
+        if(configuration.generateChart){
+            if( evaluation%(configuration.MaxEvaluations/10)==0){
+            Front referenceFront;
+            try {
+                referenceFront = new ArrayFront("/resources/pareto_fronts/"+configuration.parameters.get("--problem")+".pf");
+                FrontNormalizer frontNormalizer = new FrontNormalizer(referenceFront) ;
+                Front normalizedReferenceFront = frontNormalizer.normalize(referenceFront) ;
+                Front normalizedFront = frontNormalizer.normalize(new ArrayFront(population)) ;
+                List<PointSolution> normalizedPopulation = FrontUtils
+                    .convertFrontToSolutionList(normalizedFront) ;
+                Double hv = new PISAHypervolume<PointSolution>(normalizedReferenceFront).evaluate(normalizedPopulation);
+                
+                
+                values[algorithmIndex].add(BigDecimal.valueOf(hv).setScale(3, RoundingMode.HALF_UP).doubleValue());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MOEADDRAUCBv4.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+        }
+  }
     
     
     public void generate(String problem){//configuration.baseDirectory+"/"+configuration.experimentName+"/
@@ -80,7 +125,7 @@ public class EvaluationsChart {
                 + "min_y <- min(algorithms)\n"
                 + "\n"
                 + "# Define colors to be used for alg1, alg2, alg3\n"
-                + "plot_colors <- c(\"blue\",\"red\",\"forestgreen\")\n"
+                + "plot_colors <- c(\"blue\",\"red\",\"forestgreen\", \"black\",\"yellow\", \"brown\", \"darkorange\")\n"
                 + "plot(algorithms$"+names[0]+", type=\"o\", col=plot_colors[1],  ylim=c(min_y,max_y), axes=FALSE, ann=FALSE)\n"
                 + "\n"
                 + "# Make x,y axis \n"

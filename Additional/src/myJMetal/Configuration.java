@@ -116,6 +116,7 @@ public class Configuration {
         executeNewAlgorithm      = true;
         executeQualityIndicators = true;
         executeTablesComparative = false;
+        generateChart = false;
         
         NameList    =  new ArrayList<>(); /*{"MOEAD","MOEADqs","NSGAII","SPEA2"};*/
         NameTagList =  new ArrayList<>();//new String[]{"algorithm1"};
@@ -170,6 +171,8 @@ public class Configuration {
                             }
                             System.out.print("\t"+args[i]);
                         }
+                    }else if(args[i].equals("chart")){
+                        generateChart = true;
                     }
                 }
             }
@@ -177,8 +180,8 @@ public class Configuration {
         }
         printParameters();
         
-        generateChart = true;
-        chart = new EvaluationsChart(this, NameList.size());
+        
+        chart = new EvaluationsChart(this, NameList.size(), NameTagList);
     }
     
     
@@ -370,7 +373,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setConfigurations(this);
+                a.setChart(chart.getNextIndex(), chart);
                 return a;
 
             }  else if (algorithm.equals("MOEADDRAUCBv1")){
@@ -389,7 +392,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setConfigurations(this);
+                a.setChart(chart.getNextIndex(), chart);
                 return a;
 
             } else if (algorithm.equals("MOEADDRAUCBv4")){
@@ -408,7 +411,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setConfigurations(this);
+                a.setChart(chart.getNextIndex(), chart);
                 return a;
 
             }else if (algorithm.equals("MOEADDRA") ){

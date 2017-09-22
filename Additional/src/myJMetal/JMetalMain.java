@@ -26,7 +26,8 @@ public class JMetalMain {
         //args = "--single-run /DTLZ1 --algorithm MOEADDRA --DE rand/2/bin".split(" ");
         //args = "--single-run /DTLZ7 --algorithm MOEADDRAUCB".split(" ");
         
-        args = "--single-run /UF3 --algorithm MOEADDRAUCBv4 --tag UCBv4 --algorithm MOEADDRAUCBv1 --tag UCBv1 --algorithm MOEADDRAUCB --tag UCBv3".split(" ");
+        args = "--single-run /UF2 chart --algorithm MOEADDRAUCBv4 --tag UCBv4  --algorithm MOEADDRAUCBv1 --tag UCBv1 --algorithm MOEADDRAUCB --tag UCBv3".split(" ");
+        // --algorithm MOEADDRAUCBv1 --tag UCBv1 --algorithm MOEADDRAUCB --tag UCBv3
         execute(args);
         /*
         UCBWeighted.WeightFunction f = UCBWeighted.WeightFunction.Linear;
