@@ -1,5 +1,6 @@
 package myJMetal;
 
+import myJMetal.Chart.EvaluationsChart;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,6 +20,8 @@ import org.uma.jmetal.algorithm.multiobjective.moead.AbstractMOEAD;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRA;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCB;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv1;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv4;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAqs;
 import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
@@ -99,10 +102,14 @@ public class Configuration {
     public String baseDirectory;
     public String experimentName;
     public String[] indicators ;
+    
+    
+    public boolean generateChart ;
+    public EvaluationsChart chart ;
 
     
     public Configuration(String args[]) {
-        MaxEvaluations = 300000;
+        MaxEvaluations = 300000;//600000;
         Runs = 50;
         cores = 2;
         parameters = new HashMap<>();
@@ -169,6 +176,9 @@ public class Configuration {
             System.out.println("");
         }
         printParameters();
+        
+        generateChart = true;
+        chart = new EvaluationsChart(this, NameList.size());
     }
     
     
@@ -360,10 +370,48 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setParameters(parameters);
+                a.setConfigurations(this);
                 return a;
 
-            }  else if (algorithm.equals("MOEADDRA") ){
+            }  else if (algorithm.equals("MOEADDRAUCBv1")){
+
+                MOEADDRAUCBv1 a = (MOEADDRAUCBv1) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBv1)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                a.setName(algorithm);
+                a.setConfigurations(this);
+                return a;
+
+            } else if (algorithm.equals("MOEADDRAUCBv4")){
+
+                MOEADDRAUCBv4 a = (MOEADDRAUCBv4) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBv4)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                a.setName(algorithm);
+                a.setConfigurations(this);
+                return a;
+
+            }else if (algorithm.equals("MOEADDRA") ){
                  MOEADDRA a = (MOEADDRA) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRA)
                         .setCrossover(crossover)
                         .setMutation(mutation)
