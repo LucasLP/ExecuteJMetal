@@ -28,7 +28,8 @@ import org.uma.jmetal.util.AlgorithmBuilder;
  * @version 1.0
  */
 public class MOEADBuilder implements AlgorithmBuilder<AbstractMOEAD<DoubleSolution>> {
-  public enum Variant {MOEAD, ConstraintMOEAD, MOEADDRA, MOEADSTM, MOEADDRAUCB, MOEADDRAUCBv5, MOEADDRAqs} ;
+  public enum Variant {MOEAD, ConstraintMOEAD, MOEADDRA, MOEADSTM, 
+        MOEADDRAUCB, MOEADDRAUCBv1, MOEADDRAUCBv4, MOEADDRAqs, MOEADDRAUCBIrace} ;
 
   protected Problem<DoubleSolution> problem ;
 
@@ -205,15 +206,23 @@ public class MOEADBuilder implements AlgorithmBuilder<AbstractMOEAD<DoubleSoluti
       algorithm =  new MOEADDRAUCB(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
           crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
           maximumNumberOfReplacedSolutions, neighborSize);
-    }else if (moeadVariant.equals(Variant.MOEADDRAUCBv5)) {
-      algorithm =  new MOEADDRAUCBv5(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
+    } else if (moeadVariant.equals(Variant.MOEADDRAUCBv1)) {
+      algorithm =  new MOEADDRAUCBv1(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
+          crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
+          maximumNumberOfReplacedSolutions, neighborSize);
+    } else if (moeadVariant.equals(Variant.MOEADDRAUCBv4)) {
+      algorithm =  new MOEADDRAUCBv4(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
           crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
           maximumNumberOfReplacedSolutions, neighborSize);
     }else if (moeadVariant.equals(Variant.MOEADDRAqs)) {
       algorithm =  new MOEADDRAqs(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
           crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
           maximumNumberOfReplacedSolutions, neighborSize);
-    }
+    }else if (moeadVariant.equals(Variant.MOEADDRAUCBIrace)) {
+      algorithm =  new MOEADDRAUCBIrace(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
+          crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
+          maximumNumberOfReplacedSolutions, neighborSize);
+    } 
 
     return algorithm ;
   }

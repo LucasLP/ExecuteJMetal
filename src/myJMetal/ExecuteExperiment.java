@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.management.JMException;
+import myJMetal.Chart.GenerateEvolutionChart;
+import myJMetal.Chart.HistoricAlgorithm;
+import myJMetal.Chart.HistoryData;
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.problem.DoubleProblem;
 import org.uma.jmetal.qualityindicator.impl.Epsilon;
@@ -14,6 +17,7 @@ import org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistance;
 import org.uma.jmetal.qualityindicator.impl.Spread;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
 import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalLogger;
 import org.uma.jmetal.util.experiment.Experiment;
 import org.uma.jmetal.util.experiment.ExperimentBuilder;
 import org.uma.jmetal.util.experiment.component.ComputeQualityIndicators;
@@ -35,10 +39,12 @@ public class ExecuteExperiment {
   private List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList;
   
   private Configuration configuration;
+  
 
     public ExecuteExperiment(Configuration configuration) {
         this.configuration = configuration;
         algorithmList = new ArrayList<>();
+        //this.configuration.chart.setRunNumber(configuration.Runs);
     }
   
   
@@ -70,7 +76,24 @@ public class ExecuteExperiment {
     
     if(configuration.executeNewAlgorithm){
         System.out.println("Executing Algorithms...");
-        new ExecuteAlgorithms<>(experiment).run();
+        new ExecuteAlgorithms(experiment).run();
+        
+        System.out.println("Generating data files of algorithms evolution...");
+        for (ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> experimentAlgorithm : algorithmList) {
+          //experimentAlgorithm.
+            HistoryData hd = ((HistoricAlgorithm)experimentAlgorithm.getAlgorithm()).getHistory("HV");
+            if(hd!=null){
+                hd.printAllHistory(experiment.getExperimentBaseDirectory() + "/history/",
+                        "HV",
+                        experimentAlgorithm.getAlgorithmTag(), 
+                        experimentAlgorithm.getProblemTag());
+                /*EvaluationsChart.printHistoryIndicator(
+                        experiment.getExperimentBaseDirectory() + "/",
+                        experimentAlgorithm.getAlgorithmTag(), 
+                        hd.getHistory(), experimentAlgorithm.getProblemTag(), configuration.Runs);
+                */
+            }
+        }
     }if(configuration.executeQualityIndicators){
         System.out.println("Executing Quality Indicators...");
         new ComputeQualityIndicators<>(experiment).run() ;
@@ -80,6 +103,10 @@ public class ExecuteExperiment {
         new GenerateWilcoxonTestTablesWithR<>(experiment).run() ;
         new GenerateFriedmanTestTables<>(experiment).run();
         new GenerateBoxplotsWithR<>(experiment).setRows(4).setColumns(3).setDisplayNotch().run() ;
+    }if(configuration.generateChart){
+        for (ExperimentProblem<DoubleSolution> problem : problemList) {
+           new GenerateEvolutionChart(experiment, configuration.indicators, problem.getTag(), experiment.getExperimentBaseDirectory() + "/history/").run();
+        }
     }
   }
 
@@ -108,4 +135,6 @@ public class ExecuteExperiment {
             algorithmList.add(new ExperimentAlgorithm<>(algorithm, configuration.NameTagList.get(idAlgorithm), problemList.get(i).getTag()));
         }
     }
+    
+    
 }

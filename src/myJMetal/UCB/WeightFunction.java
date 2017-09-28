@@ -38,7 +38,6 @@ public enum WeightFunction {
     public void test() {
         for (int i = 0; i < 10; i++) {
             System.out.println(i + ": " + decayFactorFunction((double) (i + 1), (double) 10));
-
         }
     }
 }

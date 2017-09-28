@@ -10,35 +10,22 @@ import java.util.logging.Logger;
 import javax.management.JMException;
 
 /**
- *
- * @author lucas
+ * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class JMetalMain {
-    public static String myVersion(){return "v1.3.1   23/8/2017";}
+    public static String myVersion(){return "v1.4   22/9/2017";}
     
 
     public static void main(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
-        //Test input
-        //args = "--single-run /WFG1 --algorithm MOEADDRA --algorithm MOEADDRAUCB".split(" ");
-        //args = "--single-run /ZDT4 --algorithm MOEADDRA".split(" ");
-        //args = "--statistic /ZDT --algorithm MOEAD".split(" ");
-        
-        //args = "--single-run /DTLZ1 --algorithm MOEADDRA --DE rand/2/bin".split(" ");
-        //args = "--single-run /DTLZ7 --algorithm MOEADDRAUCB".split(" ");
-        
-        args = "--single-run /UF2 chart --algorithm MOEADDRAUCBv4 --tag UCBv4  --algorithm MOEADDRAUCBv1 --tag UCBv1 --algorithm MOEADDRAUCB --tag UCBv3".split(" ");
+        //Test input        
+        //--algorithm MOEADDRAUCBIrace
+        //args = "--single-run /UF3 chart --algorithm MOEADDRAUCB --algorithm MOEADDRA".split(" ");
         // --algorithm MOEADDRAUCBv1 --tag UCBv1 --algorithm MOEADDRAUCB --tag UCBv3
+        //args = "--single-run /UF3 --algorithm MOEADDRA --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
+        //args = "--single-run /UF3 --algorithm MOEADDRA".split(" ");
+        args = "--statistic /UF chart --algorithm MOEADDRA --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace".split(" ");
+        //args = "--single-run /UF1 --algorithm MOEADDRAUCBIrace".split(" ");
         execute(args);
-        /*
-        UCBWeighted.WeightFunction f = UCBWeighted.WeightFunction.Linear;
-        f.test();
-        f = UCBWeighted.WeightFunction.Polynomial;
-        f.test();
-        f = UCBWeighted.WeightFunction.PolynomialInvert;
-        f.test();
-        f = UCBWeighted.WeightFunction.Null;
-        f.test();
-        */
     }
     
     

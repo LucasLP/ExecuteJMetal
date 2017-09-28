@@ -63,9 +63,8 @@ public class MyRunner extends AbstractAlgorithmRunner {
     }
 
     problem = (DoubleProblem)ProblemUtils.<DoubleSolution> loadProblem(problemName);
-    int alg_index = 0;
     for (String alg : configuration.NameList) {
-        System.out.println("Executing: "+alg);
+        System.out.println("================================\nExecuting: "+alg);
       
         algorithm = configuration.create(problem,alg);//null);
 
@@ -82,16 +81,7 @@ public class MyRunner extends AbstractAlgorithmRunner {
         if (!referenceParetoFront.equals("")) {
           printQualityIndicators(population, referenceParetoFront) ;
         }
-        
-      /*  if(configuration.generateChart){
-            configuration.chart.addAlgorithm(alg_index, configuration.NameTagList.get(alg_index), ((EvaluationsAlgorithm)algorithm).getIndicatorValues());
-            alg_index++;
-        }*/
        // System.out.println("================================");
-    }
-    
-    if(configuration.generateChart){
-        configuration.chart.generate(problem.getName());
     }
   }
 }

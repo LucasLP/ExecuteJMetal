@@ -1,6 +1,6 @@
 package myJMetal;
 
-import myJMetal.Chart.EvaluationsChart;
+import myJMetal.Chart.GenerateEvolutionChart;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,6 +20,7 @@ import org.uma.jmetal.algorithm.multiobjective.moead.AbstractMOEAD;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRA;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCB;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBIrace;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv1;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv4;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAqs;
@@ -101,16 +102,15 @@ public class Configuration {
     public String paretoFrontDirectory ;
     public String baseDirectory;
     public String experimentName;
-    public String[] indicators ;
+    public List<String> indicators ;
     
     
     public boolean generateChart ;
-    public EvaluationsChart chart ;
 
     
     public Configuration(String args[]) {
-        MaxEvaluations = 300000;//600000;
-        Runs = 50;
+        MaxEvaluations = 300000;//600000; 50000;//
+        Runs = 4;
         cores = 2;
         parameters = new HashMap<>();
         executeNewAlgorithm      = true;
@@ -119,7 +119,10 @@ public class Configuration {
         generateChart = false;
         
         NameList    =  new ArrayList<>(); /*{"MOEAD","MOEADqs","NSGAII","SPEA2"};*/
-        NameTagList =  new ArrayList<>();//new String[]{"algorithm1"};
+        NameTagList =  new ArrayList<>(); //new String[]{"algorithm1"};
+        indicators  =  new ArrayList<>();
+        
+        indicators.add("HV");
         
         newAlgorithms = NameList.size();
         paretoFrontDirectory = "/resources/pareto_fronts";
@@ -173,15 +176,13 @@ public class Configuration {
                         }
                     }else if(args[i].equals("chart")){
                         generateChart = true;
+                        System.out.println("Able to Generate Charts");
                     }
                 }
             }
             System.out.println("");
         }
         printParameters();
-        
-        
-        chart = new EvaluationsChart(this, NameList.size(), NameTagList);
     }
     
     
@@ -192,14 +193,14 @@ public class Configuration {
             case "UF":
                 problemList.add(new ExperimentProblem<>(new UF1()));
                 problemList.add(new ExperimentProblem<>(new UF2()));
-                problemList.add(new ExperimentProblem<>(new UF3()));
+                /*problemList.add(new ExperimentProblem<>(new UF3()));
                 problemList.add(new ExperimentProblem<>(new UF4()));
                 problemList.add(new ExperimentProblem<>(new UF5()));
                 problemList.add(new ExperimentProblem<>(new UF6()));
                 problemList.add(new ExperimentProblem<>(new UF7()));
                 problemList.add(new ExperimentProblem<>(new UF8()));
                 problemList.add(new ExperimentProblem<>(new UF9()));
-                problemList.add(new ExperimentProblem<>(new UF10()));
+                problemList.add(new ExperimentProblem<>(new UF10()));/**/
                 break;
             case "DTLZ":
                 problemList.add(new ExperimentProblem<>(new DTLZ1()));
@@ -263,12 +264,10 @@ public class Configuration {
                 }
             case "UF":
                 switch (choice) {
-                    case "problems":
-                        return Arrays.asList(new String[]{"UF1","UF2","UF3","UF4","UF5",
-                            "UF6","UF7","UF8","UF9","UF10"});
+                    case "problems":// });//
+                        return Arrays.asList(new String[]{"UF1","UF2"});//,"UF3","UF4","UF5","UF6","UF7","UF8","UF9","UF10"});
                     case "paretoFront":
-                        return Arrays.asList(new String[]{"UF1.pf","UF2.pf","UF3.pf","UF4.pf","UF5.pf",
-                            "UF6.pf","UF7.pf","UF8.pf","UF9.pf","UF10.pf"});
+                        return Arrays.asList(new String[]{"UF1.pf","UF2.pf"});//,"UF3.pf","UF4.pf","UF5.pf","UF6.pf","UF7.pf","UF8.pf","UF9.pf","UF10.pf"});
                 }
              case "WFG":
                 switch (choice) {
@@ -373,7 +372,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setChart(chart.getNextIndex(), chart);
+                a.setConfiguration(this);
                 return a;
 
             }  else if (algorithm.equals("MOEADDRAUCBv1")){
@@ -392,7 +391,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setChart(chart.getNextIndex(), chart);
+                a.setConfiguration(this);
                 return a;
 
             } else if (algorithm.equals("MOEADDRAUCBv4")){
@@ -411,7 +410,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setChart(chart.getNextIndex(), chart);
+                a.setConfiguration(this);
                 return a;
 
             }else if (algorithm.equals("MOEADDRA") ){
@@ -427,7 +426,8 @@ public class Configuration {
                         .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
                         .setDataDirectory("resources/MOEAD_Weights")
                         .build();
-                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));/**/
+                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                 a.setConfiguration(this);
                 return a;
                 /*
                 return new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRA)
@@ -460,6 +460,25 @@ public class Configuration {
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
                 return a;
+            }else if (algorithm.equals("MOEADDRAUCBIrace")){
+
+                MOEADDRAUCBIrace a = (MOEADDRAUCBIrace) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBIrace)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                a.setName(algorithm);
+                a.setConfiguration(this);
+                return a;
+
             }
         }
             

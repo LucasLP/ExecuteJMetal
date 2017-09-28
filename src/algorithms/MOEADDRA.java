@@ -24,6 +24,10 @@ import org.uma.jmetal.util.pseudorandom.JMetalRandom;
 
 import java.util.ArrayList;
 import java.util.List;
+import myJMetal.Chart.GenerateEvolutionChart;
+import myJMetal.Chart.HistoricAlgorithm;
+import myJMetal.Chart.HistoryData;
+import myJMetal.Configuration;
 
 /**
  * Class implementing the MOEA/D-DRA algorithm described in :
@@ -36,7 +40,32 @@ import java.util.List;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class MOEADDRA extends AbstractMOEAD<DoubleSolution> {
+public class MOEADDRA extends AbstractMOEAD<DoubleSolution> implements HistoricAlgorithm{
+    String name = "";
+
+    
+    @Override
+    public HistoryData getHistory(String indicator) {
+        if(indicator.equals("HV")){
+            return history_hv;
+        }
+        return null;
+    }
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+        history_hv      = new HistoryData(configuration.Runs);
+        /*history_igd     = new HistoryData(configuration.Runs);
+        history_epsilon = new HistoryData(configuration.Runs);
+        history_spread  = new HistoryData(configuration.Runs);*/
+    }
+    Configuration configuration;
+    HistoryData history_hv;
+    HistoryData history_igd;
+    HistoryData history_epsilon;
+    HistoryData history_spread;
+    
+    
+    
   protected DifferentialEvolutionCrossover differentialEvolutionCrossover ;
 
   protected DoubleSolution[] savedValues;
@@ -46,27 +75,31 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> {
   protected int draTime;
 
   JMetalRandom randomGenerator ;
+  
+  
+ 
 
   public MOEADDRA(Problem<DoubleSolution> problem, int populationSize, int resultPopulationSize, int maxEvaluations,
       MutationOperator<DoubleSolution> mutation, CrossoverOperator<DoubleSolution> crossover, FunctionType functionType,
       String dataDirectory, double neighborhoodSelectionProbability,
       int maximumNumberOfReplacedSolutions, int neighborSize) {
-    super(problem, populationSize, resultPopulationSize, maxEvaluations, crossover, mutation, functionType,
-        dataDirectory, neighborhoodSelectionProbability, maximumNumberOfReplacedSolutions,
-        neighborSize);
+        super(problem, populationSize, resultPopulationSize, maxEvaluations, crossover, mutation, functionType,
+            dataDirectory, neighborhoodSelectionProbability, maximumNumberOfReplacedSolutions,
+            neighborSize);
 
-    differentialEvolutionCrossover = (DifferentialEvolutionCrossover)crossoverOperator ;
+        differentialEvolutionCrossover = (DifferentialEvolutionCrossover)crossoverOperator ;
 
-    savedValues = new DoubleSolution[populationSize];
-    utility = new double[populationSize];
-    frequency = new int[populationSize];
-    for (int i = 0; i < utility.length; i++) {
-      utility[i] = 1.0;
-      frequency[i] = 0;
+        savedValues = new DoubleSolution[populationSize];
+        utility = new double[populationSize];
+        frequency = new int[populationSize];
+        for (int i = 0; i < utility.length; i++) {
+          utility[i] = 1.0;
+          frequency[i] = 0;
+        }
+
+        randomGenerator = JMetalRandom.getInstance() ;
     }
-
-    randomGenerator = JMetalRandom.getInstance() ;
-  }
+  
 
   @Override public void run() {
     initializePopulation() ;
@@ -76,6 +109,7 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> {
 
     int generation = 0 ;
     evaluations = populationSize ;
+    
     do {
       int[] permutation = new int[populationSize];
       MOEADUtils.randomPermutation(permutation, populationSize);
@@ -85,7 +119,8 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> {
         frequency[subProblemId]++;
 
         NeighborType neighborType = chooseNeighborType() ;
-        List<DoubleSolution> parents = parentSelection(subProblemId, neighborType) ;
+        //List<DoubleSolution> parents = parentSelection(subProblemId, neighborType) ;
+        List<DoubleSolution> parents = parentSelection(subProblemId, neighborType, differentialEvolutionCrossover.getVariant()) ; 
 
         differentialEvolutionCrossover.setCurrentSolution(population.get(subProblemId));
         List<DoubleSolution> children = differentialEvolutionCrossover.execute(parents);
@@ -98,6 +133,12 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> {
 
         updateIdealPoint(child);
         updateNeighborhood(child, subProblemId, neighborType);
+        
+        if( evaluations%(maxEvaluations/100)==0 ){
+            int timeIndex = (int)(evaluations/(maxEvaluations/100)) -1;
+            //sumOfEvolution[timeIndex] += EvaluationsChart.calculateQualityIndicator(population, problem.getName());
+            history_hv.addData(HistoryData.calculateQualityIndicator(population, problem.getName()), timeIndex);
+        }
       }
 
       generation++;
@@ -108,6 +149,34 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> {
     } while (evaluations < maxEvaluations);
 
   }
+  
+   protected List<DoubleSolution> parentSelection(int subProblemId, NeighborType neighborType, String variant) {
+        List<DoubleSolution> parents = null;
+        if (variant.equals("rand/1/bin") || variant.equals("rand/1/exp") 
+                || variant.equals("current-to-rand/1/bin")){//|| variant.equals("best/1/bin") || variant.equals("best/1/exp")) {
+            List<Integer> matingPool = matingSelection(subProblemId, 3, neighborType);
+            parents = new ArrayList<>(3);
+            parents.add(population.get(matingPool.get(0)));
+            parents.add(population.get(matingPool.get(1)));
+            parents.add(population.get(matingPool.get(2)));
+        }else if (variant.equals("rand/2/bin") ){
+            List<Integer> matingPool = matingSelection(subProblemId, 4, neighborType);
+            parents = new ArrayList<>(4);
+            parents.add(population.get(matingPool.get(0)));
+            parents.add(population.get(matingPool.get(1)));
+            parents.add(population.get(matingPool.get(2)));
+            parents.add(population.get(matingPool.get(3)));
+        } else if(variant.equals("current-to-rand/2/bin")) {
+            List<Integer> matingPool = matingSelection(subProblemId, 5, neighborType);
+            parents = new ArrayList<>(5);
+            parents.add(population.get(matingPool.get(0)));
+            parents.add(population.get(matingPool.get(1)));
+            parents.add(population.get(matingPool.get(2)));
+            parents.add(population.get(matingPool.get(3)));
+            parents.add(population.get(matingPool.get(4)));
+        } 
+        return parents;
+    }
 
   protected void initializePopulation() {
     population.clear();

@@ -21,12 +21,13 @@ Only for Linux Users.<br>
 <code>sudo apt-get install r-base</code><br>
 <code>sudo apt-get install r-base-dev</code><br>
 
-   2.3. (optinal) Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
+   2.3. Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
      <code>R</code><br>
        <code>R> install.packages("irace")</code><br>
 	
 	2.4. (optional) Install pdftk<br>
 	<code>sudo apt-get install pdftk</code><br>
+
 
   3. Configure Execute.sh<br>
     3.1. Set Benchmark<br>
