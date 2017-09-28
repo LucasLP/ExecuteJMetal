@@ -79,20 +79,16 @@ public class ExecuteExperiment {
         new ExecuteAlgorithms(experiment).run();
         
         System.out.println("Generating data files of algorithms evolution...");
-        for (ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> experimentAlgorithm : algorithmList) {
-          //experimentAlgorithm.
-            HistoryData hd = ((HistoricAlgorithm)experimentAlgorithm.getAlgorithm()).getHistory("HV");
-            if(hd!=null){
-                hd.printAllHistory(experiment.getExperimentBaseDirectory() + "/history/",
-                        "HV",
-                        experimentAlgorithm.getAlgorithmTag(), 
-                        experimentAlgorithm.getProblemTag());
-                /*EvaluationsChart.printHistoryIndicator(
-                        experiment.getExperimentBaseDirectory() + "/",
-                        experimentAlgorithm.getAlgorithmTag(), 
-                        hd.getHistory(), experimentAlgorithm.getProblemTag(), configuration.Runs);
-                */
+        for (ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> experimentAlgorithm : algorithmList) {  
+            for (String indicator : configuration.indicators) {
+                printData(experimentAlgorithm, indicator, experiment.getExperimentBaseDirectory());
             }
+            /*
+            printData(experimentAlgorithm, "HV", experiment.getExperimentBaseDirectory());
+            printData(experimentAlgorithm, "Epsilon", experiment.getExperimentBaseDirectory());
+            printData(experimentAlgorithm, "IGD", experiment.getExperimentBaseDirectory());
+            printData(experimentAlgorithm, "Spread", experiment.getExperimentBaseDirectory());
+            */
         }
     }if(configuration.executeQualityIndicators){
         System.out.println("Executing Quality Indicators...");
@@ -105,7 +101,7 @@ public class ExecuteExperiment {
         new GenerateBoxplotsWithR<>(experiment).setRows(4).setColumns(3).setDisplayNotch().run() ;
     }if(configuration.generateChart){
         for (ExperimentProblem<DoubleSolution> problem : problemList) {
-           new GenerateEvolutionChart(experiment, configuration.indicators, problem.getTag(), experiment.getExperimentBaseDirectory() + "/history/").run();
+           new GenerateEvolutionChart(experiment, configuration.indicators, problem.getTag(), experiment.getExperimentBaseDirectory() + "/EvolutionProcess/").run();
         }
     }
   }
@@ -136,5 +132,14 @@ public class ExecuteExperiment {
         }
     }
     
-    
+    private void printData(ExperimentAlgorithm experimentAlgorithm, String indicator, String baseDirectory){
+        System.out.println(indicator);
+        HistoryData hd = ((HistoricAlgorithm)experimentAlgorithm.getAlgorithm()).getHistory(indicator);
+            if(hd!=null){
+                hd.printAllHistory(baseDirectory + "/history/"+experimentAlgorithm.getAlgorithmTag()+"/",
+                        indicator,
+                        experimentAlgorithm.getAlgorithmTag(), 
+                        experimentAlgorithm.getProblemTag());
+            }
+    }
 }

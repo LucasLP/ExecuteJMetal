@@ -24,6 +24,7 @@ import org.uma.jmetal.util.pseudorandom.JMetalRandom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import myJMetal.Chart.GenerateEvolutionChart;
 import myJMetal.Chart.HistoricAlgorithm;
 import myJMetal.Chart.HistoryData;
@@ -48,15 +49,21 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> implements HistoricA
     public HistoryData getHistory(String indicator) {
         if(indicator.equals("HV")){
             return history_hv;
+        }else if(indicator.equals("IGD")){
+            return history_igd;
+        }if(indicator.equals("Epsilon")){
+            return history_epsilon;
+        }if(indicator.equals("Spread")){
+            return history_spread;
         }
         return null;
     }
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
         history_hv      = new HistoryData(configuration.Runs);
-        /*history_igd     = new HistoryData(configuration.Runs);
+        history_igd     = new HistoryData(configuration.Runs);
         history_epsilon = new HistoryData(configuration.Runs);
-        history_spread  = new HistoryData(configuration.Runs);*/
+        history_spread  = new HistoryData(configuration.Runs);
     }
     Configuration configuration;
     HistoryData history_hv;
@@ -137,7 +144,11 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> implements HistoricA
         if( evaluations%(maxEvaluations/100)==0 ){
             int timeIndex = (int)(evaluations/(maxEvaluations/100)) -1;
             //sumOfEvolution[timeIndex] += EvaluationsChart.calculateQualityIndicator(population, problem.getName());
-            history_hv.addData(HistoryData.calculateQualityIndicator(population, problem.getName()), timeIndex);
+            Map<String, Double> indicators = HistoryData.calculateQualityIndicator(population, problem.getName());
+            history_hv.addData(indicators.get("HV"), timeIndex);
+            history_epsilon.addData(indicators.get("Epsilon"), timeIndex);
+            history_igd.addData(indicators.get("IGD"), timeIndex);
+            history_spread.addData(indicators.get("Spread"), timeIndex);
         }
       }
 

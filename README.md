@@ -55,7 +55,7 @@ Rename All files in ".0 .1 .2  ...  .max" to ".tsv".<br>
 <br>
 <br>
 <b>Source:</b> How to read input parameters to execute JMetal with this scripts.<br>
-"MyRunne.java" is a single runner of algorithm configured by "Configuration.java"<br>
+"MyRunner.java" is a single runner of algorithm configured by "Configuration.java"<br>
 "ExecuteExperiment.java" can execute several runs and get all data for statistical test<br>
 "Configuration.java" configure all tests, algorithms and benchmark<br>
 "JMetalMain.java" read first argument to configure how it will execute<br><br>
@@ -103,3 +103,18 @@ It will generate latex and R files of statistical comparisons.<br>
     </ul>
  </ul>
 </html>
+
+
+<hr>
+The "GenerateEvolutionChart.java" and "HistoryData.java" are the classes to generate this type of plot:
+<img src="Additional/example_UF1_HV.png"><br>
+For this you need follow this steps:<br>
+<ul>
+	<li>In your algorithm: implement "HistoricAlgorithm", for example look MOEADDRA in this src files;</li>
+	<li>Add in you algorithm the "HistoryData" object for each indicator what you need;</li>
+	<li>At each evaluation test to calculate the quality indicator</li>	
+	<li>At final, Print Historic data, for example look "ExecuteExperiment"</li>
+	<li>Generate Rscript with "GenerateEvolutionChart"</li>
+</ul>
+
+

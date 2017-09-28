@@ -6,9 +6,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.uma.jmetal.qualityindicator.impl.Epsilon;
+import org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlus;
+import org.uma.jmetal.qualityindicator.impl.Spread;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.util.front.Front;
@@ -59,7 +64,7 @@ public class HistoryData {
     public void printAllHistory(String outputDir, String indicator, String nameAlgorithm, String problemName){
         File f = new File(outputDir);
         if(!f.exists()){
-            f.mkdir();
+            f.mkdirs();
         }
         try (OutputStream os = new FileOutputStream(outputDir+"data_"+indicator+"_"+nameAlgorithm+"_"+problemName+".dat")) {
             PrintStream ps = new PrintStream(os);
@@ -84,55 +89,24 @@ public class HistoryData {
         }
     }
     
-    public void print(String outputDir, String indicator, String nameAlgorithm, String problemName){
-        Double[] average = new Double[numberOfData];
-        Double[] standardDeviation = new Double[this.numberOfData];
-        System.out.println("");
-        for (int i = 0; i < numberOfData; i++) {
-            average[i] = 0.0;
-            for (int j = 0; j < numberOfTest; j++) {
-                average[i] += history[i][j];
-                System.out.print(history[i][j]);
-            }
-            System.out.println("");
-            average[i] = average[i] / numberOfTest;
-            standardDeviation[i] = 0.0;
-            for (int j=0; j<numberOfTest;j++){
-                standardDeviation[i] = standardDeviation[i] + Math.pow(history[i][j] - average[i], 2);
-            }
-        }
-        System.out.println("");
-        File f = new File(outputDir);
-        if(!f.exists()){
-            f.mkdir();
-        }
-        
-        try (OutputStream os = new FileOutputStream(outputDir+"data_"+indicator+"_"+nameAlgorithm+"_"+problemName+".dat")) {
-            PrintStream ps = new PrintStream(os);
-            ps.println(nameAlgorithm+"\tstdDeviation");
-            for (int i = 0; i < numberOfData; i++) {
-                ps.print(average[i]+"\t"+standardDeviation[i]);
-                if(i<numberOfData-1){
-                    ps.print("\n");
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(GenerateEvolutionChart.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }
     
-    public static Double calculateQualityIndicator(List<DoubleSolution> population, String problemName) {
+    public static Map<String, Double> calculateQualityIndicator(List<DoubleSolution> population, String problemName) {
         Front referenceFront;
+        Map<String, Double> indicators = new HashMap();
         try {
             referenceFront = new ArrayFront("/resources/pareto_fronts/" + problemName + ".pf");
             FrontNormalizer frontNormalizer = new FrontNormalizer(referenceFront);
             Front normalizedReferenceFront = frontNormalizer.normalize(referenceFront);
             Front normalizedFront = frontNormalizer.normalize(new ArrayFront(population));
             List<PointSolution> normalizedPopulation = FrontUtils.convertFrontToSolutionList(normalizedFront);
-            return new PISAHypervolume<PointSolution>(normalizedReferenceFront).evaluate(normalizedPopulation);
+            
+            indicators.put("HV", new PISAHypervolume<PointSolution>(normalizedReferenceFront).evaluate(normalizedPopulation));
+            indicators.put("Epsilon", new Epsilon<PointSolution>(normalizedReferenceFront).evaluate(normalizedPopulation));
+            indicators.put("IGD", new InvertedGenerationalDistancePlus<PointSolution>(normalizedReferenceFront).evaluate(normalizedPopulation));
+            indicators.put("Spread", new Spread<PointSolution>(normalizedReferenceFront).evaluate(normalizedPopulation));
         } catch (FileNotFoundException ex) { 
             Logger.getLogger(GenerateEvolutionChart.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return -1.0;
+        return indicators;
     }
 }

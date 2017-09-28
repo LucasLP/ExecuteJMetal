@@ -21,6 +21,7 @@ import org.uma.jmetal.solution.DoubleSolution;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import myJMetal.Chart.GenerateEvolutionChart;
 import myJMetal.Chart.HistoryData;
 import myJMetal.UCB.UCB;
@@ -131,8 +132,11 @@ public class MOEADDRAUCB extends MOEADDRA {
          
         if( evaluations%(maxEvaluations/100)==0 ){
             int timeIndex = (int)(evaluations/(maxEvaluations/100)) -1;
-            history_hv.addData(HistoryData.calculateQualityIndicator(population, problem.getName()), timeIndex);            
-            //sumOfEvolution[timeIndex] += EvaluationsChart.calculateQualityIndicator(population, problem.getName());
+            Map<String, Double> indicators = HistoryData.calculateQualityIndicator(population, problem.getName());
+            history_hv.addData(indicators.get("HV"), timeIndex);
+            history_epsilon.addData(indicators.get("Epsilon"), timeIndex);
+            history_igd.addData(indicators.get("IGD"), timeIndex);
+            history_spread.addData(indicators.get("Spread"), timeIndex);
         }
       }
 

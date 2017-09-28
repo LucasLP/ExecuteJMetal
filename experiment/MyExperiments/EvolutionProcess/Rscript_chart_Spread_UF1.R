@@ -1,7 +1,7 @@
 # Read data file
-algorithm1 <- read.table("data_HV_MOEADDRA_UF2.dat", header=T, sep="\t") 
-algorithm2 <- read.table("data_HV_MOEADDRAUCB_UF2.dat", header=T, sep="\t") 
-algorithm3 <- read.table("data_HV_MOEADDRAUCBIrace_UF2.dat", header=T, sep="\t") 
+algorithm1 <- read.table("../history/MOEADDRA/data_Spread_MOEADDRA_UF1.dat", header=T, sep="\t") 
+algorithm2 <- read.table("../history/MOEADDRAUCB/data_Spread_MOEADDRAUCB_UF1.dat", header=T, sep="\t") 
+algorithm3 <- read.table("../history/MOEADDRAUCBIrace/data_Spread_MOEADDRAUCBIrace_UF1.dat", header=T, sep="\t") 
 # Compute the max and min y 
 max_y <- max(algorithm1, algorithm2, algorithm3)
 min_y <- min(algorithm1, algorithm2, algorithm3)
@@ -58,11 +58,11 @@ axis(2, at=seq(min_y, max_y, 0.05))
 box()
 
 # Create a title bold/italic font
-title(main="Quality Indicator Evolution for UF2", font.main=4)
+title(main="Quality Indicator Spread for UF1", font.main=4)
 
 # Label the x and y axes
 title(xlab= "% of Evolutions")
-title(ylab= "Indicator value")
+title(ylab= "Spread value")
 
 # Create a legend
 legend("bottomright", c("MOEADDRA", "MOEADDRAUCB", "MOEADDRAUCBIrace"), cex=0.8, col=plot_colors, pch=21:23, lty=1:3);

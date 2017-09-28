@@ -110,7 +110,7 @@ public class Configuration {
     
     public Configuration(String args[]) {
         MaxEvaluations = 300000;//600000; 50000;//
-        Runs = 4;
+        Runs = 2;
         cores = 2;
         parameters = new HashMap<>();
         executeNewAlgorithm      = true;
@@ -123,6 +123,9 @@ public class Configuration {
         indicators  =  new ArrayList<>();
         
         indicators.add("HV");
+        indicators.add("Epsilon");
+        indicators.add("IGD");
+        indicators.add("Spread");
         
         newAlgorithms = NameList.size();
         paretoFrontDirectory = "/resources/pareto_fronts";

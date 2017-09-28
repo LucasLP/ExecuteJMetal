@@ -1,6 +1,7 @@
 
 package myJMetal.Chart;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -33,6 +34,10 @@ public class GenerateEvolutionChart implements ExperimentComponent{
 
     @Override
     public void run() throws IOException {
+        File f = new File(outputDir);
+        if(!f.exists()){
+            f.mkdirs();
+        }
         List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> > algorithmList = new ArrayList();
         //Set algorithm of this problem
         for (Object algorithm : experiment.getAlgorithmList()) {
@@ -41,6 +46,7 @@ public class GenerateEvolutionChart implements ExperimentComponent{
                 algorithmList.add(alg);
             }
         }
+        String mainScript= "pdf(\"plot_"+problem+".pdf\")\n";
         for (String indicator : indicators) {
             String script = generateRscript(algorithmList, indicator);
             try (OutputStream os = new FileOutputStream(outputDir+"Rscript_chart_"+indicator+"_"+problem+".R")) {
@@ -48,6 +54,12 @@ public class GenerateEvolutionChart implements ExperimentComponent{
                 ps.print(script);
                 ps.close();
             }
+            mainScript+="source(\"Rscript_chart_"+indicator+"_"+problem+".R\")\n";
+        }
+        try (OutputStream os = new FileOutputStream(outputDir+"main_"+problem+".R")) {
+            PrintStream ps = new PrintStream(os);
+            ps.print(mainScript);
+            ps.close();
         }
     }
     
@@ -58,7 +70,7 @@ public class GenerateEvolutionChart implements ExperimentComponent{
         int i = 1;
         String str = "# Read data file\n" ;
         for (ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> algorithm : algorithmList) {
-            str += "algorithm"+i+" <- read.table(\"data_"+indicator+"_"+algorithm.getAlgorithmTag()+"_"+problem+".dat\", header=T, sep=\"\\t\") \n" ;
+            str += "algorithm"+i+" <- read.table(\"../history/"+algorithm.getAlgorithmTag()+"/data_"+indicator+"_"+algorithm.getAlgorithmTag()+"_"+problem+".dat\", header=T, sep=\"\\t\") \n" ;
             i++;
         }
         str+="# Compute the max and min y \n" ;
@@ -114,11 +126,11 @@ public class GenerateEvolutionChart implements ExperimentComponent{
         "box()\n" +
         "\n" +
         "# Create a title bold/italic font\n" +
-        "title(main=\"Quality Indicator Evolution for "+problem+"\", font.main=4)\n" +
+        "title(main=\"Quality Indicator "+indicator+" for "+problem+"\", font.main=4)\n" +
         "\n" +
         "# Label the x and y axes\n" +
         "title(xlab= \"% of Evolutions\")\n" +
-        "title(ylab= \"Indicator value\")\n" +
+        "title(ylab= \""+indicator+" value\")\n" +
         "\n" +
         "# Create a legend\n" +
         "legend(\"bottomright\", c(";

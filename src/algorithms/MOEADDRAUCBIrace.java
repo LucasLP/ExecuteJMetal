@@ -22,6 +22,7 @@ import org.uma.jmetal.solution.DoubleSolution;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import myJMetal.Chart.GenerateEvolutionChart;
@@ -139,7 +140,11 @@ public class MOEADDRAUCBIrace extends MOEADDRA {
        
         if( evaluations%(maxEvaluations/100)==0 ){
             int timeIndex = (int)(evaluations/(maxEvaluations/100)) -1;
-            history_hv.addData(HistoryData.calculateQualityIndicator(population, problem.getName()), timeIndex);            
+            Map<String, Double> indicators = HistoryData.calculateQualityIndicator(population, problem.getName());
+            history_hv.addData(indicators.get("HV"), timeIndex);
+            history_epsilon.addData(indicators.get("Epsilon"), timeIndex);
+            history_igd.addData(indicators.get("IGD"), timeIndex);
+            history_spread.addData(indicators.get("Spread"), timeIndex);
         }
       }
 
