@@ -18,59 +18,62 @@ import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class GenerateEvolutionChart implements ExperimentComponent{
-    Experiment experiment;
+    
+    Experiment<?,?> experiment;
     List<String> indicators;
-    String problem;
     String outputDir;
     
-    public GenerateEvolutionChart(Experiment experiment, List<String> indicators, String problem, String outputDir) {
+    public GenerateEvolutionChart(Experiment experiment, List<String> indicators) {
         this.experiment = experiment;
         this.indicators = indicators;
-        this.problem = problem;
-        this.outputDir = outputDir;
+        this.outputDir = experiment.getExperimentBaseDirectory() + "/EvolutionProcess/";
     }
     
     
 
     @Override
     public void run() throws IOException {
-        File f = new File(outputDir);
-        if(!f.exists()){
-            f.mkdirs();
-        }
-        List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> > algorithmList = new ArrayList();
-        //Set algorithm of this problem
-        for (Object algorithm : experiment.getAlgorithmList()) {
-            ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> alg = (ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>) algorithm;
-            if(alg.getProblemTag().equals(problem)){
-                algorithmList.add(alg);
+        for (int i = 0; i < experiment.getProblemList().size(); i++) {
+            String problem = (experiment.getProblemList().get(i)).getTag() ;
+
+            File f = new File(outputDir);
+            if(!f.exists()){
+                f.mkdirs();
             }
-        }
-        String mainScript= "pdf(\"plot_"+problem+".pdf\")\n";
-        for (String indicator : indicators) {
-            String script = generateRscript(algorithmList, indicator);
-            try (OutputStream os = new FileOutputStream(outputDir+"Rscript_chart_"+indicator+"_"+problem+".R")) {
+            List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> > algorithmList = new ArrayList();
+            //Set algorithm of this problem
+            for (Object algorithm : experiment.getAlgorithmList()) {
+                ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> alg = (ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>) algorithm;
+                if(alg.getProblemTag().equals(problem)){
+                    algorithmList.add(alg);
+                }
+            }
+            String mainScript= "pdf(\"plot_"+problem+".pdf\")\n";
+            for (String indicator : indicators) {
+                String script = generateRscript(algorithmList, indicator, problem);
+                try (OutputStream os = new FileOutputStream(outputDir+"Rscript_chart_"+indicator+"_"+problem+".R")) {
+                    PrintStream ps = new PrintStream(os);
+                    ps.print(script);
+                    ps.close();
+                }
+                mainScript+="source(\"Rscript_chart_"+indicator+"_"+problem+".R\")\n";
+            }
+            try (OutputStream os = new FileOutputStream(outputDir+"main_"+problem+".R")) {
                 PrintStream ps = new PrintStream(os);
-                ps.print(script);
+                ps.print(mainScript);
                 ps.close();
             }
-            mainScript+="source(\"Rscript_chart_"+indicator+"_"+problem+".R\")\n";
-        }
-        try (OutputStream os = new FileOutputStream(outputDir+"main_"+problem+".R")) {
-            PrintStream ps = new PrintStream(os);
-            ps.print(mainScript);
-            ps.close();
         }
     }
     
     
     
     
-    private String generateRscript(List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> > algorithmList, String indicator){
+    private String generateRscript(List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> > algorithmList, String indicator, String problem){
         int i = 1;
         String str = "# Read data file\n" ;
         for (ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> algorithm : algorithmList) {
-            str += "algorithm"+i+" <- read.table(\"../history/"+algorithm.getAlgorithmTag()+"/data_"+indicator+"_"+algorithm.getAlgorithmTag()+"_"+problem+".dat\", header=T, sep=\"\\t\") \n" ;
+            str += "algorithm"+i+" <- read.table(\"../"+HistoryData.DEFAULT_BASE+"/"+algorithm.getAlgorithmTag()+"/data_"+indicator+"_"+algorithm.getAlgorithmTag()+"_"+problem+".dat\", header=T, sep=\"\\t\") \n" ;
             i++;
         }
         str+="# Compute the max and min y \n" ;
@@ -144,6 +147,5 @@ public class GenerateEvolutionChart implements ExperimentComponent{
         }
         str+="), cex=0.8, col=plot_colors, pch=21:23, lty=1:3);";
         return str;
-    }
-    
+    }   
 }

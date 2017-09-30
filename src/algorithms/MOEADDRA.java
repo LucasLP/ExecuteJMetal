@@ -23,6 +23,7 @@ import org.uma.jmetal.util.JMetalException;
 import org.uma.jmetal.util.pseudorandom.JMetalRandom;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import myJMetal.Chart.GenerateEvolutionChart;
@@ -47,29 +48,19 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> implements HistoricA
     
     @Override
     public HistoryData getHistory(String indicator) {
-        if(indicator.equals("HV")){
-            return history_hv;
-        }else if(indicator.equals("IGD")){
-            return history_igd;
-        }if(indicator.equals("Epsilon")){
-            return history_epsilon;
-        }if(indicator.equals("Spread")){
-            return history_spread;
-        }
-        return null;
+        return history.get(indicator);
     }
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
-        history_hv      = new HistoryData(configuration.Runs);
-        history_igd     = new HistoryData(configuration.Runs);
-        history_epsilon = new HistoryData(configuration.Runs);
-        history_spread  = new HistoryData(configuration.Runs);
+    
+    @Override
+    public void setRunNumber(Integer runsNumber) {
+        history = new HashMap<>();
+        history.put("HV", new HistoryData(runsNumber));
+        history.put("IGD", new HistoryData(runsNumber));
+        history.put("Epsilon", new HistoryData(runsNumber));
+        history.put("Spread", new HistoryData(runsNumber)); 
     }
-    Configuration configuration;
-    HistoryData history_hv;
-    HistoryData history_igd;
-    HistoryData history_epsilon;
-    HistoryData history_spread;
+    
+    Map<String, HistoryData> history;
     
     
     
@@ -141,15 +132,10 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> implements HistoricA
         updateIdealPoint(child);
         updateNeighborhood(child, subProblemId, neighborType);
         
-        if( evaluations%(maxEvaluations/100)==0 ){
-            int timeIndex = (int)(evaluations/(maxEvaluations/100)) -1;
-            //sumOfEvolution[timeIndex] += EvaluationsChart.calculateQualityIndicator(population, problem.getName());
-            Map<String, Double> indicators = HistoryData.calculateQualityIndicator(population, problem.getName());
-            history_hv.addData(indicators.get("HV"), timeIndex);
-            history_epsilon.addData(indicators.get("Epsilon"), timeIndex);
-            history_igd.addData(indicators.get("IGD"), timeIndex);
-            history_spread.addData(indicators.get("Spread"), timeIndex);
+        if(HistoricAlgorithm.testToCalculate(evaluations,maxEvaluations)){
+            HistoricAlgorithm.calculateIndicators(evaluations, maxEvaluations, problem.getName(), population,history);
         }
+        
       }
 
       generation++;

@@ -17,7 +17,6 @@ import org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistance;
 import org.uma.jmetal.qualityindicator.impl.Spread;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
 import org.uma.jmetal.solution.DoubleSolution;
-import org.uma.jmetal.util.JMetalLogger;
 import org.uma.jmetal.util.experiment.Experiment;
 import org.uma.jmetal.util.experiment.ExperimentBuilder;
 import org.uma.jmetal.util.experiment.component.ComputeQualityIndicators;
@@ -44,7 +43,6 @@ public class ExecuteExperiment {
     public ExecuteExperiment(Configuration configuration) {
         this.configuration = configuration;
         algorithmList = new ArrayList<>();
-        //this.configuration.chart.setRunNumber(configuration.Runs);
     }
   
   
@@ -64,7 +62,7 @@ public class ExecuteExperiment {
             .setOutputParetoFrontFileName("FUN")
             .setOutputParetoSetFileName("VAR")
             .setIndicatorList(Arrays.asList(
-                new Epsilon<DoubleSolution>() , /*)) /**/
+                new Epsilon<DoubleSolution>() , 
                 new Spread<DoubleSolution>(), 
             //    new GenerationalDistance<DoubleSolution>(),
                 new PISAHypervolume<DoubleSolution>(),
@@ -78,31 +76,18 @@ public class ExecuteExperiment {
         System.out.println("Executing Algorithms...");
         new ExecuteAlgorithms(experiment).run();
         
-        System.out.println("Generating data files of algorithms evolution...");
-        for (ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> experimentAlgorithm : algorithmList) {  
-            for (String indicator : configuration.indicators) {
-                printData(experimentAlgorithm, indicator, experiment.getExperimentBaseDirectory());
-            }
-            /*
-            printData(experimentAlgorithm, "HV", experiment.getExperimentBaseDirectory());
-            printData(experimentAlgorithm, "Epsilon", experiment.getExperimentBaseDirectory());
-            printData(experimentAlgorithm, "IGD", experiment.getExperimentBaseDirectory());
-            printData(experimentAlgorithm, "Spread", experiment.getExperimentBaseDirectory());
-            */
-        }
+        HistoryData.printAllDataInstances(experiment, configuration.indicators);
+        
     }if(configuration.executeQualityIndicators){
         System.out.println("Executing Quality Indicators...");
         new ComputeQualityIndicators<>(experiment).run() ;
     }if(configuration.executeTablesComparative){
         System.out.println("Executing Comparatives...");
+        new GenerateEvolutionChart(experiment, configuration.indicators).run();
         new GenerateLatexTablesWithStatistics(experiment).run() ;
         new GenerateWilcoxonTestTablesWithR<>(experiment).run() ;
         new GenerateFriedmanTestTables<>(experiment).run();
         new GenerateBoxplotsWithR<>(experiment).setRows(4).setColumns(3).setDisplayNotch().run() ;
-    }if(configuration.generateChart){
-        for (ExperimentProblem<DoubleSolution> problem : problemList) {
-           new GenerateEvolutionChart(experiment, configuration.indicators, problem.getTag(), experiment.getExperimentBaseDirectory() + "/EvolutionProcess/").run();
-        }
     }
   }
 
@@ -123,6 +108,7 @@ public class ExecuteExperiment {
             Logger.getLogger(ExecuteExperiment.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+       System.out.println("N. of instance of algorithms: "+algorithmList.size());
   }
   
     void createAlgorithm(int idAlgorithm) throws JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
@@ -130,16 +116,5 @@ public class ExecuteExperiment {
             Algorithm<List<DoubleSolution>> algorithm = configuration.create((DoubleProblem) problemList.get(i).getProblem(), configuration.NameList.get(idAlgorithm));
             algorithmList.add(new ExperimentAlgorithm<>(algorithm, configuration.NameTagList.get(idAlgorithm), problemList.get(i).getTag()));
         }
-    }
-    
-    private void printData(ExperimentAlgorithm experimentAlgorithm, String indicator, String baseDirectory){
-        System.out.println(indicator);
-        HistoryData hd = ((HistoricAlgorithm)experimentAlgorithm.getAlgorithm()).getHistory(indicator);
-            if(hd!=null){
-                hd.printAllHistory(baseDirectory + "/history/"+experimentAlgorithm.getAlgorithmTag()+"/",
-                        indicator,
-                        experimentAlgorithm.getAlgorithmTag(), 
-                        experimentAlgorithm.getProblemTag());
-            }
     }
 }

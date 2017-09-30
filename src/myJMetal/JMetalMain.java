@@ -23,12 +23,17 @@ public class JMetalMain {
         // --algorithm MOEADDRAUCBv1 --tag UCBv1 --algorithm MOEADDRAUCB --tag UCBv3
         //args = "--single-run /UF3 --algorithm MOEADDRA --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
         //args = "--single-run /UF3 --algorithm MOEADDRA".split(" ");
-        args = "--statistic /UF chart --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace".split(" ");
+        //args = "--statistic /UF --algorithm MOEADDRA".split(" ");
+        //args = "--statistic ZDT --algorithm MOEADDRAUCB".split(" ");
+        //args = "--comparative ZDT --algorithm MOEADDRA --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace".split(" ");
+        //args = "--statistic /ZDT --algorithm MOEADDRAUCBIrace".split(" ");
+        //comparative
+        // --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace
         //args = "--single-run /UF1 --algorithm MOEADDRA --algorithm MOEADDRAUCBIrace".split(" ");
         execute(args);
     }
     
-    
+    // --single-run  --statistic  --indicators   --comparative
     public static void execute(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException{
         Configuration conf = new Configuration(args);
         if (args != null && args.length > 0) {
@@ -108,7 +113,6 @@ public class JMetalMain {
         } catch (IOException ex) {
             Logger.getLogger(JMetalMain.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /**/
         f = dateFormat.format(new Date());
         System.out.println("Final: " + f + "\n");
         configuration.print(i, f, log_file);

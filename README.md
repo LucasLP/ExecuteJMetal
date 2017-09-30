@@ -67,7 +67,11 @@ It will execute NSGAII and MOEAD algorithm in benchmark ZDT, and MOEAD will save
 It will execute MOEAD in ZDT1 instance<br>
 <br>
 <code>$ java -jar JMetal.jar --comparative UF --algorithm MOEAD --algorithm MOEADDRA</code><br>
-It will generate latex and R files of statistical comparisons.<br>
+It will generate latex and R files of statistical comparisons using  existing data files.<br>
+
+<br>
+<code>$ java -jar JMetal.jar --indicators UF --algorithm MOEAD</code><br>
+It will execute the indicators of existing data files.<br>
 
 
 <hr>
@@ -108,13 +112,18 @@ It will generate latex and R files of statistical comparisons.<br>
 <hr>
 The "GenerateEvolutionChart.java" and "HistoryData.java" are the classes to generate this type of plot:
 <img src="Additional/example_UF1_HV.png"><br>
-For this you need follow this steps:<br>
+For use this module, you need follow this steps:<br>
 <ul>
 	<li>In your algorithm: implement "HistoricAlgorithm", for example look MOEADDRA in this src files;</li>
-	<li>Add in you algorithm the "HistoryData" object for each indicator what you need;</li>
-	<li>At each evaluation test to calculate the quality indicator</li>	
+	<ul>
+		<li>Add an Map of "String" to "HistoryData" and add the classes for each indicators;</li>
+	</ul>
+	<li>At each evaluation test and calculate the quality indicator;</li>	
+	<ul>
+		<li>You can use the static methods of "HistoricAlgorithm", only call this methos like the implementation in MOEADDRA in this src;</li>
+	</ul>
 	<li>At final, Print Historic data, for example look "ExecuteExperiment"</li>
 	<li>Generate Rscript with "GenerateEvolutionChart"</li>
 </ul>
-
+<i>Obs.: Run it before the run of other Experiment Components (generate of tables and scripts) because these components can modify the experiment algorithm, then you should have an exception;</i>
 

@@ -13,7 +13,6 @@
 
 package org.uma.jmetal.algorithm.multiobjective.moead;
 
-import java.io.FileNotFoundException;
 import org.uma.jmetal.algorithm.multiobjective.moead.util.MOEADUtils;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
@@ -23,19 +22,11 @@ import org.uma.jmetal.solution.DoubleSolution;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import myJMetal.Chart.GenerateEvolutionChart;
+import myJMetal.Chart.HistoricAlgorithm;
 import myJMetal.Chart.HistoryData;
 import myJMetal.UCB.UCB;
 import myJMetal.UCB.UCB_set;
 import myJMetal.UCB.WeightFunction;
-import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
-import org.uma.jmetal.util.front.Front;
-import org.uma.jmetal.util.front.imp.ArrayFront;
-import org.uma.jmetal.util.front.util.FrontNormalizer;
-import org.uma.jmetal.util.front.util.FrontUtils;
-import org.uma.jmetal.util.point.util.PointSolution;
 
 /**
  * Class implementing the MOEA/D-DRA algorithm described in :
@@ -76,9 +67,7 @@ public class MOEADDRAUCBIrace extends MOEADDRA {
     int generation = 0 ;
     evaluations = populationSize ;
     
-
     UCB_set hh;
-    
     hh = new UCB_set((int)(0.1*populationSize), //Window Size
                              (maxEvaluations/6),//75000,                     //Init
                              0,                         //End
@@ -86,24 +75,18 @@ public class MOEADDRAUCBIrace extends MOEADDRA {
                              5.0,                       //C
                              1.0);                      //D
     hh.addSelector("set", new UCB(new Integer[]{1,2,3,4,5,6,7,8,9,10}, WeightFunction.Linear));
-    
     ucb_configuration3(11);
     
     
     do {
       int[] permutation = new int[populationSize];
       MOEADUtils.randomPermutation(permutation, populationSize);
-
       for (int i = 0; i < populationSize; i++) {
-  
         int subProblemId = permutation[i];
         frequency[subProblemId]++;
-        
-        
         if(hh.isWorking(evaluations, maxEvaluations)&&(!hh.isWSfull() || (evaluations-populationSize)%hh.maxStep==0)){
             hh.selectOperators();
-           ucb_configuration3((Integer)hh.getOperator("set"));
-            //System.out.println((Integer)hh.getOperator("set"));
+            ucb_configuration3((Integer)hh.getOperator("set"));
         }
          /*
         if(evaluations%1000==0){
@@ -138,14 +121,10 @@ public class MOEADDRAUCBIrace extends MOEADDRA {
         updateNeighborhood(child, subProblemId, neighborType);
          
        
-        if( evaluations%(maxEvaluations/100)==0 ){
-            int timeIndex = (int)(evaluations/(maxEvaluations/100)) -1;
-            Map<String, Double> indicators = HistoryData.calculateQualityIndicator(population, problem.getName());
-            history_hv.addData(indicators.get("HV"), timeIndex);
-            history_epsilon.addData(indicators.get("Epsilon"), timeIndex);
-            history_igd.addData(indicators.get("IGD"), timeIndex);
-            history_spread.addData(indicators.get("Spread"), timeIndex);
+        if(HistoricAlgorithm.testToCalculate(evaluations,maxEvaluations)){
+            HistoricAlgorithm.calculateIndicators(evaluations, maxEvaluations, problem.getName(), population,history);
         }
+        
       }
 
       generation++;

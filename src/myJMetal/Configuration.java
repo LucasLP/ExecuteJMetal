@@ -105,18 +105,18 @@ public class Configuration {
     public List<String> indicators ;
     
     
-    public boolean generateChart ;
+
 
     
     public Configuration(String args[]) {
         MaxEvaluations = 300000;//600000; 50000;//
-        Runs = 2;
+        Runs = 50;
         cores = 2;
         parameters = new HashMap<>();
         executeNewAlgorithm      = true;
         executeQualityIndicators = true;
         executeTablesComparative = false;
-        generateChart = false;
+
         
         NameList    =  new ArrayList<>(); /*{"MOEAD","MOEADqs","NSGAII","SPEA2"};*/
         NameTagList =  new ArrayList<>(); //new String[]{"algorithm1"};
@@ -177,9 +177,6 @@ public class Configuration {
                             }
                             System.out.print("\t"+args[i]);
                         }
-                    }else if(args[i].equals("chart")){
-                        generateChart = true;
-                        System.out.println("Able to Generate Charts");
                     }
                 }
             }
@@ -196,7 +193,7 @@ public class Configuration {
             case "UF":
                 problemList.add(new ExperimentProblem<>(new UF1()));
                 problemList.add(new ExperimentProblem<>(new UF2()));
-                /*problemList.add(new ExperimentProblem<>(new UF3()));
+                problemList.add(new ExperimentProblem<>(new UF3()));
                 problemList.add(new ExperimentProblem<>(new UF4()));
                 problemList.add(new ExperimentProblem<>(new UF5()));
                 problemList.add(new ExperimentProblem<>(new UF6()));
@@ -268,9 +265,9 @@ public class Configuration {
             case "UF":
                 switch (choice) {
                     case "problems":// });//
-                        return Arrays.asList(new String[]{"UF1","UF2"});//,"UF3","UF4","UF5","UF6","UF7","UF8","UF9","UF10"});
+                        return Arrays.asList(new String[]{"UF1","UF2","UF3","UF4","UF5","UF6","UF7","UF8","UF9","UF10"});
                     case "paretoFront":
-                        return Arrays.asList(new String[]{"UF1.pf","UF2.pf"});//,"UF3.pf","UF4.pf","UF5.pf","UF6.pf","UF7.pf","UF8.pf","UF9.pf","UF10.pf"});
+                        return Arrays.asList(new String[]{"UF1.pf","UF2.pf","UF3.pf","UF4.pf","UF5.pf","UF6.pf","UF7.pf","UF8.pf","UF9.pf","UF10.pf"});
                 }
              case "WFG":
                 switch (choice) {
@@ -375,7 +372,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setConfiguration(this);
+                a.setRunNumber(this.Runs);
                 return a;
 
             }  else if (algorithm.equals("MOEADDRAUCBv1")){
@@ -394,7 +391,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setConfiguration(this);
+                a.setRunNumber(this.Runs);
                 return a;
 
             } else if (algorithm.equals("MOEADDRAUCBv4")){
@@ -413,7 +410,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setConfiguration(this);
+                a.setRunNumber(this.Runs);
                 return a;
 
             }else if (algorithm.equals("MOEADDRA") ){
@@ -430,7 +427,7 @@ public class Configuration {
                         .setDataDirectory("resources/MOEAD_Weights")
                         .build();
                  a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
-                 a.setConfiguration(this);
+                 a.setRunNumber(this.Runs);
                 return a;
                 /*
                 return new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRA)
@@ -464,7 +461,6 @@ public class Configuration {
                 a.setName(algorithm);
                 return a;
             }else if (algorithm.equals("MOEADDRAUCBIrace")){
-
                 MOEADDRAUCBIrace a = (MOEADDRAUCBIrace) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBIrace)
                         .setCrossover(crossover)
                         .setMutation(mutation)
@@ -479,7 +475,7 @@ public class Configuration {
                         .build();
                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                 a.setName(algorithm);
-                a.setConfiguration(this);
+                a.setRunNumber(this.Runs);
                 return a;
 
             }
