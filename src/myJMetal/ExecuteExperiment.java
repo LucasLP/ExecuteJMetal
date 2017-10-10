@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.management.JMException;
-import myJMetal.Chart.GenerateEvolutionChart;
-import myJMetal.Chart.HistoricAlgorithm;
-import myJMetal.Chart.HistoryData;
+import org.uma.jmetal.util.experiment.component.GenerateEvolutionChart;
+import org.uma.jmetal.util.experiment.component.EvolutionChart.HistoricAlgorithm;
+import org.uma.jmetal.util.experiment.component.EvolutionChart.HistoryData;
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.problem.DoubleProblem;
 import org.uma.jmetal.qualityindicator.impl.Epsilon;
@@ -75,9 +75,7 @@ public class ExecuteExperiment {
     if(configuration.executeNewAlgorithm){
         System.out.println("Executing Algorithms...");
         new ExecuteAlgorithms(experiment).run();
-        
         HistoryData.printAllDataInstances(experiment, configuration.indicators);
-        
     }if(configuration.executeQualityIndicators){
         System.out.println("Executing Quality Indicators...");
         new ComputeQualityIndicators<>(experiment).run() ;

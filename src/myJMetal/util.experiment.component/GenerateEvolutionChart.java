@@ -1,5 +1,17 @@
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package myJMetal.Chart;
+package org.uma.jmetal.util.experiment.component;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,13 +20,49 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.uma.jmetal.util.experiment.component.EvolutionChart.HistoryData;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.util.experiment.Experiment;
 import org.uma.jmetal.util.experiment.ExperimentComponent;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 
 /**
+ * Generate a line chart of evolution process of indicators
+ *     The line is the means value of the runs, and dotted lines is the first and third quartiles
+ * Default: Execute the indicator at each 1% of evaluations;
+ * Use "HV" "IGD" "Spread" "Epsilon"
+ *  Attention! To many objectives can be very slow with HV
+ * For use this you need:
+ * <b>1. (at Algorithm) Implement "HistoricAlgorithm.java" in you algorithm</b>
+ * 
+ * <b>2. (at Algorithm) Add "HistoricData.java" how an attribute and implement methods</b>
+ *      for example: "Map<String, HistoryData> history;" Name of indicator and data
+ *      @Override
+ *       public HistoryData getHistory(String indicator) {
+ *           return history.get(indicator);
+ *       }
  *
+ *       @Override
+ *       public void setRunNumber(Integer runsNumber) {
+ *           history = new HashMap<>();
+ *           history.put("HV", new HistoryData(runsNumber));
+ *           history.put("IGD", new HistoryData(runsNumber));
+ *           history.put("Epsilon", new HistoryData(runsNumber));
+ *           history.put("Spread", new HistoryData(runsNumber)); 
+ *       }
+ * 
+ * <b>3. (at Algorithm) Execute indicators</b>
+ *      for example:
+ *          if(HistoricAlgorithm.testToCalculate(evaluations,maxEvaluations)){
+ *               HistoricAlgorithm.calculateIndicators(evaluations, maxEvaluations, problem.getName(), population,history);
+ *           }
+ * 
+ * <b>4. (at Experiment) Generate data files and R scripts</b>
+ *      for example:
+ *          HistoryData.printAllDataInstances(experiment, indicators);
+ *          new GenerateEvolutionChart(experiment, indicators).run();
+ *          
+ * 
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class GenerateEvolutionChart implements ExperimentComponent{
@@ -33,6 +81,7 @@ public class GenerateEvolutionChart implements ExperimentComponent{
 
     @Override
     public void run() throws IOException {
+        String mainScript = "";
         for (int i = 0; i < experiment.getProblemList().size(); i++) {
             String problem = (experiment.getProblemList().get(i)).getTag() ;
 
@@ -48,7 +97,7 @@ public class GenerateEvolutionChart implements ExperimentComponent{
                     algorithmList.add(alg);
                 }
             }
-            String mainScript= "pdf(\"plot_"+problem+".pdf\")\n";
+            mainScript+= "pdf(\"plot_"+problem+".pdf\")\n";
             for (String indicator : indicators) {
                 String script = generateRscript(algorithmList, indicator, problem);
                 try (OutputStream os = new FileOutputStream(outputDir+"Rscript_chart_"+indicator+"_"+problem+".R")) {
@@ -58,11 +107,13 @@ public class GenerateEvolutionChart implements ExperimentComponent{
                 }
                 mainScript+="source(\"Rscript_chart_"+indicator+"_"+problem+".R\")\n";
             }
-            try (OutputStream os = new FileOutputStream(outputDir+"main_"+problem+".R")) {
-                PrintStream ps = new PrintStream(os);
-                ps.print(mainScript);
-                ps.close();
-            }
+            mainScript+="\n\n";
+        }
+
+        try (OutputStream os = new FileOutputStream(outputDir + "main.R")) {
+            PrintStream ps = new PrintStream(os);
+            ps.print(mainScript);
+            ps.close();
         }
     }
     
@@ -73,7 +124,7 @@ public class GenerateEvolutionChart implements ExperimentComponent{
         int i = 1;
         String str = "# Read data file\n" ;
         for (ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>> algorithm : algorithmList) {
-            str += "algorithm"+i+" <- read.table(\"../"+HistoryData.DEFAULT_BASE+"/"+algorithm.getAlgorithmTag()+"/data_"+indicator+"_"+algorithm.getAlgorithmTag()+"_"+problem+".dat\", header=T, sep=\"\\t\") \n" ;
+            str += "algorithm"+i+" <- read.table(\"../"+HistoryData.DEFAULT_BASE+"/"+algorithm.getAlgorithmTag()+"/data_"+indicator+"_"+problem+".dat\", header=T, sep=\"\\t\") \n" ;
             i++;
         }
         str+="# Compute the max and min y \n" ;

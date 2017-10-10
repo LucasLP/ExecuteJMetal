@@ -1,5 +1,19 @@
-package myJMetal.Chart;
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+package org.uma.jmetal.util.experiment.component.EvolutionChart;
+
+import org.uma.jmetal.util.experiment.component.GenerateEvolutionChart;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -28,7 +42,7 @@ import org.uma.jmetal.util.point.util.PointSolution;
 
 /**
  *
- * @author lucas
+ * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class HistoryData {
     public static final String DEFAULT_BASE = "history";
@@ -37,6 +51,9 @@ public class HistoryData {
     private Integer numberOfData;
     private Integer numberOfTest;
     
+    /**
+     * Number of data (%) / number of test
+     */
     private Double[][] history;
    
 
@@ -72,7 +89,8 @@ public class HistoryData {
         if(!f.exists()){
             f.mkdirs();
         }
-        try (OutputStream os = new FileOutputStream(outputDir+"data_"+indicator+"_"+nameAlgorithm+"_"+problemName+".dat")) {
+        //try (OutputStream os = new FileOutputStream(outputDir+"data_"+indicator+"_"+nameAlgorithm+"_"+problemName+".dat")) {
+        try (OutputStream os = new FileOutputStream(outputDir+"data_"+indicator+"_"+problemName+".dat")) {
             PrintStream ps = new PrintStream(os);
             for (int data = 0; data < numberOfData; data++) {
                 ps.print(data);

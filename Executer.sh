@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/bin/sh
 
 #    Benchmarks
 #Name		nº instances
@@ -18,7 +17,7 @@
 #MOEADDRA
 #NSGAII
 #SPEA2
-
+#================================================================
 benchmark="WFG"
 
 testName="_example-test_"
@@ -51,7 +50,7 @@ sh QualityIndicators.sh $DirectoryData  $benchmark --algorithm $algorithm1 --tag
 
 
 
-
+	#Execute sound to alert the end of the test
 aplay Additional/sound.wav
 
 

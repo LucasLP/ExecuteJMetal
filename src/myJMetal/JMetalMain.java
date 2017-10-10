@@ -13,22 +13,15 @@ import javax.management.JMException;
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class JMetalMain {
-    public static String myVersion(){return "v1.4   22/9/2017";}
+    public static String myVersion(){return "v1.5   10/10/2017";}
     
 
     public static void main(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
-        //Test input        
-        //--algorithm MOEADDRAUCBIrace
-        //args = "--single-run /UF3 chart --algorithm MOEADDRAUCB --algorithm MOEADDRA".split(" ");
         // --algorithm MOEADDRAUCBv1 --tag UCBv1 --algorithm MOEADDRAUCB --tag UCBv3
         //args = "--single-run /UF3 --algorithm MOEADDRA --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
-        //args = "--single-run /UF3 --algorithm MOEADDRA".split(" ");
-        //args = "--statistic /UF --algorithm MOEADDRA".split(" ");
-        //args = "--statistic ZDT --algorithm MOEADDRAUCB".split(" ");
         //args = "--comparative ZDT --algorithm MOEADDRA --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace".split(" ");
         //args = "--statistic /ZDT --algorithm MOEADDRAUCBIrace".split(" ");
         //comparative
-        // --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace
         //args = "--single-run /UF1 --algorithm MOEADDRA --algorithm MOEADDRAUCBIrace".split(" ");
         execute(args);
     }
@@ -97,13 +90,13 @@ public class JMetalMain {
     public static void MultiTest(Configuration configuration) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         String i, f;
-        String log_file;
-        if (configuration.executeNewAlgorithm) {
-            log_file = "Execute_log_" + configuration.parameters.get("--name")
-                    + "_" + configuration.parameters.get("--problem") + ".txt";
-        } else {
-            log_file = "Execute_log_comparative.txt";
+        String log_file ="";
+        if(configuration.executeNewAlgorithm){
+            log_file= "Execute_log_algorithm.txt";
+        }else{
+            log_file= "Execute_log.txt";
         }
+        
         i = dateFormat.format(new Date());
         System.out.println("Init: " + i + "\n");
         ExecuteExperiment exp = new ExecuteExperiment(configuration);
@@ -127,8 +120,8 @@ public class JMetalMain {
         System.out.println("\t--statistic, is executed several runs and save data files");
         System.out.println("\t--indicators, is executed only the quality indicator");
         System.out.println("\t--comparative, send in arg[1] benchmark to compare and other args the algorithms");
-        System.out.println("Set arg[1] with instance to execute, example \"/UF1@1\"");
-        System.out.println("Another instances are parameters to set the --algothim algorithm (optional) --tag algorithmTag"
+        System.out.println("Set arg[1] with instance to execute, example \"/UF1\"");
+        System.out.println("Another instances are parameters to set the --algothim algorithm and (optional) --tag algorithmTag"
                 + "\nif you don't set, will be a default value. You can set these parameters:"
                 + "\n--F, --CR, --DE, "
                 + "\n--algorithm, --pm, --tau, --fun, --delta, --nr, --nrSize"

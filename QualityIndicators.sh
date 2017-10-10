@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #Created by: Lucas Prestes - lucas.prestes.lp@gmail.com
 #	All Rscript result and PDFs result will be created on:
 # 	"./experiment/MyExperiments/Result/" (Default path)
@@ -88,9 +88,12 @@ done
 #for i in *.eps; do rm $i; done
 #################################
 cd "../";
-mv Execute_log_quality_indicators.txt "./"$path;
+mv Execute_log_algorithm.txt "./"$path;
+mv Execute_log.txt "./"$path;
 mv "./latex" "./"$path;
 mv "./R" "./"$path;
+Rscript "./EvolutionProcess/main.R"
+mv "./EvolutionProcess" "./"$path;
 
 #clear
 echo "

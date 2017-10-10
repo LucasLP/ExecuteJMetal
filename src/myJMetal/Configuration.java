@@ -1,6 +1,6 @@
 package myJMetal;
 
-import myJMetal.Chart.GenerateEvolutionChart;
+import org.uma.jmetal.util.experiment.component.GenerateEvolutionChart;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -535,10 +535,11 @@ public class Configuration {
             ps.println("\nStart: "+date_init);
             ps.println("Stop:  "+date_final+ "\n");
             ps.println("Executed new algorithm: "+executeNewAlgorithm);
-            ps.println("Executed Quality Indicators: "+executeQualityIndicators+"\n\n");
-            ps.println("Name list: ");
-            for (int i = 0; i < NameList.size(); i++) {
-                ps.println("¬ "+NameList.get(i));
+            ps.println("Executed Quality Indicators: "+executeQualityIndicators);
+            ps.println("Executed Comparative: "+executeTablesComparative);
+            ps.println("\n\nName list: ");
+            for (int i = 0; i < NameTagList.size(); i++) {
+                ps.println("¬ "+NameList.get(i)+" ["+NameTagList.get(i)+"]");
             }
             ps.println("\n\nProblem: "+parameters.get("--problem"));//benchmark);
             if(executeNewAlgorithm){
