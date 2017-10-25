@@ -31,7 +31,6 @@ public class GenerateScatterPoints implements ExperimentComponent{
     }
     
     
-    
     @Override
     public void run() throws IOException {
         String script = "library(scatterplot3d)\n";
@@ -39,15 +38,15 @@ public class GenerateScatterPoints implements ExperimentComponent{
         script += generate2Dfunction();
         script += generate3Dfunction();
         script += "\n#############################";
-        script += "par(mfrow=c(2,2)) #each page has 2x2 plots\n";
+        script += "\npar(mfrow=c(2,2)) #each page has 2x2 plots\n";
         for (ExperimentProblem<? extends Solution<?>> experimentProblem : experiment.getProblemList()) {
             if(experimentProblem.getProblem().getNumberOfObjectives() == 2){
-                script += "objectivePoints("+experimentProblem.getProblem().getName()+")";
+                script += "\nobjectivePoints(\""+experimentProblem.getProblem().getName()+"\")";
             }else if(experimentProblem.getProblem().getNumberOfObjectives() == 3){
-                script += "objective3DPoints("+experimentProblem.getProblem().getName()+")";
+                script += "\nobjective3DPoints(\""+experimentProblem.getProblem().getName()+"\")";
             }
         }
-        try (OutputStream os = new FileOutputStream(experiment.getExperimentBaseDirectory()+"/"+experiment.getExperimentName() + "/plot_points.R")) {
+        try (OutputStream os = new FileOutputStream(experiment.getExperimentBaseDirectory() + "/plot_points.R")) {
             PrintStream ps = new PrintStream(os);
             ps.print(script);
             ps.close();
@@ -67,7 +66,7 @@ public class GenerateScatterPoints implements ExperimentComponent{
             i++;
         }
         str+=
-"	pf <- read.table(paste(pareto,\".pf\",sep=\"\"), header=FALSE, sep=\" \")\n\n" +
+"	pf <- read.table(paste(pareto,\".pf\",sep=\"\"), header=FALSE, sep=\"\")\n\n" +
 "	colors <- c(\"red\", \"blue\",\"black\",\"orange\",\"green\", \"brown\", \"deepskyblue\", \"gray60\",\"yellow\")\n\n" +
 "	plot(pf[,1],pf[,2] ,col=colors[1], pch='.' , axes=FALSE, ann=FALSE)\n" ;
         i = 1;
@@ -112,7 +111,7 @@ public class GenerateScatterPoints implements ExperimentComponent{
             i++;
         }
         str+=    
-"	pf <- read.table(paste(pareto,\".pf\",sep=\"\"), header=FALSE, sep=\" \")\n" +
+"	pf <- read.table(paste(pareto,\".pf\",sep=\"\"), header=FALSE, sep=\"\")\n" +
 "\n" +
 "	colors <- c(\"red\", \"blue\",\"black\",\"orange\",\"green\", \"brown\", \"deepskyblue\", \"gray60\",\"yellow\")\n" +
 "\n" +

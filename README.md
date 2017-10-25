@@ -24,8 +24,11 @@ Only for Linux Users.<br>
    2.3. Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
      <code>R</code><br>
        <code>R> install.packages("irace")</code><br>
-	
-	2.4. (optional) Install pdftk<br>
+
+	2.4. Install Scatterplot3D
+     <code>R</code><br>
+		<code>install.packages("scatterplot3d", repos="http://R-Forge.R-project.org")</code><br>
+	2.5. (optional) Install pdftk<br>
 	<code>sudo apt-get install pdftk</code><br>
 
 

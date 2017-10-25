@@ -23,6 +23,7 @@ import org.uma.jmetal.util.experiment.component.ExecuteAlgorithms;
 import org.uma.jmetal.util.experiment.component.GenerateBoxplotsWithR;
 import org.uma.jmetal.util.experiment.component.GenerateFriedmanTestTables;
 import org.uma.jmetal.util.experiment.component.GenerateLatexTablesWithStatistics;
+import org.uma.jmetal.util.experiment.component.GenerateScatterPoints;
 import org.uma.jmetal.util.experiment.component.GenerateWilcoxonTestTablesWithR;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
@@ -81,10 +82,11 @@ public class ExecuteExperiment {
     }if(configuration.executeTablesComparative){
         System.out.println("Executing Comparatives...");
         new GenerateEvolutionChart(experiment, configuration.indicators).run();
-        new GenerateLatexTablesWithStatistics(experiment).run() ;
+        new GenerateLatexTablesWithStatistics(experiment).run() ;//remove duplicates is here
         new GenerateWilcoxonTestTablesWithR<>(experiment).run() ;
         new GenerateFriedmanTestTables<>(experiment).run();
         new GenerateBoxplotsWithR<>(experiment).setRows(4).setColumns(3).setDisplayNotch().run() ;
+        new GenerateScatterPoints(experiment).run();
     }
   }
 
