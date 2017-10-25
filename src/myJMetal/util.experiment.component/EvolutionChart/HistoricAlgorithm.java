@@ -27,6 +27,9 @@ public interface HistoricAlgorithm {
     
     
     
+    
+    
+    
     public static boolean testToCalculate(Integer evaluations, Integer maxEvaluations){
         return (evaluations%(maxEvaluations/100)==0); 
     }

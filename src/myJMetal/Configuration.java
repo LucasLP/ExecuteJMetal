@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 import javax.management.JMException;
 import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.algorithm.multiobjective.ibea.IBEA;
+import org.uma.jmetal.algorithm.multiobjective.ibea.IBEABuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.AbstractMOEAD;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRA;
@@ -24,7 +26,10 @@ import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBIrace;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv1;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv4;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAqs;
+import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAII;
+import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIIIBuilder;
+import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
@@ -56,6 +61,15 @@ import org.uma.jmetal.problem.multiobjective.glt.GLT3;
 import org.uma.jmetal.problem.multiobjective.glt.GLT4;
 import org.uma.jmetal.problem.multiobjective.glt.GLT5;
 import org.uma.jmetal.problem.multiobjective.glt.GLT6;
+import org.uma.jmetal.problem.multiobjective.lz09.LZ09F1;
+import org.uma.jmetal.problem.multiobjective.lz09.LZ09F2;
+import org.uma.jmetal.problem.multiobjective.lz09.LZ09F3;
+import org.uma.jmetal.problem.multiobjective.lz09.LZ09F4;
+import org.uma.jmetal.problem.multiobjective.lz09.LZ09F5;
+import org.uma.jmetal.problem.multiobjective.lz09.LZ09F6;
+import org.uma.jmetal.problem.multiobjective.lz09.LZ09F7;
+import org.uma.jmetal.problem.multiobjective.lz09.LZ09F8;
+import org.uma.jmetal.problem.multiobjective.lz09.LZ09F9;
 import org.uma.jmetal.problem.multiobjective.mop.MOP1;
 import org.uma.jmetal.problem.multiobjective.mop.MOP2;
 import org.uma.jmetal.problem.multiobjective.mop.MOP3;
@@ -111,7 +125,7 @@ public class Configuration {
     public Configuration(String args[]) {
         MaxEvaluations = 300000;//600000; 50000;//
         Runs = 50;
-        cores = 2;
+        cores = 4;
         parameters = new HashMap<>();
         executeNewAlgorithm      = true;
         executeQualityIndicators = true;
@@ -244,7 +258,18 @@ public class Configuration {
                 problemList.add(new ExperimentProblem<>(new GLT3()));
                 problemList.add(new ExperimentProblem<>(new GLT4()));
                 problemList.add(new ExperimentProblem<>(new GLT5()));
-                problemList.add(new ExperimentProblem<>(new GLT6()));
+                //problemList.add(new ExperimentProblem<>(new GLT6()));
+                break;
+            case "LZ09":
+                problemList.add(new ExperimentProblem<>(new LZ09F1()));
+                problemList.add(new ExperimentProblem<>(new LZ09F2()));
+                problemList.add(new ExperimentProblem<>(new LZ09F3()));
+                problemList.add(new ExperimentProblem<>(new LZ09F4()));
+                problemList.add(new ExperimentProblem<>(new LZ09F5()));
+                problemList.add(new ExperimentProblem<>(new LZ09F6()));
+                problemList.add(new ExperimentProblem<>(new LZ09F7()));
+                problemList.add(new ExperimentProblem<>(new LZ09F8()));
+                problemList.add(new ExperimentProblem<>(new LZ09F9()));
                 break;
         }
         return problemList;
@@ -298,13 +323,22 @@ public class Configuration {
             case "GLT":
                 switch (choice) {
                     case "problems":
-                        return Arrays.asList(new String[]{"GLT1","GLT2","GLT3","GLT4",
-                                "GLT5","GLT6"});
+                        return Arrays.asList(new String[]{"GLT1","GLT2","GLT3","GLT4","GLT5"});//,"GLT6"});
                     case "paretoFront":
-                        return Arrays.asList(new String[]{"GLT1.pf","GLT2.pf","GLT3.pf","GLT4.pf","GLT5.pf",
-                            "GLT6.pf"});
+                        return Arrays.asList(new String[]{"GLT1.pf","GLT2.pf","GLT3.pf","GLT4.pf","GLT5.pf"});
+                            //,"GLT6.pf"});
                 }
-        }
+            case "LZ09":
+                switch (choice){
+                    case "problems:":
+                        return Arrays.asList(new String[]{"LZ09F1","LZ09F2","LZ09F3","LZ09F4","LZ09F5",
+                        "LZ09F6","LZ09F7","LZ09F8","LZ09F9"});
+                    case "paretoFront":
+                        return Arrays.asList(new String[]{"LZ09F1.pf","LZ09F2.pf","LZ09F3.pf",
+                            "LZ09F4.pf","LZ09F5.pf","LZ09F6.pf",
+                            "LZ09F7.pf","LZ09F8.pf","LZ09F9.pf"});
+                        }
+                }
         }
         return null;
     }
@@ -322,6 +356,8 @@ public class Configuration {
             return "wfg";
         }else if(getParameter("problems", "DTLZ").contains(p)){
             return "dtlz";
+        }else if(getParameter("problems", "LZ09").contains(p)){
+            return "lz09";
         }
         
         return null;
@@ -482,7 +518,7 @@ public class Configuration {
         }
             
         else if (algorithm.equals("NSGAII") ){
-            double crossoverProbability = 0.9;
+            /*double crossoverProbability = 0.9;
             double crossoverDistributionIndex = 30.0;
             CrossoverOperator<DoubleSolution> crossover = new SBXCrossover(crossoverProbability, crossoverDistributionIndex);
 
@@ -491,13 +527,21 @@ public class Configuration {
             MutationOperator<DoubleSolution> mutation = new PolynomialMutation(mutationProbability, mutationDistributionIndex);
 
             SelectionOperator<List<DoubleSolution>, DoubleSolution> selection = new BinaryTournamentSelection<DoubleSolution>();
-            return new NSGAIIIBuilder<>(problem)
+            return new NSGAIIBuilder(problem)
                     .setCrossoverOperator(crossover)
                     .setMutationOperator(mutation)
                     .setSelectionOperator(selection)
                     .setMaxIterations(500)
-                    .build();
-            
+                    .build();*/
+            NSGAII a = new NSGAIIBuilder<>(
+                problem,
+                new SBXCrossover(1.0, 5),
+                new PolynomialMutation(1.0 / problem.getNumberOfVariables(), 10.0))
+                .setMaxEvaluations(MaxEvaluations)
+                .setPopulationSize(600)
+                .build();
+            a.setRunNumber(this.Runs);
+            return a;
             
             
         }else if (algorithm.equals("SPEA2")) {
@@ -511,17 +555,20 @@ public class Configuration {
 
             SelectionOperator<List<DoubleSolution>, DoubleSolution> selection = new BinaryTournamentSelection<DoubleSolution>(new RankingAndCrowdingDistanceComparator<DoubleSolution>());
 
-            return new SPEA2Builder<>(problem, crossover, mutation)
+            SPEA2 a = new SPEA2Builder<>(problem, crossover, mutation)
                 .setSelectionOperator(selection)
-                .setMaxIterations(250)
-                .setPopulationSize(100)
+                .setMaxIterations(500)
+                .setPopulationSize(600)
                 .build() ;
+            a.setRunNumber(this.Runs);
+            return a;
             
             
             
         }else if (algorithm.equals("IBEA")) {
-            // return (new IBEA_Settings(problemName).configure());
-            return null;
+              IBEA a = new IBEABuilder(problem).build();
+              a.setRunNumber(this.Runs);
+            return a;
         }
         return null;
     }

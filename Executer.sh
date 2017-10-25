@@ -6,6 +6,8 @@
 #ZDT			5
 #WFG			9
 #DTLZ			6
+#GLT			6
+#LZ09			9
 
 #	Indicators
 #HV		max
@@ -17,6 +19,7 @@
 #MOEADDRA
 #NSGAII
 #SPEA2
+#IBEA
 #================================================================
 benchmark="WFG"
 
@@ -34,9 +37,13 @@ DiretoryData="Result"$testName$benchmark"/"
 #================================================================
 echo "=============================="
 echo "Executing JMetal "
-echo "Benchmark		  : "$benchmark
-echo "Test Name        : "$testName
-echo "Data Files       : "$DirectoryData
+echo "Benchmark		: "$benchmark
+echo "Test Name      : "$testName
+echo "Data Files		: "$DirectoryData
+echo "Algorithm 1		: "$tag1
+echo "Algorithm 2		: "$tag2
+echo "Algorithm 3		: "$tag3
+echo "=============================="
 
 
 	#Execution Line - Execute the algorithm and save the results in algorithm tag 

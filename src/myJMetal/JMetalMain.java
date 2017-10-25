@@ -21,8 +21,10 @@ public class JMetalMain {
         //args = "--single-run /UF3 --algorithm MOEADDRA --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
         //args = "--comparative ZDT --algorithm MOEADDRA --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace".split(" ");
         //args = "--statistic /ZDT --algorithm MOEADDRAUCBIrace".split(" ");
-        //comparative
-        //args = "--single-run /UF1 --algorithm MOEADDRA --algorithm MOEADDRAUCBIrace".split(" ");
+        //comparative --algorithm MOEADDRAUCBIrace
+        //args = "--single-run /UF8 --algorithm IBEA ".split(" ");
+        
+        //args = "--single-run /UF3 --algorithm MOEADDRAUCB --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
         execute(args);
     }
     
@@ -92,7 +94,7 @@ public class JMetalMain {
         String i, f;
         String log_file ="";
         if(configuration.executeNewAlgorithm){
-            log_file= "Execute_log_algorithm.txt";
+            log_file= "Execute_log_"+configuration.NameTagList.get(0)+".txt";
         }else{
             log_file= "Execute_log.txt";
         }

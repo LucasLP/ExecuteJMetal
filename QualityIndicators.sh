@@ -92,7 +92,10 @@ mv Execute_log_algorithm.txt "./"$path;
 mv Execute_log.txt "./"$path;
 mv "./latex" "./"$path;
 mv "./R" "./"$path;
-Rscript "./EvolutionProcess/main.R"
+
+cd "./EvolutionProcess/";
+Rscript "main.R"
+cd "../";
 mv "./EvolutionProcess" "./"$path;
 
 #clear

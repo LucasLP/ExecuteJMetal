@@ -157,7 +157,7 @@ public class GenerateEvolutionChart implements ExperimentComponent{
         }
         str+=
         "# Define colors to be used\n" +
-        "plot_colors <- c(\"blue\",\"red\",\"forestgreen\", \"gray60\",\"yellow\", \"brown\", \"darkorange\", \"deepskyblue\")\n" +
+        "plot_colors <- c(\"blue\",\"red\",\"forestgreen\", \"darkorange\", \"brown\", \"deepskyblue\", \"gray60\",\"yellow\")\n" +
         "\n" +
         "plot(algorithm1mean, type=\"o\", col=plot_colors[1],  ylim=c(min_y,max_y), axes=FALSE, ann=FALSE, pch='.', lty=1)\n" +
         "\n" +

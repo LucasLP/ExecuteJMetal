@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.management.JMException;
 import org.uma.jmetal.util.experiment.component.GenerateEvolutionChart;
-import org.uma.jmetal.util.experiment.component.EvolutionChart.HistoricAlgorithm;
 import org.uma.jmetal.util.experiment.component.EvolutionChart.HistoryData;
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.problem.DoubleProblem;
