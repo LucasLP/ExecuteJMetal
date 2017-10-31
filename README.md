@@ -24,11 +24,11 @@ Include another two experiment components for JMetal, see in source code in java
 
    2.3. Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
      <code>R</code><br>
-       <code>R> install.packages("irace")</code><br>
+       <code>R> install.packages("irace") </code><br>
 
-	2.4. Install Scatterplot3D, used in new experiment components<br>
+	2.4. Install <a href="https://cran.r-project.org/web/packages/scatterplot3d/index.html">Scatterplot3D</a>, used in new experiment components<br>
      <code>R</code><br>
-		<code>install.packages("scatterplot3d", repos="http://R-Forge.R-project.org")</code><br>
+		<code>install.packages("scatterplot3d", repos="http://R-Forge.R-project.org") </code><br>
 	2.5. (optional) Install pdftk<br>
 	<code>sudo apt-get install pdftk</code><br>
 
@@ -68,7 +68,7 @@ Rename All files in ".0 .1 .2  ...  .max" to ".tsv".<br>
 It will execute NSGAII and MOEAD algorithm in benchmark ZDT, and MOEAD will save its data in "test" folder.<br>
 <br>
 <code>$ java -jar JMetal.java --single-run ZDT1 --algorithm MOEAD</code><br>
-It will execute MOEAD in ZDT1 instance<br>
+It will execute MOEAD in ZDT1 instance and print the quality indicator at console.<br>
 <br>
 <code>$ java -jar JMetal.jar --comparative UF --algorithm MOEAD --algorithm MOEADDRA</code><br>
 It will generate latex and R files of statistical comparisons using  existing data files.<br>
