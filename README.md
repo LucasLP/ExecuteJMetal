@@ -22,11 +22,11 @@ Include another two experiment components for JMetal, see in source code in java
 <code>sudo apt-get install r-base</code><br>
 <code>sudo apt-get install r-base-dev</code><br>
 
-   2.3. Install <a href="http://iridia.ulb.ac.be/irace/">Irace</a><br>
+   2.3. Install <a href="http://iridia.ulb.ac.be/irace/">Irace:</a><br>
      <code>R</code><br>
-       <code>install.packages("irace") </code><br>
-
-	2.4. Install <a href="https://cran.r-project.org/web/packages/scatterplot3d/index.html">Scatterplot3D</a>, used in new experiment components<br>
+       <code>install.packages("irace") </code>
+	<br>
+	2.4. Install <a href="https://cran.r-project.org/web/packages/scatterplot3d/index.html">Scatterplot3D</a>, used in new experiment components:<br>
      <code>R</code><br>
 		<code>install.packages("scatterplot3d", repos="http://R-Forge.R-project.org") </code><br>
 	2.5. (optional) Install pdftk<br>
