@@ -57,7 +57,7 @@ public class GenerateScatterPoints implements ExperimentComponent{
     private String generate2Dfunction(){
         String str = 
 "objectivePoints <- function(instanceName){\n" +
-"	pareto <- paste(\"pareto_fronts/\",instanceName,sep=\"\")\n" +
+"	pareto <- paste(\"../pareto_fronts/\",instanceName,sep=\"\")\n" +
 "	instance<- paste(instanceName,\"/FUN0.tsv\",sep=\"\")\n" ;
         int i = 1;
         for (String tag : tags) {
@@ -67,8 +67,15 @@ public class GenerateScatterPoints implements ExperimentComponent{
         }
         str+=
 "	pf <- read.table(paste(pareto,\".pf\",sep=\"\"), header=FALSE, sep=\"\")\n\n" +
+"	max_y <- max(pf[,2])\n" +
+"	min_y <- min(pf[,2])\n\n" +
+"	max_x <- max(pf[,1])\n" +
+"	min_x <- min(pf[,1])\n"+
 "	colors <- c(\"red\", \"blue\",\"black\",\"orange\",\"green\", \"brown\", \"deepskyblue\", \"gray60\",\"yellow\")\n\n" +
-"	plot(pf[,1],pf[,2] ,col=colors[1], pch='.' , axes=FALSE, ann=FALSE)\n" ;
+"	plot(pf[,1],pf[,2] ,col=colors[1], pch='.' ,\n"+
+"			ylim=c(min_y,max_y), \n" +
+"			xlim=c(min_x,max_x), \n" + 
+"			ann=FALSE)\n" ;
         i = 1;
         for (String tag : tags) {
             str+="	points(algorithm"+i+"[,1],algorithm"+i+"[,2], col=colors["+(i+1)+"], pch='.')\n";
@@ -102,7 +109,7 @@ public class GenerateScatterPoints implements ExperimentComponent{
     private String generate3Dfunction(){
         String str=
 "objectivePoints3D <- function(instanceName){\n" +
-"	pareto <- paste(\"pareto_fronts/\",instanceName,sep=\"\")\n" +
+"	pareto <- paste(\"../pareto_fronts/\",instanceName,sep=\"\")\n" +
 "	instance<- paste(instanceName,\"/FUN0.tsv\",sep=\"\")\n" ;
         int i = 1;
         for (String tag : tags) {
@@ -111,8 +118,13 @@ public class GenerateScatterPoints implements ExperimentComponent{
             i++;
         }
         str+=    
-"	pf <- read.table(paste(pareto,\".pf\",sep=\"\"), header=FALSE, sep=\"\")\n" +
-"\n" +
+"	pf <- read.table(paste(pareto,\".pf\",sep=\"\"), header=FALSE, sep=\"\")\n\n" +
+"	max_x <- max(pf[,1])\n" +
+"	min_x <- min(pf[,1])\n\n"+
+"	max_y <- max(pf[,2])\n" +
+"	min_y <- min(pf[,2])\n\n" +
+"	max_z <- max(pf[,3])\n" +
+"	min_z <- min(pf[,3])\n\n"+   
 "	colors <- c(\"red\", \"blue\",\"black\",\"orange\",\"green\", \"brown\", \"deepskyblue\", \"gray60\",\"yellow\")\n" +
 "\n" +
 "	s3d <- scatterplot3d(pf[,1],pf[,2],pf[,3], pch='.', angle=45, color=colors[1] ,# axes=FALSE, ann=FALSE  ,col=colors[1]\n" +
@@ -120,6 +132,9 @@ public class GenerateScatterPoints implements ExperimentComponent{
 "		xlab= \"Objetivo 1\",	# Label the x  y z axes\n" +
 "		ylab= \"Objetivo 2\",\n" +
 "		zlab= \"Objetivo 3\",\n" +
+"		ylim=c(min_y,max_y),\n" +
+"		xlim=c(min_x,max_x),\n" +
+"		zlim=c(min_z,max_z),\n" +
 "		box=FALSE);\n" ;
         i = 1;
         for (String tag : tags) {

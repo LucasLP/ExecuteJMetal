@@ -3,6 +3,7 @@
 Bash Script to help statistical tests of Multi-Objective Evolutionary Algorithms.<br>
 This Scripts use <a href="https://jmetal.github.io/jMetal/">JMetal Framework 5.2</a>.<br>
 Only for Linux Users.<br>
+Include another two experiment components for JMetal, see in source code in java.<br>
 
   1. Use the src in additional files to programming your JMetalMain<br>
  Look at the end of this files for more informations.<br>
@@ -25,7 +26,7 @@ Only for Linux Users.<br>
      <code>R</code><br>
        <code>R> install.packages("irace")</code><br>
 
-	2.4. Install Scatterplot3D
+	2.4. Install Scatterplot3D, used in new experiment components<br>
      <code>R</code><br>
 		<code>install.packages("scatterplot3d", repos="http://R-Forge.R-project.org")</code><br>
 	2.5. (optional) Install pdftk<br>
@@ -88,20 +89,17 @@ It will execute the indicators of existing data files.<br>
       <ul>
       <li>renameAll.sh</li>
       <li>renameScript.sh</li>
-      <li>src/</li>
-        <ul>
+		</ul>
+    <li>src/</li>
+       <ul>
         <li>Configuration.java</li>
         <li>ExecuteExperiment.java</li>
         <li>JMetalMain.java</li>
         <li>MyRunner.java</li>
-        <li>my-algorithms-jmetal4.2/</li>
-				<ul>
-				<li>MOEAD_DRA_UCB/</li>
-				</ul>
-        </ul>
-      </ul>
-    <li>lib/ <i>Lib of you'r project</i></li>
-    <li>experiment/</li>
+       </ul>
+   <li>lib/ <i>Lib of you'r project</i></li>
+	<li>irace/</li> <i>Irace example using you compilation</i>
+   <li>experiment/</li>
     <ul>
       <li>MyExperiments/</li>
       <ul>
