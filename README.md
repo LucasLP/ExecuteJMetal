@@ -81,6 +81,8 @@ It will execute the indicators of existing data files.<br>
 <hr>
 <br>
 <b>Structure of tests</b><br>
+<img src="Additional/Diagram.jpeg"><br>
+
   <ul>
     <li>Execute.sh</li>
     <li>QualityIndicator.sh</li>

@@ -110,10 +110,101 @@ setBenchmark <- function(benchmark){
 	return (c())
 }
 
+
+#################################################################
+#			LATEX FUNCTIONS
+#################################################################
+latexCreate <- function(name){
+	write("", name,append=FALSE)
+	return (name)
+}
+
+latexHeader <- function(file) {
+  write("\\documentclass{article}", file, append=TRUE)
+  write("\\title{StandardStudy}", file, append=TRUE)
+  write("\\usepackage{amssymb}", file, append=TRUE)
+  write("\\usepackage{colortbl}", file, append=TRUE)
+  write("\\usepackage[table*]{xcolor}", file, append=TRUE)
+  write("\\xdefinecolor{gray95}{gray}{0.65}", file, append=TRUE)
+  write("\\xdefinecolor{gray25}{gray}{0.8}", file, append=TRUE)
+  write("\\author{name}\n", file, append=TRUE)
+  write("\\begin{document}", file, append=TRUE)
+  write("\\maketitle\n\n", file, append=TRUE)
+}
+
+latexNewSection <- function(file, section){
+  write(paste("\\section{",section,"}\n",sep=""), file, append=TRUE)
+}
+
+latexTail <- function(file) { 
+  write("\\end{document}", file, append=TRUE)
+}
+
+latexTableHeader <- function(file, problem, caption, label, tabularString, latexTableFirstLine) {
+  write("\\begin{table}[!h]", file, append=TRUE)
+  write(paste("\\caption{",caption,"} \\label{",label,"}", sep=""), file, append=TRUE)
+  write("\\centering", file, append=TRUE)
+  write("\\begin{scriptsize}", file, append=TRUE)
+  write(paste("\\begin{tabular}{",tabularString,"}\n\\hline",sep=""), file, append=TRUE)
+  write(latexTableFirstLine, file, append=TRUE)
+  write("\\hline ", file, append=TRUE)
+}
+
+latexTableLine <- function(file, line, best){
+	str <- paste(line[1]," & ",sep="")
+	for(i in 1:(length(best)-1)){
+		if(best[i]){
+			str <- paste(str, "\\cellcolor{gray95}", line[i+1], " & ",sep="")
+		}else{
+			str <- paste(str, line[i+1], " & ",sep="")
+		}
+	}
+	if(best[length(best)]){
+		str <- paste(str, "\\cellcolor{gray95}", line[length(best)+1], "\\\\")
+   }else{
+		str <- paste(str, line[length(best)+1], "\\\\",sep="")
+	}
+	write(str, file, append=TRUE)
+}
+
+latexTableTail <- function(file) { 
+  write("\\hline", file, append=TRUE)
+  write("\\end{tabular}", file, append=TRUE)
+  write("\\end{scriptsize}", file, append=TRUE)
+  write("\\end{table}", file, append=TRUE)
+}
+
+
+latexWinnersTable <- function(file, problem, algorithms){
+	instances <- setBenchmark(problem)
+	winners <- countWinners(algorithms,instances)
+	caption <- paste("Winners in \\emph{benchmark} ",problem,sep="")
+	label <- paste("Table:winners.",problem, sep="")
+	latexTableHeader(file, problem, caption, label, "llll","Algorithm & HV & IGD & $\\epsilon$\\\\")
+	for(w in 1:ncol(winners)){
+		best <- c(winners[w,2]==max(winners[,2]),winners[w,3]==max(winners[,3]),winners[w,4]==max(winners[,4]))
+		latexTableLine(file,winners[w,], best)
+	}
+	latexTableTail(file)
+}
+
+#################################################################
+#			SCRIPT START HERE
+#################################################################
+
 #source("functions.R") #load these functions
-
-
 algorithms <- c("MOEADDRA","NSGAII","IBEA","UCBHybrid")
-instances <- setBenchmark("LZ09")
-winners <- countWinners(algorithms,instances)
-print(winners)
+
+file <- latexCreate("result.tex")
+latexHeader(file)
+latexNewSection(file, "Winner Tables")
+
+latexWinnersTable(file, "UF", algorithms)
+latexWinnersTable(file, "LZ09", algorithms)
+latexWinnersTable(file, "GLT", algorithms)
+latexWinnersTable(file, "WFG", algorithms)
+latexWinnersTable(file, "ZDT", algorithms)
+latexWinnersTable(file, "DTLZ", algorithms)
+
+latexTail(file)
+
