@@ -5,10 +5,10 @@ This Scripts use <a href="https://jmetal.github.io/jMetal/">JMetal Framework 5.2
 Only for Linux Users.<br>
 Include another two experiment components for JMetal, see in source code in java.<br>
 
-  1. Use the src in additional files to programming your JMetalMain<br>
+1. Use the src in additional files to programming your JMetalMain<br>
  Look at the end of this files for more informations.<br>
   
-  2. Install some programs<br>
+2. Install some programs<br>
 	2.1. You need <b>LaTeX</b> - For .tex files<br>
 <code>sudo apt-get install texlive-full</code><br>
 <code>sudo apt install texlive-latex-base</code><br>
@@ -17,12 +17,12 @@ Include another two experiment components for JMetal, see in source code in java
 <code>sudo apt-get install texlive-science</code><br>
 
 
-   2.2. You need <b>R Language</b> - for .R files<br>
+	2.2. You need <b>R Language</b> - for .R files<br>
 <code>sudo apt-get update</code><br>
 <code>sudo apt-get install r-base</code><br>
 <code>sudo apt-get install r-base-dev</code><br>
 
-   2.3. Install <a href="http://iridia.ulb.ac.be/irace/">Irace:</a><br>
+	2.3. Install <a href="http://iridia.ulb.ac.be/irace/">Irace:</a><br>
      <code>R</code><br>
        <code>install.packages("irace") </code>
 	<br>
@@ -33,16 +33,16 @@ Include another two experiment components for JMetal, see in source code in java
 	<code>sudo apt-get install pdftk</code><br>
 
 
-  3. Configure Execute.sh<br>
-    3.1. Set Benchmark<br>
-    3.2. Set Algorithm and its Tag (tag is the name of data files)<br>
-    3.3. Set Execution line<br>
-    3.4. Set Comparative Line<br>
+3. Configure Execute.sh<br>
+	3.1. Set Benchmark<br>
+	3.2. Set Algorithm and its Tag (tag is the name of data files)<br>
+	3.3. Set Execution line<br>
+	3.4. Set Comparative Line<br>
     
-  4. Execute<br>
+4. Execute<br>
 <code>sh Execute.sh</code><br>
 
-  5. Analyse the results in folder: experiment/MyExperiments/Result_$experimentName_$benchmark/
+5. Analyse the results in folder: experiment/MyExperiments/Result_$experimentName_$benchmark/
 
 <hr>
 
