@@ -1,5 +1,0 @@
-pdf("plot_UF1.pdf")
-source("Rscript_chart_HV_UF1.R")
-source("Rscript_chart_Epsilon_UF1.R")
-source("Rscript_chart_IGD_UF1.R")
-source("Rscript_chart_Spread_UF1.R")

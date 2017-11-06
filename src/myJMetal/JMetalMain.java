@@ -13,7 +13,7 @@ import javax.management.JMException;
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class JMetalMain {
-    public static String myVersion(){return "v1.5   10/10/2017";}
+    public static String myVersion(){return "v1.6   31/10/2017";}
     
 
     public static void main(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
@@ -36,7 +36,7 @@ public class JMetalMain {
                 case "--single-run":
                     System.out.println("\nMode Selected: Single Run");
                     System.out.println("================================");
-                    String[] args2 = new String[2];//
+                    String[] args2 = new String[2];//problem, pf
                     String path = conf.problemPath(conf.parameters.get("--problem"));
                     args2[0] ="org.uma.jmetal.problem.multiobjective."+path+"."+conf.parameters.get("--problem");
                     args2[1] ="/resources/pareto_fronts/"+conf.parameters.get("--problem")+".pf";

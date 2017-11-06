@@ -14,7 +14,7 @@ import java.util.Map;
  *     3.1 Select operator if ucbSet is working
  *     3.2 Adjust Sliding window and calculate credit assignment is ucbSet is working
  * 
- * @author Lucas Prestes
+ * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class UCB_set {
     

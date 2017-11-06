@@ -14,7 +14,9 @@ import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 
 /**
  *  <b>Work only in problems with 2 and 3 objetives</b>
- * Need: install.packages("scatterplot3d", repos="http://R-Forge.R-project.org")
+ * Need: install.packages("scatterplot3d", repos="http://R-Forge.R-project.org") for 3 objectives
+ * For use this class, you only need to instanciate with experiment (after GenerateLatexTablesWithStatistics)
+ * and call run()
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class GenerateScatterPoints implements ExperimentComponent{
