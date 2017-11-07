@@ -288,6 +288,78 @@ objectivePoints3D <- function(instanceName, algorithmsNames){
 			pch='.',
 			lty=1);
 }
+#################################################################
+#			LINE PLOT ::EVOLUTION:: FUNCTIONS
+#################################################################
+linePlotEvolution <- function(instance, indicator, algorithmsNames){
+	# Read data file
+	algorithms <- c()
+	for(i in 1:length(algorithmsNames) ){
+		algorithms[[i]] <- read.table(paste("../history/",algorithmsNames[i],"/data_",indicator,"_",instance,".dat",sep=""), header=T, sep="\t") 
+	}
+	# Compute the max and min y 
+	max_y <- max(unlist(lapply(algorithms,FUN=max)))
+	min_y <- min(unlist(lapply(algorithms,FUN=min)))
+
+		# Define colors to be used
+	plot_colors <- c("blue","black","orange","green", "brown", "deepskyblue", "gray60","yellow")
+	
+
+	algorithm1mean <- c()
+	algorithm1Q <- c()
+	algorithm <- algorithms[[1]]
+	#calcules mean, 1o quartil and 3 quartil
+	for(n in 1:100){ 
+		algorithm1mean<-append(algorithm1mean,mean(algorithm[,n]))
+		algorithm1Q <-rbind(algorithm1Q,quantile(algorithm[,n], c(0.25,0.75),type=1))#rbind is to merge, or, add new line in data frame
+	}
+
+	plot(algorithm1mean, type="o", col=plot_colors[1],  
+		xlim=c(0,100),	# Make x,y axis 
+		ylim=c(min_y,max_y), 
+		ann=FALSE, pch='.', lty=1)
+
+	lines(algorithm1Q[,1], type="o", pch='.', lty=2, col=plot_colors[1])
+	lines(algorithm1Q[,2], type="o", pch='.', lty=2, col=plot_colors[1])
+
+	for(i in 2:length(algorithmsNames)){
+		algorithmMean <- c()
+		algorithmQ <- c()
+		#calcules mean, 1o quartil and 3 quartil
+		algorithm <- algorithms[[i]]
+		for(n in 1:100){ 
+			algorithmMean<-append(algorithmMean,mean(algorithm[,n]))
+			algorithmQ <-rbind(algorithmQ,quantile(algorithm[,n], c(0.25,0.75),type=1))#rbind is to merge, or, add new line in data frame
+		}
+		lines(algorithmMean, type="o", pch='.', lty=1, col=plot_colors[i])
+		lines(algorithmQ[,1], type="o", pch='.', lty=2, col=plot_colors[i])
+		lines(algorithmQ[,2], type="o", pch='.', lty=2, col=plot_colors[i])
+	}
+
+	# Create box around plot
+	box()
+
+	# Create a title bold/italic font
+	title(main=paste("Quality Indicator ",instance," for ",indicator,sep=""), font.main=4)
+
+	# Label the x and y axes
+	title(xlab= "% of Evolutions")
+	title(ylab= "Quality Indicator value")
+
+	# Create a legend
+	legend("bottomright", algorithmsNames, cex=0.8, col=plot_colors, pch=21:23, lty=1:3);
+}
+
+
+
+
+
+
+
+
+
+
+
 
 #################################################################
 #			SCRIPT START HERE
@@ -315,11 +387,19 @@ latexTail(file)
 
 
 algorithms <- c("MOEADDRA","NSGAII","IBEA","UCBHybrid")
+benchmark <- setBenchmark("ZDT")
+par(mfrow=c(2,2))
+for(instance in benchmark){
+	linePlotEvolution(instance,"HV",algorithms)
+	objectivePoints(instance, algorithms)	
+}
+
+
+
+if(FALSE){
 par(mfrow=c(2,2)) #each page has 2x2 plots
-objectivePoints("WFG1", algorithms)
+objectivePoints("WFG1", algorithms)	
 objectivePoints("WFG2", algorithms)
-
-
 
 objectivePoints("UF1", algorithms)
 objectivePoints("UF2", algorithms)
@@ -331,6 +411,7 @@ objectivePoints("UF7", algorithms)
 objectivePoints3D("UF8", algorithms)
 objectivePoints3D("UF9", algorithms)
 objectivePoints3D("UF10", algorithms)
+}
 
 
 
