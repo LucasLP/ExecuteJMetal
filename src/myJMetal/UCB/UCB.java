@@ -1,9 +1,18 @@
 package myJMetal.UCB;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,8 +35,10 @@ public class UCB implements UCBInterface{
     private int lastOperator;//index of last operator choose
     
     private Integer[] history_using;
+    private List<Object> operatorUsed;
 
     public UCB(Object operator_pool[]){
+        operatorUsed = new ArrayList<>();
         SW_operator = new ArrayList<>();
         K_operators = operator_pool;
         n = new Integer[K_operators.length];
@@ -47,6 +58,7 @@ public class UCB implements UCBInterface{
     }
 
     public UCB(Object operator_pool[], WeightFunction function){
+        operatorUsed = new ArrayList<>();
         SW_operator = new ArrayList<>();
         K_operators = operator_pool;
         n = new Integer[K_operators.length];
@@ -94,6 +106,7 @@ public class UCB implements UCBInterface{
         }
         lastOperator = op;
         history_using[lastOperator]++;
+        operatorUsed.add(getOperator());
     }
 
  
@@ -190,4 +203,43 @@ public class UCB implements UCBInterface{
         return K_operators;
     }
    
+    
+    
+    /**
+     * Will save operator used append in new line
+     * @param nameAlgorithm for file names
+     */
+    public void printOperatorsUsed(String nameAlgorithm, String problem){
+        String outputDir = "experiment/MyExperiments/ucbHistory/"+nameAlgorithm+"/";
+        File f = new File(outputDir);
+        if(!f.exists()){
+            f.mkdirs();
+        }
+        File file = new File(outputDir+"operators_"+problem+".dat");
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(UCB.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        String str ="";
+        int i = 0;
+        for (Object op : operatorUsed) {
+            if(i>=60){
+                str += op +" ";
+            }
+            i++;
+        }
+        
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println(str);
+            pw.flush();
+            pw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(UCB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

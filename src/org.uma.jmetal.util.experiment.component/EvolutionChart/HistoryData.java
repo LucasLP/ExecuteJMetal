@@ -46,6 +46,7 @@ import org.uma.jmetal.util.point.util.PointSolution;
  */
 public class HistoryData {
     public static final String DEFAULT_BASE = "history";
+    public static final Integer MAX_DATA = 100;
     private Integer testId;
     
     private Integer numberOfData;
@@ -59,7 +60,7 @@ public class HistoryData {
 
     public HistoryData(Integer numberOfTest) {
         this.testId = -1;
-        this.numberOfData = 100;
+        this.numberOfData = MAX_DATA;
         this.numberOfTest = numberOfTest;
         history = new Double[this.numberOfData][this.numberOfTest];
 
@@ -69,6 +70,14 @@ public class HistoryData {
             }
         }
         
+    }
+    
+    public Double[] getDataTest(int index){
+        Double data[] = new Double[MAX_DATA];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = history[i][index];
+        }
+        return data;
     }
     
     public void addData(Double data, Integer timeIndex){

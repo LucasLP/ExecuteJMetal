@@ -100,6 +100,9 @@ public class UCB_set {
         ucb.setSetUCB(this);
     }
     
+    public UCBInterface getUCB(String name){
+        return selector.get(name);
+    }
     
     
     public void selectOperators(){
@@ -214,4 +217,6 @@ public class UCB_set {
             step++;
         }
     }
+    
+    
 }

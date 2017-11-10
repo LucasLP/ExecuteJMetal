@@ -317,8 +317,8 @@ public class Configuration {
                     case "problems":
                         return Arrays.asList(new String[]{"MOP1","MOP2","MOP3","MOP4","MOP5","MOP6","MOP7"});
                     case "paretoFront":
-                        return Arrays.asList(new String[]{"MOP1.2D.pf","MOP2.2D.pf","MOP3.2D.pf","MOP4.2D.pf","MOP5.2D.pf",
-                            "MOP6.2D.pf","MOP7.2D.pf"});
+                        return Arrays.asList(new String[]{"MOP1.pf","MOP2.pf","MOP3.pf","MOP4.pf","MOP5.pf",
+                            "MOP6.pf","MOP7.pf"});
                 }
             case "GLT":
                 switch (choice) {

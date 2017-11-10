@@ -22,10 +22,11 @@ public class JMetalMain {
         //args = "--comparative ZDT --algorithm MOEADDRA --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace".split(" ");
         //args = "--statistic /ZDT --algorithm MOEADDRAUCBIrace".split(" ");
         //comparative --algorithm MOEADDRAUCBIrace
-        //args = "--single-run /UF8 --algorithm IBEA ".split(" ");
-        
+        //args = "--single-run /ZDT1 --algorithm MOEADDRAUCBIrace ".split(" ");        
+        args = "--single-run /ZDT1 --algorithm MOEADDRA".split(" ");    
         //args = "--single-run /UF3 --algorithm MOEADDRAUCB --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
         execute(args);
+        
     }
     
     // --single-run  --statistic  --indicators   --comparative

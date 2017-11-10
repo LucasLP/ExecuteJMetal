@@ -243,7 +243,7 @@ objectivePoints <- function(instanceName, algorithmsNames){
 }
 
 
-
+# 3D plot - using scatterplot3d
 objectivePoints3D <- function(instanceName, algorithmsNames){
 	pareto <- paste("../pareto_fronts/",instanceName,sep="")
 	instance<- paste(instanceName,"/FUN0.tsv",sep="")
@@ -288,8 +288,13 @@ objectivePoints3D <- function(instanceName, algorithmsNames){
 			pch='.',
 			lty=1);
 }
+
 #################################################################
 #			LINE PLOT ::EVOLUTION:: FUNCTIONS
+#		- you need to save the historic of some indicator(s) to generate this plot
+#		- example of save:
+#		/experiment/MyExperiment/history/NSGAII/data_HV_UF1.dat
+#		each line contains a vector of a test, where, each value is a HV at some step in the search
 #################################################################
 linePlotEvolution <- function(instance, indicator, algorithmsNames){
 	# Read data file
@@ -354,8 +359,16 @@ linePlotEvolution <- function(instance, indicator, algorithmsNames){
 
 
 
-
-
+# Pass the algorithms and benchmarks to put in the tables
+winnerTables <- function(algorithms, benchmarks){
+	file <- latexCreate("result_winner_tables.tex")
+	latexHeader(file)
+	latexNewSection(file, "Winner Tables")
+	for(benchmark in benchmarks){
+		latexWinnersTable(file, benchmark, algorithms)
+	}
+	latexTail(file)
+}
 
 
 
@@ -366,23 +379,12 @@ linePlotEvolution <- function(instance, indicator, algorithmsNames){
 #################################################################
 
 #source("functions.R") #load these functions
-if(FALSE){
+
+
+
 algorithms <- c("MOEADDRA","NSGAII","IBEA","UCBHybrid")
-
-file <- latexCreate("result.tex")
-latexHeader(file)
-latexNewSection(file, "Winner Tables")
-
-latexWinnersTable(file, "UF", algorithms)
-latexWinnersTable(file, "LZ09", algorithms)
-latexWinnersTable(file, "GLT", algorithms)
-latexWinnersTable(file, "WFG", algorithms)
-latexWinnersTable(file, "ZDT", algorithms)
-latexWinnersTable(file, "DTLZ", algorithms)
-
-latexTail(file)
-}
-
+#benchmarks <- c("UF","LZ09","GLT","WFG","ZDT","DTLZ")
+#winnerTables(algorithms,benchmarks)
 
 
 
@@ -396,21 +398,22 @@ for(instance in benchmark){
 
 
 
-if(FALSE){
-par(mfrow=c(2,2)) #each page has 2x2 plots
-objectivePoints("WFG1", algorithms)	
-objectivePoints("WFG2", algorithms)
 
-objectivePoints("UF1", algorithms)
-objectivePoints("UF2", algorithms)
-objectivePoints("UF3", algorithms)
-objectivePoints("UF4", algorithms)
-objectivePoints("UF5", algorithms)
-objectivePoints("UF6", algorithms)
-objectivePoints("UF7", algorithms)
-objectivePoints3D("UF8", algorithms)
-objectivePoints3D("UF9", algorithms)
-objectivePoints3D("UF10", algorithms)
+if(FALSE){
+	par(mfrow=c(2,2)) #each page has 2x2 plots
+	objectivePoints("WFG1", algorithms)	
+	objectivePoints("WFG2", algorithms)
+
+	objectivePoints("UF1", algorithms)
+	objectivePoints("UF2", algorithms)
+	objectivePoints("UF3", algorithms)
+	objectivePoints("UF4", algorithms)
+	objectivePoints("UF5", algorithms)
+	objectivePoints("UF6", algorithms)
+	objectivePoints("UF7", algorithms)
+	objectivePoints3D("UF8", algorithms)
+	objectivePoints3D("UF9", algorithms)
+	objectivePoints3D("UF10", algorithms)
 }
 
 
