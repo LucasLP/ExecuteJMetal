@@ -134,13 +134,11 @@ For use this module, you need follow this steps:<br>
 
 The Scatter Plot of point can be found at "experiment/MyExperiments/comparison/functions.R".<br>
 You can import the scripts and use, like:
-<code>
-R
-source("functions.R")
-algorithms = c("MOEADDRA","NSGAII","IBEA")
-objectivePoints("UF7", algorithms)
-objectivePoints3D("UF8", algorithms)
-</code>
+<code>R</code><br>
+<code>source("functions.R")</code><br>
+<code>algorithms = c("MOEADDRA","NSGAII","IBEA")</code><br>
+<code>objectivePoints("UF7", algorithms)</code><br>
+<code>objectivePoints3D("UF8", algorithms)</code><br>
 
 <br>
 <img src="Additional/scatter-Plot.png"><br>
