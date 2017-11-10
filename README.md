@@ -130,3 +130,19 @@ For use this module, you need follow this steps:<br>
 </ul>
 <i>Obs.: Run it before the run of other Experiment Components (generate of tables and scripts) because these components can modify the experiment algorithm, then you should have an exception;</i>
 
+<hr>
+
+The Scatter Plot of point can be found at "experiment/MyExperiments/comparison/functions.R".<br>
+You can import the scripts and use, like:
+<code>
+R
+source("functions.R")
+algorithms = c("MOEADDRA","NSGAII","IBEA")
+objectivePoints("UF7", algorithms)
+objectivePoints3D("UF8", algorithms)
+</code>
+
+<br>
+<img src="Additional/scatter-Plot.png"><br>
+
+
