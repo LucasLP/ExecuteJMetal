@@ -280,65 +280,66 @@ public class Configuration {
     public List<String> getParameter(String choice, String problem){
         if(null != problem){
             switch (problem) {
-            case "ZDT":
-                switch (choice) {
-                    case "problems":
-                        return Arrays.asList(new String[]{"ZDT1", "ZDT2","ZDT3", "ZDT4","ZDT6"});
-                    case "paretoFront":
-                        return Arrays.asList(new String[]{"ZDT1.pf", "ZDT2.pf","ZDT3.pf", "ZDT4.pf","ZDT6.pf"});
-                }
-            case "UF":
-                switch (choice) {
-                    case "problems":// });//
-                        return Arrays.asList(new String[]{"UF1","UF2","UF3","UF4","UF5","UF6","UF7","UF8","UF9","UF10"});
-                    case "paretoFront":
-                        return Arrays.asList(new String[]{"UF1.pf","UF2.pf","UF3.pf","UF4.pf","UF5.pf","UF6.pf","UF7.pf","UF8.pf","UF9.pf","UF10.pf"});
-                }
-             case "WFG":
-                switch (choice) {
-                    case "problems":
-                        return Arrays.asList(new String[]{"WFG1","WFG2","WFG3","WFG4","WFG5",
-                                            "WFG6","WFG7","WFG8","WFG9"});
-                    case "paretoFront":
-                        return Arrays.asList(new String[]{"WFG1.2D.pf","WFG2.2D.pf","WFG3.2D.pf","WFG4.2D.pf","WFG5.2D.pf",
-                            "WFG6.2D.pf","WFG7.2D.pf","WFG8.2D.pf","WFG9.2D.pf"});
-                }
-            case "DTLZ":
-                switch (choice) {
-                    case "problems":
-                        return Arrays.asList(new String[]{"DTLZ1","DTLZ2","DTLZ3","DTLZ4",//"DTLZ5",
-                                            "DTLZ6","DTLZ7"});
-                    case "paretoFront":
-                        return Arrays.asList(new String[]{"DTLZ1.pf","DTLZ2.pf","DTLZ3.pf","DTLZ4.pf",//"DTLZ5.2D.pf",
-                            "DTLZ6.pf","DTLZ7.pf"});
-                }
-            case "MOP":
-                switch (choice) {
-                    case "problems":
-                        return Arrays.asList(new String[]{"MOP1","MOP2","MOP3","MOP4","MOP5","MOP6","MOP7"});
-                    case "paretoFront":
-                        return Arrays.asList(new String[]{"MOP1.pf","MOP2.pf","MOP3.pf","MOP4.pf","MOP5.pf",
-                            "MOP6.pf","MOP7.pf"});
-                }
-            case "GLT":
-                switch (choice) {
-                    case "problems":
-                        return Arrays.asList(new String[]{"GLT1","GLT2","GLT3","GLT4","GLT5"});//,"GLT6"});
-                    case "paretoFront":
-                        return Arrays.asList(new String[]{"GLT1.pf","GLT2.pf","GLT3.pf","GLT4.pf","GLT5.pf"});
+                case "ZDT":
+                    switch (choice) {
+                        case "problems":
+                            return Arrays.asList(new String[]{"ZDT1", "ZDT2","ZDT3", "ZDT4","ZDT6"});
+                        case "paretoFront":
+                            return Arrays.asList(new String[]{"ZDT1.pf", "ZDT2.pf","ZDT3.pf", "ZDT4.pf","ZDT6.pf"});
+                    }
+                case "UF":
+                    switch (choice) {
+                        case "problems":// });//
+                            return Arrays.asList(new String[]{"UF1","UF2","UF3","UF4","UF5","UF6","UF7","UF8","UF9","UF10"});
+                        case "paretoFront":
+                            return Arrays.asList(new String[]{"UF1.pf","UF2.pf","UF3.pf","UF4.pf","UF5.pf","UF6.pf","UF7.pf","UF8.pf","UF9.pf","UF10.pf"});
+                    }
+                case "WFG":
+                    switch (choice) {
+                        case "problems":
+                            return Arrays.asList(new String[]{"WFG1","WFG2","WFG3","WFG4","WFG5",
+                                "WFG6","WFG7","WFG8","WFG9"});
+                        case "paretoFront":
+                            return Arrays.asList(new String[]{"WFG1.2D.pf","WFG2.2D.pf","WFG3.2D.pf","WFG4.2D.pf","WFG5.2D.pf",
+                                "WFG6.2D.pf","WFG7.2D.pf","WFG8.2D.pf","WFG9.2D.pf"});
+                    }
+                case "DTLZ":
+                    switch (choice) {
+                        case "problems":
+                            return Arrays.asList(new String[]{"DTLZ1","DTLZ2","DTLZ3","DTLZ4",//"DTLZ5",
+                                "DTLZ6","DTLZ7"});
+                        case "paretoFront":
+                            return Arrays.asList(new String[]{"DTLZ1.pf","DTLZ2.pf","DTLZ3.pf","DTLZ4.pf",//"DTLZ5.2D.pf",
+                                "DTLZ6.pf","DTLZ7.pf"});
+                    }
+                case "MOP":
+                    switch (choice) {
+                        case "problems":
+                            return Arrays.asList(new String[]{"MOP1","MOP2","MOP3","MOP4","MOP5","MOP6","MOP7"});
+                        case "paretoFront":
+                            return Arrays.asList(new String[]{"MOP1.pf","MOP2.pf","MOP3.pf","MOP4.pf","MOP5.pf",
+                                "MOP6.pf","MOP7.pf"});
+                    }
+                case "GLT":
+                    switch (choice) {
+                        case "problems":
+                            return Arrays.asList(new String[]{"GLT1","GLT2","GLT3","GLT4","GLT5"});//,"GLT6"});
+                        case "paretoFront":
+                            return Arrays.asList(new String[]{"GLT1.pf","GLT2.pf","GLT3.pf","GLT4.pf","GLT5.pf"});
                             //,"GLT6.pf"});
-                }
-            case "LZ09":
-                switch (choice){
-                    case "problems:":
-                        return Arrays.asList(new String[]{"LZ09F1","LZ09F2","LZ09F3","LZ09F4","LZ09F5",
-                        "LZ09F6","LZ09F7","LZ09F8","LZ09F9"});
-                    case "paretoFront":
-                        return Arrays.asList(new String[]{"LZ09F1.pf","LZ09F2.pf","LZ09F3.pf",
-                            "LZ09F4.pf","LZ09F5.pf","LZ09F6.pf",
-                            "LZ09F7.pf","LZ09F8.pf","LZ09F9.pf"});
-                        }
-                }
+                    }
+                case "LZ09":
+                    switch (choice){
+                        case "problems":
+                            return Arrays.asList(new String[]{"LZ09F1","LZ09F2","LZ09F3","LZ09F4","LZ09F5","LZ09F6","LZ09F7","LZ09F8","LZ09F9"});
+                        case "paretoFront":
+                            return Arrays.asList(new String[]{"LZ09F1.pf","LZ09F2.pf","LZ09F3.pf",
+                                "LZ09F4.pf","LZ09F5.pf","LZ09F6.pf",
+                                "LZ09F7.pf","LZ09F8.pf","LZ09F9.pf"});
+                    }
+                default:
+                    break;
+            }
         }
         return null;
     }
@@ -356,6 +357,8 @@ public class Configuration {
             return "wfg";
         }else if(getParameter("problems", "DTLZ").contains(p)){
             return "dtlz";
+        }else if(getParameter("problems", "GLT").contains(p)){
+            return "glt";
         }else if(getParameter("problems", "LZ09").contains(p)){
             return "lz09";
         }
