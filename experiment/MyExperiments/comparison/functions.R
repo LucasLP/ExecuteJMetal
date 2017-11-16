@@ -299,40 +299,51 @@ objectivePoints3D <- function(instanceName, algorithmsNames){
 linePlotEvolution <- function(instance, indicator, algorithmsNames){
 	# Read data file
 	algorithms <- c()
+	xmax <- 100 #default #number of steps in evolution process data
+	# Define colors to be used
+	plot_colors <- c("blue","black","orange","green", "brown", "deepskyblue", "gray60","yellow")
+
+	zoommin <- 0		#plot only from this
+	zoommax <- 99		#at this value
 	for(i in 1:length(algorithmsNames) ){
-		algorithms[[i]] <- read.table(paste("../history/",algorithmsNames[i],"/data_",indicator,"_",instance,".dat",sep=""), header=T, sep="\t") 
+		algorithm <- read.table(paste("../history/",algorithmsNames[i],"/data_",indicator,"_",instance,".dat",sep=""), header=T, sep="\t") 
+		algorithm <- algorithm[,(-1:-zoommin)]# "zoom"at the line
+		algorithm <- algorithm[,(-(zoommax-zoommin):-100)]#
+		xmax <- length(algorithm)
+		algorithms[[i]] <- algorithm
 	}
 	# Compute the max and min y 
 	max_y <- max(unlist(lapply(algorithms,FUN=max)))
 	min_y <- min(unlist(lapply(algorithms,FUN=min)))
 
-		# Define colors to be used
-	plot_colors <- c("blue","black","orange","green", "brown", "deepskyblue", "gray60","yellow")
-	
 
 	algorithm1mean <- c()
 	algorithm1Q <- c()
 	algorithm <- algorithms[[1]]
-	#calcules mean, 1o quartil and 3 quartil
-	for(n in 1:100){ 
+	for(n in 1:xmax){ 	#calcules mean, 1o quartil and 3 quartil
 		algorithm1mean<-append(algorithm1mean,mean(algorithm[,n]))
 		algorithm1Q <-rbind(algorithm1Q,quantile(algorithm[,n], c(0.25,0.75),type=1))#rbind is to merge, or, add new line in data frame
 	}
 
-	plot(algorithm1mean, type="o", col=plot_colors[1],  
-		xlim=c(0,100),	# Make x,y axis 
-		ylim=c(min_y,max_y), 
-		ann=FALSE, pch='.', lty=1)
+	#FIRST ALGORITHM
+	plot(algorithm1mean, type="o", pch='.', lty=1, col=plot_colors[1],  
+		xaxt='n',#this axis will be described later
+		ylim=c(min_y,max_y), # Make y axis 
+		ann=FALSE)
+
+	l = seq(0,zoommax,10)# points where is to plot
+	lab = l+zoommin		# labels 
+	axis(1,at=l,labels=lab)
 
 	lines(algorithm1Q[,1], type="o", pch='.', lty=2, col=plot_colors[1])
 	lines(algorithm1Q[,2], type="o", pch='.', lty=2, col=plot_colors[1])
 
+	#OTHER ALGORITHMS
 	for(i in 2:length(algorithmsNames)){
-		algorithmMean <- c()
+		algorithmMean <- c()		
 		algorithmQ <- c()
-		#calcules mean, 1o quartil and 3 quartil
 		algorithm <- algorithms[[i]]
-		for(n in 1:100){ 
+		for(n in 1:xmax){ #calcules mean, 1o quartil and 3 quartil
 			algorithmMean<-append(algorithmMean,mean(algorithm[,n]))
 			algorithmQ <-rbind(algorithmQ,quantile(algorithm[,n], c(0.25,0.75),type=1))#rbind is to merge, or, add new line in data frame
 		}
@@ -341,16 +352,14 @@ linePlotEvolution <- function(instance, indicator, algorithmsNames){
 		lines(algorithmQ[,2], type="o", pch='.', lty=2, col=plot_colors[i])
 	}
 
+	grid(col="black")
 	# Create box around plot
 	box()
-
 	# Create a title bold/italic font
 	title(main=paste("Quality Indicator ",instance," for ",indicator,sep=""), font.main=4)
-
 	# Label the x and y axes
 	title(xlab= "% of Evolutions")
 	title(ylab= "Quality Indicator value")
-
 	# Create a legend
 	legend("bottomright", algorithmsNames, cex=0.8, col=plot_colors, pch=21:23, lty=1:3);
 }
@@ -381,25 +390,26 @@ winnerTables <- function(algorithms, benchmarks){
 #source("functions.R") #load these functions
 
 
-
-algorithms <- c("MOEADDRA","NSGAII","IBEA","UCBHybrid")
-#benchmarks <- c("UF","LZ09","GLT","WFG","ZDT","DTLZ")
-#winnerTables(algorithms,benchmarks)
-
-
-
-algorithms <- c("MOEADDRA","NSGAII","IBEA","UCBHybrid")
+#par(mfrow=c(2,2))
+algorithms <- c("MOEADDRA","UCBIrace","UCBIraceNew")
 benchmark <- setBenchmark("ZDT")
-par(mfrow=c(2,2))
-for(instance in benchmark){
-	linePlotEvolution(instance,"HV",algorithms)
-	objectivePoints(instance, algorithms)	
-}
+#par(mfrow=c(2,2))
+linePlotEvolution("ZDT1","HV",algorithms)
+#for(instance in benchmark){
+#	linePlotEvolution(instance,"HV",algorithms)
+#	objectivePoints(instance, algorithms)	
+#}
+
+
+
 
 
 
 
 if(FALSE){
+#benchmarks <- c("UF","LZ09","GLT","WFG","ZDT","DTLZ")
+#winnerTables(algorithms,benchmarks)
+
 	par(mfrow=c(2,2)) #each page has 2x2 plots
 	objectivePoints("WFG1", algorithms)	
 	objectivePoints("WFG2", algorithms)
@@ -414,9 +424,8 @@ if(FALSE){
 	objectivePoints3D("UF8", algorithms)
 	objectivePoints3D("UF9", algorithms)
 	objectivePoints3D("UF10", algorithms)
+
 }
-
-
 
 
 
