@@ -303,7 +303,7 @@ linePlotEvolution <- function(instance, indicator, algorithmsNames){
 	# Define colors to be used
 	plot_colors <- c("blue","black","orange","green", "brown", "deepskyblue", "gray60","yellow")
 
-	zoommin <- 0		#plot only from this
+	zoommin <- 40		#plot only from this
 	zoommax <- 99		#at this value
 	for(i in 1:length(algorithmsNames) ){
 		algorithm <- read.table(paste("../history/",algorithmsNames[i],"/data_",indicator,"_",instance,".dat",sep=""), header=T, sep="\t") 
@@ -361,7 +361,7 @@ linePlotEvolution <- function(instance, indicator, algorithmsNames){
 	title(xlab= "% of Evolutions")
 	title(ylab= "Quality Indicator value")
 	# Create a legend
-	legend("bottomright", algorithmsNames, cex=0.8, col=plot_colors, pch=21:23, lty=1:3);
+	legend("bottomright", algorithmsNames, cex=0.6, col=plot_colors, pch=21:23, lty=1:3);
 }
 
 
@@ -380,52 +380,6 @@ winnerTables <- function(algorithms, benchmarks){
 }
 
 
-
-
-
-#################################################################
-#			SCRIPT START HERE
-#################################################################
-
-#source("functions.R") #load these functions
-
-
-#par(mfrow=c(2,2))
-algorithms <- c("MOEADDRA","UCBIrace","UCBIraceNew")
-benchmark <- setBenchmark("ZDT")
-#par(mfrow=c(2,2))
-linePlotEvolution("ZDT1","HV",algorithms)
-#for(instance in benchmark){
-#	linePlotEvolution(instance,"HV",algorithms)
-#	objectivePoints(instance, algorithms)	
-#}
-
-
-
-
-
-
-
-if(FALSE){
-#benchmarks <- c("UF","LZ09","GLT","WFG","ZDT","DTLZ")
-#winnerTables(algorithms,benchmarks)
-
-	par(mfrow=c(2,2)) #each page has 2x2 plots
-	objectivePoints("WFG1", algorithms)	
-	objectivePoints("WFG2", algorithms)
-
-	objectivePoints("UF1", algorithms)
-	objectivePoints("UF2", algorithms)
-	objectivePoints("UF3", algorithms)
-	objectivePoints("UF4", algorithms)
-	objectivePoints("UF5", algorithms)
-	objectivePoints("UF6", algorithms)
-	objectivePoints("UF7", algorithms)
-	objectivePoints3D("UF8", algorithms)
-	objectivePoints3D("UF9", algorithms)
-	objectivePoints3D("UF10", algorithms)
-
-}
 
 
 
