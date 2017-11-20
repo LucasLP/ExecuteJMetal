@@ -30,15 +30,16 @@ import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 
 
 /**
- *
- * @author lucas
+ * This Experiment class was created to be generic 
+ * and execute different types of algorithms and experiment components
+ * @author Lucas Prestes <lucas.prestes.lp@gmail.com>
  */
 public class ExecuteExperiment {
-  private List<ExperimentProblem<DoubleSolution>> problemList;
-  private List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList;
-  
-  private Configuration configuration;
-  
+    private List<ExperimentProblem<DoubleSolution>> problemList;
+    private List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList;
+
+    private Configuration configuration;
+
 
     public ExecuteExperiment(Configuration configuration) {
         this.configuration = configuration;
@@ -46,71 +47,66 @@ public class ExecuteExperiment {
     }
   
   
-  
-  public void execute() throws IOException{
-    problemList = configuration.setProblemList();
-    configureAlgorithmList();
-    List<String> referenceFrontFileNames = configuration.getParameter("paretoFront", configuration.parameters.get("--problem"));
+    public void execute() throws IOException {
+        problemList = configuration.setProblemList();
+        configureAlgorithmList();
+        List<String> referenceFrontFileNames = configuration.getParameter("paretoFront", configuration.parameters.get("--problem"));
 
-    Experiment<DoubleSolution, List<DoubleSolution>> experiment =
-        new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(configuration.experimentName)
-            .setAlgorithmList(algorithmList)
-            .setProblemList(problemList)
-            .setReferenceFrontDirectory(configuration.paretoFrontDirectory)
-            .setReferenceFrontFileNames(referenceFrontFileNames)
-            .setExperimentBaseDirectory(configuration.baseDirectory)
-            .setOutputParetoFrontFileName("FUN")
-            .setOutputParetoSetFileName("VAR")
-            .setIndicatorList(Arrays.asList(
-                new Epsilon<DoubleSolution>() , 
-                new Spread<DoubleSolution>(), 
-            //    new GenerationalDistance<DoubleSolution>(),
-                new PISAHypervolume<DoubleSolution>(),
-                new InvertedGenerationalDistance<DoubleSolution>()))//,
-          //      new InvertedGenerationalDistancePlus<DoubleSolution>()))/**/
-            .setIndependentRuns(configuration.Runs)
-            .setNumberOfCores(configuration.cores)
-            .build();
-    
-    if(configuration.executeNewAlgorithm){
-        System.out.println("Executing Algorithms...");
-        new ExecuteAlgorithms(experiment).run();
-        HistoryData.printAllDataInstances(experiment, configuration.indicators);
-    }if(configuration.executeQualityIndicators){
-        System.out.println("Executing Quality Indicators...");
-        new ComputeQualityIndicators<>(experiment).run() ;
-    }if(configuration.executeTablesComparative){
-        System.out.println("Executing Comparatives...");
-        new GenerateEvolutionChart(experiment, configuration.indicators).run();
-        new GenerateLatexTablesWithStatistics(experiment).run() ;//remove duplicates is here
-        new GenerateWilcoxonTestTablesWithR<>(experiment).run() ;
-        new GenerateFriedmanTestTables<>(experiment).run();
-        new GenerateBoxplotsWithR<>(experiment).setRows(4).setColumns(3).setDisplayNotch().run() ;
-        new GenerateScatterPoints(experiment).run();
-    }
-  }
+        Experiment<DoubleSolution, List<DoubleSolution>> experiment
+                = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(configuration.experimentName)
+                .setAlgorithmList(algorithmList)
+                .setProblemList(problemList)
+                .setReferenceFrontDirectory(configuration.paretoFrontDirectory)
+                .setReferenceFrontFileNames(referenceFrontFileNames)
+                .setExperimentBaseDirectory(configuration.baseDirectory)
+                .setOutputParetoFrontFileName("FUN")
+                .setOutputParetoSetFileName("VAR")
+                .setIndicatorList(Arrays.asList(
+                        new Epsilon<DoubleSolution>(),
+                        new Spread<DoubleSolution>(),
+                        //new GenerationalDistance<DoubleSolution>(),
+                        new PISAHypervolume<DoubleSolution>(),
+                        new InvertedGenerationalDistance<DoubleSolution>()))//,
+                //new InvertedGenerationalDistancePlus<DoubleSolution>()))/**/
+                .setIndependentRuns(configuration.Runs)
+                .setNumberOfCores(configuration.cores)
+                .build();
 
-  /**
-   * The algorithm list is composed of pairs {@link Algorithm} + {@link Problem} which form part of a
-   * {@link ExperimentAlgorithm}, which is a decorator for class {@link Algorithm}.
-   *
-   * @param problemList
-   * @return
-   */
-   void configureAlgorithmList() {       
-       System.out.println("N. of Algorithms: "+configuration.NameList.size());
-       System.out.println("N. Problems     : "+problemList.size());
-    for (int i = 0; i < configuration.NameList.size(); i++) {
-        try {
-            createAlgorithm(i);
-        } catch (JMException | IllegalArgumentException | IllegalAccessException | ClassNotFoundException ex) {
-            Logger.getLogger(ExecuteExperiment.class.getName()).log(Level.SEVERE, null, ex);
+        if (configuration.executeNewAlgorithm) {
+            System.out.println("Executing Algorithms...");
+            new ExecuteAlgorithms(experiment).run();
+            HistoryData.printAllDataInstances(experiment, configuration.indicators);
+        }
+        if (configuration.executeQualityIndicators) {
+            System.out.println("Executing Quality Indicators...");
+            new ComputeQualityIndicators<>(experiment).run();
+        }
+        if (configuration.executeTablesComparative) {
+            System.out.println("Executing Comparatives...");
+            new GenerateEvolutionChart(experiment, configuration.indicators).run();
+            new GenerateLatexTablesWithStatistics(experiment).run();//remove duplicates is here
+            new GenerateWilcoxonTestTablesWithR<>(experiment).run();
+            new GenerateFriedmanTestTables<>(experiment).run();
+            new GenerateBoxplotsWithR<>(experiment).setRows(4).setColumns(3).setDisplayNotch().run();
+            new GenerateScatterPoints(experiment).run();
         }
     }
-       System.out.println("N. of instance of algorithms: "+algorithmList.size());
-  }
-  
-    void createAlgorithm(int idAlgorithm) throws JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
+
+    private void configureAlgorithmList() {
+        System.out.println("N. of Algorithms: " + configuration.NameList.size());
+        System.out.println("N. Problems     : " + problemList.size());
+        for (int i = 0; i < configuration.NameList.size(); i++) {
+            try {
+                createAlgorithm(i);
+            } catch (JMException | IllegalArgumentException | IllegalAccessException | ClassNotFoundException ex) {
+                Logger.getLogger(ExecuteExperiment.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.println("N. of instance of algorithms: " + algorithmList.size());
+    }
+
+    
+    private void createAlgorithm(int idAlgorithm) throws JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
         for (int i = 0; i < problemList.size(); i++) {
             Algorithm<List<DoubleSolution>> algorithm = configuration.create((DoubleProblem) problemList.get(i).getProblem(), configuration.NameList.get(idAlgorithm));
             algorithmList.add(new ExperimentAlgorithm<>(algorithm, configuration.NameTagList.get(idAlgorithm), problemList.get(i).getTag()));

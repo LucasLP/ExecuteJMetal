@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.management.JMException;
 
 /**
+ * Main class of ExecuterJMetal
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class JMetalMain {
-    public static String myVersion(){return "v1.6   31/10/2017";}
+    public static String myVersion(){return "v1.7   20/11/2017";}
     
 
     public static void main(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
@@ -23,11 +23,8 @@ public class JMetalMain {
         //args = "--comparative ZDT --algorithm MOEADDRA --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace".split(" ");
         //args = "--statistic /ZDT --algorithm MOEADDRAUCBIrace".split(" ");
         //comparative --algorithm MOEADDRAUCBIrace
-        //args = "--single-run MOP1 --algorithm MOEADDRAUCBIrace ".split(" ");        
-        //args = "--single-run MOP1 --algorithm MOEADDRA".split(" ");    
+        args = "--single-run WFG2 --algorithm MOEADDRAUCBIrace ".split(" ");        
         //args = "--single-run /UF3 --algorithm MOEADDRAUCB --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
-        
-        //Configuration conf = new Configuration(args);
         
         execute(args);
         
@@ -122,7 +119,7 @@ public class JMetalMain {
     public static void help() {
         System.out.println("=============================");
         System.out.println("JMetal 5.2, and Modification "+myVersion());
-        System.out.println("Set arg[0] with: --single-run|--statistic|--comparative");
+        System.out.println("Set arg[0] with: --single-run|--statistic|--comparative|--indicators");
         System.out.println("\t--single-run, is a just one execution of algorithm");
         System.out.println("\t--statistic, is executed several runs and save data files");
         System.out.println("\t--indicators, is executed only the quality indicator");
@@ -134,8 +131,9 @@ public class JMetalMain {
                 + "\n--algorithm, --pm, --tau, --fun, --delta, --nr, --nrSize"
                 + "\n--tag"
         );
-        System.out.println("\nJMetal framework"
-                + "\nThis is a branch version, modified by Lucas Prestes");
+        System.out.println("\nJMetal framework");
+        System.out.println("This is a branch version, modified by Lucas Prestes");
+        System.out.println("https://github.com/LucasLP/ExecuteJMetal");
         System.out.println("=============================");
     }
 }

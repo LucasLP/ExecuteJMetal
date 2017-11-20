@@ -29,7 +29,7 @@ Include another two experiment components for JMetal, see in source code in java
 	2.4. Install <a href="https://cran.r-project.org/web/packages/scatterplot3d/index.html">Scatterplot3D</a>, used in new experiment components:<br>
      <code>R</code><br>
 		<code>install.packages("scatterplot3d", repos="http://R-Forge.R-project.org") </code><br>
-	2.5. (optional) Install pdftk<br>
+	2.5. (optional) Install pdftk, used to merge PDFs<br>
 	<code>sudo apt-get install pdftk</code><br>
 
 
@@ -142,5 +142,22 @@ You can import the scripts and use, like:
 
 <br>
 <img src="Additional/scatter-Plot.png"><br>
+
+
+<hr>
+<b>Step by Step: How to use</b>
+
+<ol type="1">
+  <li>Clone this project;</li>
+  <li>Copy src of JMetalMain, Configuration, ExecuteExperiment, MyRunner to your project and put your algorithm;</li>
+  <ol type="1">
+  	<li>copy MOEAD, MOEADDRA, MOEADBuilder, NSGAII and IBEA</li>
+  </ol>
+  <li>Configure the initialization of your algorithm in Configuration.java;</li>
+  <li>Build your JMetal.jar, and put in this directory;</li>
+  <li>Configure the algorithms and benchmark to run in Execute.sh</li>
+  <li>Execute it!</li>
+  <li>The Results are fold at "experiment/MyExperiments"</li>
+</ol>  
 
 
