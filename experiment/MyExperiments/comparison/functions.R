@@ -34,7 +34,8 @@
 #
 #	winnerTables(algorithms, benchmarks) #this files generate a tex file of winner algorithms 
 #
-#	countAll(instance, algorithm)
+#	countAll(algorithm, instance)
+#	countAllinBenchmark(algorithm, benchmark)
 ##############################################################
 
 
@@ -426,12 +427,22 @@ winnerTables <- function(algorithms, benchmarks){
 ##############################################################
 #Operator history functions
 ##############################################################
-countAll <- function(instance, algorithm){
+countAll <- function(algorithm, instance){
 	values <- read.table(paste("../ucbHistory/",algorithm,"/operators_",instance,".dat",sep=""), header=FALSE) 
 	allvalues <- table(t(values[1,])) 
 	for(i in 2:50){
 		allvalues <- allvalues+table(t(values[i,]))
 #		print(table(t(values[i,])))
+	}
+#	print(allvalues)
+	return (allvalues)
+}
+
+countAllinBenchmark <- function(algorithm, benchmark){
+	instances <- setBenchmark(benchmark)
+	allvalues <- c(length=11)
+	for(instance in instances){
+		allvalues <- allvalues + countAll(algorithm, instance)	
 	}
 	print(allvalues)
 }
