@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author lucas
+ * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class UCB implements UCBInterface{
     

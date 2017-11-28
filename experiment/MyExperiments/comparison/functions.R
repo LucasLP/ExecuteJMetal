@@ -1,3 +1,43 @@
+##############################################################
+#		R functions
+#	Author: Lucas Prestes		lucas.prestes.lp@gmail.com
+#
+#
+#
+#	Functions avaible in this file:
+#
+#	
+#	bestHV(algorithm, instance)
+#	bestIGD(algorithm, instance)
+#	bestEP(algorithm, instance)
+#	bestIndicators(algorithm, instance)
+#	countWinnersHV(algorithms, instances)
+#	countWinners(algorithms, instances)
+#	setBenchmark(benchmark)
+#
+#
+#	#### LATEX FUNCTIONS ####
+#	latexCreate(file)
+#	latexHeader(file)
+#	latexNewSection(file, section)
+#	latexTail(file)
+#	latexTableHeader(file, problem, caption, label, tabularString, latexTableFirstLine) 
+#	latexTableLine(file, line, best)
+#	latexTableTail(file)
+#	latexWinnersTable(file, problem, algorithms)
+#
+#	#### POINT & LINE CHART ####
+#	objectivePoints(instanceName, algorithmsNames)
+#	objectivePoints3D(instanceName, algorithmsNames)
+#	linePlotEvolution(instance, indicator, algorithmsNames)
+#
+#
+#	winnerTables(algorithms, benchmarks) #this files generate a tex file of winner algorithms 
+#
+#	countAll(instance, algorithm)
+##############################################################
+
+
 
 #return the index of max hypervolum of instance in algorithm
 bestHV <- function(algorithm, instance){
@@ -135,9 +175,11 @@ latexHeader <- function(file) {
   write("\\maketitle\n\n", file, append=TRUE)
 }
 
+
 latexNewSection <- function(file, section){
   write(paste("\\section{",section,"}\n",sep=""), file, append=TRUE)
 }
+
 
 latexTail <- function(file) { 
   write("\\end{document}", file, append=TRUE)
@@ -152,6 +194,7 @@ latexTableHeader <- function(file, problem, caption, label, tabularString, latex
   write(latexTableFirstLine, file, append=TRUE)
   write("\\hline ", file, append=TRUE)
 }
+
 
 latexTableLine <- function(file, line, best){
 	str <- paste(line[1]," & ",sep="")
@@ -169,6 +212,7 @@ latexTableLine <- function(file, line, best){
 	}
 	write(str, file, append=TRUE)
 }
+
 
 latexTableTail <- function(file) { 
   write("\\hline", file, append=TRUE)
@@ -379,6 +423,18 @@ winnerTables <- function(algorithms, benchmarks){
 	latexTail(file)
 }
 
+##############################################################
+#Operator history functions
+##############################################################
+countAll <- function(instance, algorithm){
+	values <- read.table(paste("../ucbHistory/",algorithm,"/operators_",instance,".dat",sep=""), header=FALSE) 
+	allvalues <- table(t(values[1,])) 
+	for(i in 2:50){
+		allvalues <- allvalues+table(t(values[i,]))
+#		print(table(t(values[i,])))
+	}
+	print(allvalues)
+}
 
 
 

@@ -2,7 +2,7 @@ package myJMetal.UCB;
 
 /**
  *
- * @author lucas
+ * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public interface UCBInterface {
     public void selectOperator();

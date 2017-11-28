@@ -157,7 +157,7 @@ You can import the scripts and use, like:
   <li>Build your JMetal.jar, and put in this directory;</li>
   <li>Configure the algorithms and benchmark to run in Execute.sh</li>
   <li>Execute it!</li>
-  <li>The Results are fold at "experiment/MyExperiments"</li>
+  <li>The Results are in "experiment/MyExperiments"</li>
 </ol>  
 
 
