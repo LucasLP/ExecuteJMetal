@@ -33,7 +33,7 @@ import javax.management.JMException;
  */
 public class MyRunner extends AbstractAlgorithmRunner {
     
-    private Configuration configuration ;
+    private final Configuration configuration ;
 
     public MyRunner(Configuration configuration) {
         this.configuration = configuration;
@@ -65,14 +65,14 @@ public class MyRunner extends AbstractAlgorithmRunner {
     problem = (DoubleProblem)ProblemUtils.<DoubleSolution> loadProblem(problemName);
     for (String alg : configuration.NameList) {
         System.out.println("================================\nExecuting: "+alg);
-      
-        algorithm = configuration.create(problem,alg);//null);
+        algorithm = configuration.create(problem,alg);
 
         AlgorithmRunner algorithmRunner = new AlgorithmRunner.Executor(algorithm)
             .execute() ;
-
+        
         List<DoubleSolution> population = algorithm.getResult() ;
         
+        //miliseconds to seconds
         double computingTime = ((double) algorithmRunner.getComputingTime())/1000 ;
 
         System.out.println("Total execution time: " + computingTime + "s");
@@ -81,7 +81,6 @@ public class MyRunner extends AbstractAlgorithmRunner {
         if (!referenceParetoFront.equals("")) {
           printQualityIndicators(population, referenceParetoFront) ;
         }
-       // System.out.println("================================");
     }
   }
 }

@@ -1,5 +1,6 @@
 ##############################################################
-#		R functions
+#		ExecuteJMetal 	::R functions::
+#
 #	Author: Lucas Prestes		lucas.prestes.lp@gmail.com
 #
 #

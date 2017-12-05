@@ -95,21 +95,16 @@ public class ExecuteExperiment {
     private void configureAlgorithmList() {
         System.out.println("N. of Algorithms: " + configuration.NameList.size());
         System.out.println("N. Problems     : " + problemList.size());
-        for (int i = 0; i < configuration.NameList.size(); i++) {
+        for (int indexAlgorithm = 0; indexAlgorithm < configuration.NameList.size(); indexAlgorithm++) {
             try {
-                createAlgorithm(i);
+                for (int indexProblem = 0; indexProblem < problemList.size(); indexProblem++) {
+                    Algorithm<List<DoubleSolution>> algorithm = configuration.create((DoubleProblem) problemList.get(indexProblem).getProblem(), configuration.NameList.get(indexAlgorithm));
+                    algorithmList.add(new ExperimentAlgorithm<>(algorithm, configuration.NameTagList.get(indexAlgorithm), problemList.get(indexProblem).getTag()));
+                }
             } catch (JMException | IllegalArgumentException | IllegalAccessException | ClassNotFoundException ex) {
                 Logger.getLogger(ExecuteExperiment.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         System.out.println("N. of instance of algorithms: " + algorithmList.size());
-    }
-
-    
-    private void createAlgorithm(int idAlgorithm) throws JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
-        for (int i = 0; i < problemList.size(); i++) {
-            Algorithm<List<DoubleSolution>> algorithm = configuration.create((DoubleProblem) problemList.get(i).getProblem(), configuration.NameList.get(idAlgorithm));
-            algorithmList.add(new ExperimentAlgorithm<>(algorithm, configuration.NameTagList.get(idAlgorithm), problemList.get(i).getTag()));
-        }
     }
 }

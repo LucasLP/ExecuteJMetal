@@ -18,14 +18,21 @@ public class JMetalMain {
     
 
     public static void main(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
-        // --algorithm MOEADDRAUCBv1 --tag UCBv1 --algorithm MOEADDRAUCB --tag UCBv3
-        //args = "--single-run /UF3 --algorithm MOEADDRA --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
-        //args = "--comparative ZDT --algorithm MOEADDRA --algorithm MOEADDRAUCB --algorithm MOEADDRAUCBIrace".split(" ");
-        //args = "--statistic /ZDT --algorithm MOEADDRAUCBIrace".split(" ");
-        //comparative --algorithm MOEADDRAUCBIrace
-        args = "--single-run WFG2 --algorithm MOEADDRAUCBIrace ".split(" ");        
-        //args = "--single-run /UF3 --algorithm MOEADDRAUCB --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
+        /**
+        String instance = "WFG9";
+        String algorithm =
+                //"NSGAII"
+                //"MOEADDRA"
+                "MOEADDRAUCBIrace"
+                ;
+        String op = ""  ;//--Crossover sbx --delta 0.5";
+        args = ("--single-run "+instance+" --algorithm "+algorithm+" "+op).split(" ");
+        /**/
+        //args = "--single-run /UF3 --algorithm MOEADDRAUCBIrace --F 0.43 --CR 0.09 --DE current-to-rand/1/bin --delta 0.22 --nr 2".split(" ");
+        //args = "--single-run /UF3 --algorithm MOEADDRAUCBIrace --Crossover de --F 0.43 --CR 0.09 --DE rand/1/bin --delta 0.22 --nr 20".split(" ");
         
+        //args = "--single-run DTLZ2 --algorithm NSGAIIrand1bin ".split(" ");
+        //args = "--single-run DTLZ1 --algorithm MOEADDRASBX ".split(" ");
         execute(args);
         
     }
@@ -134,6 +141,8 @@ public class JMetalMain {
         System.out.println("\nJMetal framework");
         System.out.println("This is a branch version, modified by Lucas Prestes");
         System.out.println("https://github.com/LucasLP/ExecuteJMetal");
+        System.out.println("Seggestion? Send me an email!");
+        System.out.println("lucas.prestes.lp@gmail.com");
         System.out.println("=============================");
     }
 }

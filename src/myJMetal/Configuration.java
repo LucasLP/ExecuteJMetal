@@ -1,6 +1,5 @@
 package myJMetal;
 
-import org.uma.jmetal.util.experiment.component.GenerateEvolutionChart;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,7 +23,6 @@ import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRA;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAqs;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAII;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
-import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
 import org.uma.jmetal.operator.CrossoverOperator;
@@ -56,7 +54,6 @@ import org.uma.jmetal.problem.multiobjective.glt.GLT2;
 import org.uma.jmetal.problem.multiobjective.glt.GLT3;
 import org.uma.jmetal.problem.multiobjective.glt.GLT4;
 import org.uma.jmetal.problem.multiobjective.glt.GLT5;
-import org.uma.jmetal.problem.multiobjective.glt.GLT6;
 import org.uma.jmetal.problem.multiobjective.lz09.LZ09F1;
 import org.uma.jmetal.problem.multiobjective.lz09.LZ09F2;
 import org.uma.jmetal.problem.multiobjective.lz09.LZ09F3;
@@ -218,7 +215,7 @@ public class Configuration {
                 problemList.add(new ExperimentProblem<>(new DTLZ2()));
                 problemList.add(new ExperimentProblem<>(new DTLZ3()));
                 problemList.add(new ExperimentProblem<>(new DTLZ4()));
-                //problemList.add(new ExperimentProblem<>(new DTLZ5()));
+                problemList.add(new ExperimentProblem<>(new DTLZ5()));
                 problemList.add(new ExperimentProblem<>(new DTLZ6()));
                 problemList.add(new ExperimentProblem<>(new DTLZ7()));
                 break;
@@ -287,7 +284,7 @@ public class Configuration {
                     }
                 case "UF":
                     switch (choice) {
-                        case "problems":
+                        case "problems":// });//
                             return Arrays.asList(new String[]{"UF1","UF2","UF3","UF4","UF5","UF6","UF7","UF8","UF9","UF10"});
                         case "paretoFront":
                             return Arrays.asList(new String[]{"UF1.pf","UF2.pf","UF3.pf","UF4.pf","UF5.pf","UF6.pf","UF7.pf","UF8.pf","UF9.pf","UF10.pf"});
@@ -394,8 +391,7 @@ public class Configuration {
                     .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
                     .setDataDirectory("resources/MOEAD_Weights")
                     .build();
-            
-            }else if (algorithm.equals("MOEADDRA") ){
+            } else if (algorithm.equals("MOEADDRA") ){
                  MOEADDRA a = (MOEADDRA) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRA)
                         .setCrossover(crossover)
                         .setMutation(mutation)
@@ -430,9 +426,7 @@ public class Configuration {
                 return a;
                 
             }
-        }
-            
-        else if (algorithm.equals("NSGAII") ){
+        }else if (algorithm.equals("NSGAII") ){
             NSGAII a = new NSGAIIBuilder<>(
                 problem,
                 new SBXCrossover(1.0, 5),
@@ -491,7 +485,6 @@ public class Configuration {
             ps.println("\n\nProblem: "+parameters.get("--problem"));//benchmark);
             if(executeNewAlgorithm){
                 ps.printf("\nParameters:\n");
-                //for (int i = 0; i < parameters.length; i++) {ps.println("[" + i + "] " + parameters[i]);}
                 Set<String> keys =  parameters.keySet();
                 for (String key : keys) {
                     ps.println(key+" "+parameters.get(key));
