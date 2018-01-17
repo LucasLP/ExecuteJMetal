@@ -148,6 +148,8 @@ setBenchmark <- function(benchmark){
 		return (c("ZDT1", "ZDT2", "ZDT3", "ZDT4", "ZDT6"))
 	}else if(benchmark=="DTLZ"){
 		return (c("DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ6", "DTLZ7"))
+	}else if(benchmark=="MOP"){
+		return (c("MOP1", "MOP2", "MOP3", "MOP4", "MOP5", "MOP6", "MOP7"))
 	}
 	return (c())
 }
@@ -446,6 +448,7 @@ countAllinBenchmark <- function(algorithm, benchmark){
 		allvalues <- allvalues + countAll(algorithm, instance)	
 	}
 	print(allvalues)
+	return (allvalues)
 }
 
 

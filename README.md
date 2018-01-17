@@ -29,8 +29,12 @@ Include another two experiment components for JMetal, see in source code in java
 	2.4. Install <a href="https://cran.r-project.org/web/packages/scatterplot3d/index.html">Scatterplot3D</a>, used in new experiment components:<br>
      <code>R</code><br>
 		<code>install.packages("scatterplot3d", repos="http://R-Forge.R-project.org") </code><br>
-	2.5. (optional) Install pdftk, used to merge PDFs<br>
+	2.5. Install <a href="https://cran.r-project.org/web/packages/PMCMR/PMCMR.pdf"> PMCMR </a><br>
+		<code>install.packages("PMCMR")</code><br>
+	2.6. (optional) Install pdftk, used to merge PDFs<br>
 	<code>sudo apt-get install pdftk</code><br>
+
+	2.7. (Optional) Download <a href="http://sci2s.ugr.es/sci2s.ugr.es/software/javanpts"> JavaNPTS: NonParametric Statistical Test in Java </a> library<br>
 
 
 3. Configure Execute.sh<br>
