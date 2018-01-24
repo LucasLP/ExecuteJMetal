@@ -5,9 +5,9 @@
 #
 #
 #
-#	Functions avaible in this file:
+#	#### Functions avaible in this file: ####
 #
-#	
+#	loadData(algorithm, instance) #Return the data file from instance ant indicator
 #	bestHV(algorithm, instance)
 #	bestIGD(algorithm, instance)
 #	bestEP(algorithm, instance)
@@ -37,42 +37,53 @@
 #
 #	countAll(algorithm, instance)
 #	countAllinBenchmark(algorithm, benchmark)
+#
+#
+#  #### Kruskall-Wallis ####
+#	KruskallWallisTest(algorithms, instance,indicator) #this will print in terminal the comparison of all algorithms
+#
+#	#### R functions of JMetal (modified) ####
+#	JMetalBoxplot(algorithms, indicator, problem)
+#
+#
+#
+#
+#
+#
 ##############################################################
 
 
+loadData <- function(algorithm, instance, indicator){
+	path <- paste("../data/",algorithm, "/",instance,"/",indicator, sep="")
+	return (read.table(path, header=FALSE))
+}
 
 #return the index of max hypervolum of instance in algorithm
 bestHV <- function(algorithm, instance){
-	path <- paste("../data/",algorithm, "/",instance,"/HV", sep="")
-	hv <- read.table(path, header=FALSE)
+	hv <- loadData(algorithm, instance,"HV")
 	hvMax <- which(hv == max(hv))
 	return (list(algorithm, instance, hvMax, max(hv)))
 }
 
 #return the index of min IGD of instance in algorithm
 bestIGD <- function(algorithm, instance){
-	path <- paste("../data/",algorithm, "/",instance,"/IGD", sep="")
-	igd <- read.table(path, header=FALSE)
+	igd <- loadData(algorithm, instance,"IGD")
 	igdMin <- which(igd == min(igd))
 	return (list(algorithm, instance, igdMin, min(igd)))
 }
 
 #return the index of min Epsilon of instance in algorithm
 bestEP <- function(algorithm, instance){
-	path <- paste("../data/",algorithm, "/",instance,"/EP", sep="")
-	ep <- read.table(path, header=FALSE)
+	ep <- loadData(algorithm, instance,"EP")
 	epMin <- which(ep == min(ep))
 	return (list(algorithm, instance, epMin, min(ep)))
 }
 
 
 bestIndicators <- function(algorithm, instance){
-	pathHV <- paste("../data/",algorithm, "/",instance,"/HV", sep="")
-	pathIGD <- paste("../data/",algorithm, "/",instance,"/IGD", sep="")
-	pathEP <- paste("../data/",algorithm, "/",instance,"/EP", sep="")
-	hv <- read.table(pathHV, header=FALSE)
-	igd <- read.table(pathIGD, header=FALSE)
-	ep <- read.table(pathEP, header=FALSE)
+	hv <- loadData(algorithm, instance,"HV")
+	igd <- loadData(algorithm, instance,"IGD")
+	ep <- loadData(algorithm, instance,"EP")
 	hvMax <- which(hv == max(hv))
 	igdMin <- which(igd == min(igd))
 	epMin <- which(ep == min(ep))
@@ -145,9 +156,9 @@ setBenchmark <- function(benchmark){
 	}else if(benchmark=="WFG"){
 		return (c("WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"))
 	}else if(benchmark=="ZDT"){
-		return (c("ZDT1", "ZDT2", "ZDT3", "ZDT4", "ZDT6"))
+		return (c("ZDT1", "ZDT2", "ZDT3", "ZDT4", "ZDT6"))#ZDT5
 	}else if(benchmark=="DTLZ"){
-		return (c("DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ6", "DTLZ7"))
+		return (c("DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ6", "DTLZ7"))#DTLZ5
 	}else if(benchmark=="MOP"){
 		return (c("MOP1", "MOP2", "MOP3", "MOP4", "MOP5", "MOP6", "MOP7"))
 	}
@@ -452,5 +463,104 @@ countAllinBenchmark <- function(algorithm, benchmark){
 }
 
 
+
+
+
+
+
+
+
+##############################################################
+#
+#
+# 	#### Kruskal-Wallis Test	####
+#
+#
+##############################################################
+
+KruskallWallisTest <- function(algorithms, instance, indicator){
+	values <- c()
+	group <- c()
+	for(algorithm in algorithms){
+		values <- c(values, loadData(algorithm,instance,indicator))
+		group <- c(group, rep(algorithm,50))# 50 is number of runs, number of elements in each sample
+	}
+	values <- unlist(values)
+	group <- as.factor(group)
+
+	kruskal.test(values, group)	
+
+	out <- posthoc.kruskal.dunn.test(x=values,  g=group ,p.adjust.method="bonferroni")
+	#out <- posthoc.kruskal.dunn.test(x=values, g=group, p.adjust.method="none")
+
+	#out<- posthoc.kruskal.conover.test(x=values,g=group,p.adjust.method="bonferroni")
+	#out <- posthoc.kruskal.conover.test(x=values, g=group, p.adjust.method="none")
+
+	#out <- posthoc.kruskal.nemenyi.test(x=values, g=group, dist="Tukey")
+
+	
+	result <- c()
+	index <- 1
+	for(c in 1:(length(algorithms)-1) ){
+		index <- index + (c-1)
+		for(i in c:(length(algorithms)-1)){
+			result <- c(result, paste(
+				#"DEBUG[",c,",",i,"  ",index,"] ", #debug info
+				colnames(out$p.value)[c]," = ",rownames(out$p.value)[i],
+				"    ", out$statistic[index] < out$p.value[index], 
+				#" ",out$statistic[index]," ", out$p.value[index],#debug info
+				sep="")
+			)
+			index <- index+1
+		}
+	}
+	
+	#print(summary.lm(aov(values ~ group)))
+	#print(summary(out))
+	#print(out$statistic)
+
+	#summary(out)[]#debug info
+	cat("\nProblem: ",instance,"\n")
+	cat(result,sep="\n")
+}
+
+
+
+##############################################################
+#
+#
+# 	#### R functions of JMetal (modified)	####
+#
+#
+##############################################################
+
+
+JMetalBoxplot <- function(algorithms, indicator, problem){
+	data <- matrix(nrow=50,ncol=length(algorithms))
+	i<-1
+	for(algorithm in algorithms){
+		file <- paste("../data/",algorithm,"/",problem,"/",indicator, sep="")
+		data[,i] <- c(scan(file))
+		i=i+1
+	}
+
+	boxplot(data,names=algorithms, 
+					notch = TRUE, 
+					use.cols=TRUE,#use boxplot with matrix
+					cex.axis=0.5)#,xaxt='n',xlab="")
+	#axis(1, at=seq(1, length(algorithms), by=1), labels = FALSE)
+	#text(seq(1, length(algorithms), by=1), par("usr")[4] - 0.27, labels = algorithms, srt = 45, pos = 1, xpd = TRUE,cex=0.7)
+
+	titulo <-paste(indicator, problem, sep=":")
+	title(main=titulo)
+
+}
+
+
+
+JMetalWilcoxon <- function(algorithms,problems,indicator){
+	source("JMetal.wilcoxon.R")
+	wilcoxonMain(algorithms,problems,indicator)
+}
 
 

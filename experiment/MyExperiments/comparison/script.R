@@ -7,10 +7,17 @@
 source("functions.R") #load these functions
 
 par(mfrow=c(2,3)) #set number of plot/page
-pdf("Rplot.pdf", width=15,height=11)#paper="A4")
+#pdf("Rplot.pdf", width=15,height=11)#paper="A4")
 
-algorithms <- c("MOEADDRA","NSGAII","UCBHybrid")
-benchmark <- c("WFG2","WFG4","WFG7","WFG9","ZDT1","ZDT2","ZDT3","ZDT6")#setBenchmark("DTLZ")
+algorithms <- c("MOEADDRA","NSGAII","UCBHybrid")#,"IBEA")
+benchmark <- c("WFG2","WFG4","WFG7","WFG9")#,"ZDT1","ZDT2","ZDT3","ZDT6")#setBenchmark("DTLZ")
+
+
+#JMetalBoxplot(algorithms, "HV","UF1")
+JMetalWilcoxon(algorithms,benchmark,"HV")
+
+if(FALSE){
+
 for(instance in benchmark){
 	linePlotEvolution(instance,"HV",algorithms)
 	linePlotEvolution(instance,"Spread",algorithms)
@@ -27,8 +34,8 @@ for(instance in benchmark){
 
 
 
-#to block this execution
-if(FALSE){
+
+
 	instance <- "WFG2"
 	linePlotEvolution(instance,"HV",algorithms)
 	linePlotEvolution(instance,"Epsilon",algorithms)
