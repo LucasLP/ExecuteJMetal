@@ -2,6 +2,9 @@
 
 #################################################################
 #			SCRIPT START HERE
+#
+#	These are examples of how to call the methods
+#
 #################################################################
 
 source("functions.R") #load these functions
@@ -15,6 +18,8 @@ benchmark <- c("WFG2","WFG4","WFG7","WFG9")#,"ZDT1","ZDT2","ZDT3","ZDT6")#setBen
 
 #JMetalBoxplot(algorithms, "HV","UF1")
 JMetalWilcoxon(algorithms,benchmark,"HV")
+
+
 
 if(FALSE){
 
