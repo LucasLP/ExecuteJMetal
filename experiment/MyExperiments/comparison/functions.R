@@ -477,7 +477,7 @@ countAllinBenchmark <- function(algorithm, benchmark){
 #
 #
 ##############################################################
-
+require(PMCMR) 
 KruskallWallisTest <- function(algorithms, instance, indicator){
 	values <- c()
 	group <- c()
