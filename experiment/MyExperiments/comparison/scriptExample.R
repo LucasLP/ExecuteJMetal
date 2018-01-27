@@ -7,7 +7,7 @@
 #
 #################################################################
 
-source("functions.R") #load these functions
+source("main.R") #load these functions
 
 par(mfrow=c(2,3)) #set number of plot/page
 #pdf("Rplot.pdf", width=15,height=11)#paper="A4")
