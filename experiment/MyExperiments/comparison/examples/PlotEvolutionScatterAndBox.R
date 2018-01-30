@@ -8,6 +8,9 @@
 #
 #	These are examples of how to call the methods
 #
+#		ATTENTION! The function "linePlotEvolution" only can by plotter with the data files, 
+#						see the algorithm in java /ExecuteJMetal/src/org.uma.jmetal.util.experiment.component/GenerateEvolutionChart.java
+#	
 #############################################################
 
 source("../main.R") #load these functions

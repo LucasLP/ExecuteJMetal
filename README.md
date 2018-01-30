@@ -4,6 +4,8 @@ Bash Script to help statistical tests of Multi-Objective Evolutionary Algorithms
 This Scripts use <a href="https://jmetal.github.io/jMetal/">JMetal Framework 5.2</a>.<br>
 Only for Linux Users.<br>
 Include another two experiment components for JMetal, see in source code in java.<br>
+Another component included in this project is the statistical comparisons, look at: <a href="https://github.com/LucasLP/ExecuteJMetal/tree/master/experiment/MyExperiments/comparison/examples"> "experiment/MyExperiments/comparison/examples" </a><br>
+
 
 1. Use the src in additional files to programming your JMetalMain<br>
  Look at the end of this files for more informations.<br>
@@ -33,9 +35,6 @@ Include another two experiment components for JMetal, see in source code in java
 		<code>install.packages("PMCMR")</code><br>
 	2.6. (optional) Install pdftk, used to merge PDFs<br>
 	<code>sudo apt-get install pdftk</code><br>
-
-	2.7. (Optional) Download <a href="http://sci2s.ugr.es/sci2s.ugr.es/software/javanpts"> JavaNPTS: NonParametric Statistical Test in Java </a> library<br>
-
 
 3. Configure Execute.sh<br>
 	3.1. Set Benchmark<br>
