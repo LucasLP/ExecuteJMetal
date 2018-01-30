@@ -1,9 +1,4 @@
 
-
-JMetalWilcoxon <- function(algorithms,problems,indicator){
-	wilcoxonMain(algorithms,problems,indicator)
-}
-
 resultDirectory<-"../data"
 
 
@@ -43,19 +38,11 @@ printTableLine <- function(OutputFile, indicator, algorithm1, algorithm2, i, j, 
 ##############################################################
 
 
-
-
-
-
-
-wilcoxonMain <- function(algorithms,problems,indicator){
+wilcoxonTable <- function(OutputFile,algorithms,problems,indicator){
 	### START OF SCRIPT 
 	# Constants
 	problemList <- problems
 	algorithmList <- algorithms
-	OutputFile <- paste(	"Wilcoxon.",indicator ,".tex",sep="")
-	write("", OutputFile,append=FALSE)
-
 
 	tabularString <-"| l | " 
 	latexTableFirstLine <- "\\hline \\multicolumn{1}{|c|}{} "
@@ -71,16 +58,13 @@ wilcoxonMain <- function(algorithms,problems,indicator){
 	latexTableFirstLine <- paste(latexTableFirstLine,"\\\\",sep="")
 
 
-	 # Step 1.  Writes the latex header
-	latexHeader(OutputFile)
 
-	meanAndStandardDeviationTable(OutputFile,algorithms,problems,indicator)
 	# Step 3. Problem loop 
-	latexProblems <- ""
+	caption <- "Wilcoxon"
 	for(problem in problems){
-		latexProblems <- paste(latexProblems,problem," ",sep="")
+		caption <- paste(caption,problem," ",sep="")
 	}
-	latexTableHeader(OutputFile, indicator,latexProblems, tabularString, latexTableFirstLine)
+	latexTableHeader(OutputFile, caption, "wilcoxon", tabularString, latexTableFirstLine)
 
 	indx = 0
 	for (i in algorithmList) {
@@ -113,12 +97,25 @@ wilcoxonMain <- function(algorithms,problems,indicator){
 	} # for algorithm
    latexTableTail(OutputFile)
 
-	#Step 3. Writes the end of latex file 
-	latexTail(OutputFile)
-
 }#end main
 
 
 
 
 
+ 
+wilcoxonMain <- function(algorithms,problems,indicator){
+	### START OF SCRIPT 
+	# Constants
+	OutputFile <- latexCreate(paste( "Wilcoxon.",indicator ,".tex",sep=""))
+
+	 # Step 1.  Writes the latex header
+	latexHeader(OutputFile)
+
+	meanAndStandardDeviationTable(OutputFile,algorithms,problems,indicator)
+	# Step 2. Problem loop 
+	wilcoxonTable(OutputFile,algorithms,problems,indicator)
+
+	#Step 3. Writes the end of latex file 
+	latexTail(OutputFile)
+}

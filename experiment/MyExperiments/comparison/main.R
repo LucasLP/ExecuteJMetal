@@ -48,12 +48,19 @@
 	source("./Statistics/Kruskal.R")
 #  #### Kruskall-Wallis ####
 #		KruskallWallisTest(algorithms, instance,indicator) #this will print in terminal the comparison of all algorithms
+#		kruskalMain(algorithms,problems,indicator)
 #
 #	#### R functions of JMetal (modified) ####
-#	JMetalBoxplot(algorithms, indicator, problem)
-	source("./Statistics/Wilcoxon.R")
-	source("./Plots/BoxPlot.R")
 #
+	source("./Statistics/Wilcoxon.R")
+#		wilcoxonMain(algorithms,problems,indicator)
+#
+	source("./Plots/BoxPlot.R")
+#		JMetalBoxplot(algorithms, indicator, problem)
+#
+#
+	source("./Tex/latexStatisticalTests.R")
+#		latexMain(algorithms, benchmark)
 ##############################################################
 
 
@@ -93,8 +100,6 @@ bestIndicators <- function(algorithm, instance){
 	epMin <- which(ep == min(ep))
 	return (list(algorithm, max(hv),  min(igd),  min(ep)))
 }
-
-
 
 
 

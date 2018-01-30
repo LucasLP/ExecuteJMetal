@@ -9,38 +9,37 @@
 
 source("main.R") #load these functions
 
-par(mfrow=c(2,3)) #set number of plot/page
+par(mfrow=c(2,4)) #set number of plot/page
 #pdf("Rplot.pdf", width=15,height=11)#paper="A4")
 
-algorithms <- c("MOEADDRA","NSGAII","UCBHybrid")#,"IBEA")
-benchmark <- c("WFG2","WFG4","WFG7","WFG9")#,"ZDT1","ZDT2","ZDT3","ZDT6")#setBenchmark("DTLZ")
+algorithms <- c("MOEADDRA","NSGAII","IBEA")#,"UCBHybrid")
+instances2obj <- c("WFG1","WFG2","WFG4","WFG7","ZDT1","ZDT2","ZDT3","ZDT6")#setBenchmark("DTLZ")
+instances3obj <- c("DTLZ1","DTLZ2","DTLZ3","DTLZ4","DTLZ7")#setBenchmark("DTLZ")
+
+latexMain(algorithms, "UF")
+
+if(FALSE){
+
+for(instance in instances2obj){
+	linePlotEvolution(instance,"HV",algorithms)
+	linePlotEvolution(instance,"Spread",algorithms)
+	objectivePoints(instance, algorithms)	
+	JMetalBoxplot(algorithms, "HV", instance)
+}
 
 
-#JMetalBoxplot(algorithms, "HV","UF1")
-JMetalWilcoxon(algorithms,benchmark,"HV")
+
+for(instance in instances3obj){
+	linePlotEvolution(instance,"HV",algorithms)
+	linePlotEvolution(instance,"Spread",algorithms)
+	objectivePoints3D(instance, algorithms)	
+	JMetalBoxplot(algorithms, "HV", instance)
+}
+
 
 
 
 if(FALSE){
-
-for(instance in benchmark){
-	linePlotEvolution(instance,"HV",algorithms)
-	linePlotEvolution(instance,"Spread",algorithms)
-	objectivePoints(instance, algorithms)	
-}
-
-
-benchmark <- c("DTLZ1","DTLZ2","DTLZ3","DTLZ4","DTLZ7","MOP7")#setBenchmark("DTLZ")
-for(instance in benchmark){
-	linePlotEvolution(instance,"HV",algorithms)
-	linePlotEvolution(instance,"Spread",algorithms)
-	objectivePoints3D(instance, algorithms)	
-}
-
-
-
-
-
 	instance <- "WFG2"
 	linePlotEvolution(instance,"HV",algorithms)
 	linePlotEvolution(instance,"Epsilon",algorithms)

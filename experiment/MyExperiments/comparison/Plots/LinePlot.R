@@ -21,8 +21,8 @@ linePlotEvolution <- function(instance, indicator, algorithmsNames){
 	# Define colors to be used
 	plot_colors <- c("blue","black","orange","green", "brown", "deepskyblue", "gray60","yellow")
 
-	zoommin <- 40		#plot only from this
-	zoommax <- 99		#at this value
+	zoommin <- 1#40		#plot only from this
+	zoommax <- 100#99		#at this value
 	for(i in 1:length(algorithmsNames) ){
 		algorithm <- read.table(paste("../history/",algorithmsNames[i],"/data_",indicator,"_",instance,".dat",sep=""), header=T, sep="\t") 
 		algorithm <- algorithm[,(-1:-zoommin)]# "zoom"at the line

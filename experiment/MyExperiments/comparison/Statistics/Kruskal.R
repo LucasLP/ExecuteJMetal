@@ -94,15 +94,14 @@ printTableLineKruskal <- function(OutputFile,indicator, algorithm1, algorithm2, 
     cat(" ", file=OutputFile, append=TRUE)
   }
 }
- 
-KruskallWallisMain <- function(algorithms,problems,indicator){
+
+
+
+kruskalTable <- function(OutputFile,algorithms,problems,indicator){
 	### START OF SCRIPT 
 	# Constants
 	problemList <- problems
 	algorithmList <- algorithms
-	OutputFile <- paste( "KruskalWallis.",indicator ,".tex",sep="")
-	write("", OutputFile,append=FALSE)
-
 
 	tabularString <-"| l | " 
 	latexTableFirstLine <- "\\hline \\multicolumn{1}{|c|}{} "
@@ -118,16 +117,12 @@ KruskallWallisMain <- function(algorithms,problems,indicator){
 	latexTableFirstLine <- paste(latexTableFirstLine,"\\\\",sep="")
 
 
-	 # Step 1.  Writes the latex header
-	latexHeader(OutputFile)
-
-	meanAndStandardDeviationTable(OutputFile,algorithms,problems,indicator)
 	# Step 3. Problem loop 
 	caption <- "Kruskal-Wallis"
 	for(problem in problems){
 		caption <- paste(caption,problem," ",sep="")
 	}
-	latexTableHeader(OutputFile, indicator,caption, tabularString, latexTableFirstLine)
+	latexTableHeader(OutputFile,caption, "kruskal", tabularString, latexTableFirstLine)
 
 	indx = 0
 	for (i in algorithmList) {
@@ -167,9 +162,28 @@ KruskallWallisMain <- function(algorithms,problems,indicator){
 	  }
 	} # for algorithm
    latexTableTail(OutputFile)
+}
+
+
+
+
+
+
+
+
+ 
+kruskalMain <- function(algorithms,problems,indicator){
+	### START OF SCRIPT 
+	# Constants
+	OutputFile <- latexCreate(paste( "KruskalWallis.",indicator ,".tex",sep=""))
+
+	 # Step 1.  Writes the latex header
+	latexHeader(OutputFile)
+
+	meanAndStandardDeviationTable(OutputFile,algorithms,problems,indicator)
+	# Step 2. Problem loop 
+	kruskalTable(OutputFile,algorithms,problems,indicator)
 
 	#Step 3. Writes the end of latex file 
 	latexTail(OutputFile)
-
 }
-

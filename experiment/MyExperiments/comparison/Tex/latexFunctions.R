@@ -20,8 +20,7 @@ latexHeader <- function(OutputFile) {
   write("\\usepackage[table*]{xcolor}", OutputFile, append=TRUE)
   write("\\xdefinecolor{gray95}{gray}{0.65}", OutputFile, append=TRUE)
   write("\\xdefinecolor{gray25}{gray}{0.8}\n", OutputFile, append=TRUE)
-  write("\\title{Tests}", OutputFile, append=TRUE)
-  write("\\author{A.J.Nebro and Lucas Prestes}", OutputFile, append=TRUE)
+  write("\\title{Tests}\n", OutputFile, append=TRUE)
   write("\\begin{document}", OutputFile, append=TRUE)
   write("\\maketitle\n", OutputFile, append=TRUE)
   write("\\section{Tables}\n", OutputFile, append=TRUE)
@@ -30,6 +29,7 @@ latexHeader <- function(OutputFile) {
 
 
 latexNewSection <- function(file, section){
+  write("\n\\newpage",file,append=TRUE)
   write(paste("\\section{",section,"}\n",sep=""), file, append=TRUE)
 }
 
@@ -39,10 +39,12 @@ latexTail <- function(file) {
 }
 
 
-latexTableHeader <- function(OutputFile,indicator, caption, tabularString, latexTableFirstLine) {
+
+
+latexTableHeader <- function(OutputFile, caption, label, tabularString, latexTableFirstLine) {
   write("\\begin{table}[!h]", OutputFile, append=TRUE)
-  write(paste("\\caption{",caption,".",indicator,".}",sep=""), OutputFile, append=TRUE)
-  write(paste("\\label{Table:wilcoxon.",indicator,"}",sep=""), OutputFile, append=TRUE)
+  write(paste("\\caption{",caption,"}",sep=""), OutputFile, append=TRUE)
+  write(paste("\\label{Table:",label,"}",sep=""), OutputFile, append=TRUE)
   write("\\centering", OutputFile, append=TRUE)
   write("\\begin{scriptsize}", OutputFile, append=TRUE)
   write(paste("\\begin{tabular}{",tabularString,"}",sep=""), OutputFile, append=TRUE)
@@ -52,8 +54,7 @@ latexTableHeader <- function(OutputFile,indicator, caption, tabularString, latex
 
 
 
-
-latexTableLine <- function(file, line, best){
+latexWinnerTableLine <- function(file, line, best){
 	str <- paste(line[1]," & ",sep="")
 	for(i in 1:(length(best)-1)){
 		if(best[i]){
@@ -85,10 +86,12 @@ latexWinnersTable <- function(file, problem, algorithms){
 	caption <- paste("Winners in \\emph{benchmark} ",problem,sep="")
 	label <- paste("Table:winners.",problem, sep="")
 	#latexTableHeader(file, problem, caption, label, "llll","Algorithm & HV & IGD & $\\epsilon$\\\\")
-	latexTableHeader(file,"HV IGD and EP", caption, label, "llll","Algorithm & HV & IGD & $\\epsilon$\\\\")
-	for(w in 1:ncol(winners)){
+	latexTableHeader(file, caption, label, "llll","Algorithm & HV & IGD & $\\epsilon$\\\\")
+	for(w in 1:nrow(winners)){
+cat(w,":",ncol(winners))
 		best <- c(winners[w,2]==max(winners[,2]),winners[w,3]==max(winners[,3]),winners[w,4]==max(winners[,4]))
-		latexTableLine(file,winners[w,], best)
+print(best)
+		latexWinnerTableLine(file,winners[w,], best)
 	}
 	latexTableTail(file)
 }

@@ -1,0 +1,195 @@
+
+\documentclass{article}
+
+\usepackage{amssymb}
+\usepackage{colortbl}
+\usepackage[table*]{xcolor}
+\xdefinecolor{gray95}{gray}{0.65}
+\xdefinecolor{gray25}{gray}{0.8}
+
+\title{Tests}
+
+\begin{document}
+\maketitle
+
+\section{Tables}
+
+\begin{table}[!h]
+\caption{Winners in \emph{benchmark} UF}
+\label{Table:Table:winners.UF}
+\centering
+\begin{scriptsize}
+\begin{tabular}{llll}
+Algorithm & HV & IGD & $\epsilon$\\
+\hline 
+MOEADDRA & \cellcolor{gray95}6 & \cellcolor{gray95}8 &  \cellcolor{gray95} 8 \\
+NSGAII & 2 & 2 & 2\\
+IBEA & 2 & 0 & 0\\
+\hline
+\end{tabular}
+\end{scriptsize}
+\end{table}
+
+
+\begin{table}[!h]
+\caption{Mean and Standard Deviation}
+\label{Table:meanAndStDev.all}
+\centering
+\begin{scriptsize}
+\begin{tabular}{llll}
+\hline & MOEADDRA & NSGAII & IBEA\\
+\hline 
+& \textbf{\small HV}\\
+\hline 
+UF1 & \cellcolor{gray95}$0.63521_{0.6352}$ & \cellcolor{gray25}$0.54546_{0.5455}$ & $0.53134_{0.5313}$ \\
+UF2 & \cellcolor{gray95}$0.64695_{0.6469}$ & \cellcolor{gray25}$0.63528_{0.6353}$ & $0.62329_{0.6233}$ \\
+UF3 & \cellcolor{gray95}$0.50272_{0.5027}$ & \cellcolor{gray25}$0.45859_{0.4586}$ & $0.3519_{0.3519}$ \\
+UF4 & \cellcolor{gray95}$0.27773_{0.2777}$ & \cellcolor{gray25}$0.27248_{0.2725}$ & $0.26143_{0.2614}$ \\
+UF5 & $0.00355_{0.0036}$ & \cellcolor{gray95}$0.22558_{0.2256}$ & \cellcolor{gray25}$0.15014_{0.1501}$ \\
+UF6 & $0.06903_{0.069}$ & \cellcolor{gray95}$0.26246_{0.2625}$ & \cellcolor{gray25}$0.21387_{0.2139}$ \\
+UF7 & \cellcolor{gray95}$0.47185_{0.4718}$ & \cellcolor{gray25}$0.43335_{0.4333}$ & $0.30412_{0.3041}$ \\
+UF8 & \cellcolor{gray95}$0.22624_{0.2262}$ & $0.15183_{0.1518}$ & \cellcolor{gray25}$0.20503_{0.205}$ \\
+UF9 & \cellcolor{gray95}$0.59501_{0.595}$ & \cellcolor{gray25}$0.55818_{0.5582}$ & $0.54771_{0.5477}$ \\
+UF10 & $0.00886_{0.0089}$ & \cellcolor{gray25}$0.01476_{0.0148}$ & \cellcolor{gray95}$0.05438_{0.0544}$ \\
+\hline
+& \textbf{\small EP}\\
+\hline 
+UF1 & \cellcolor{gray95}$0.06601_{0.066}$ & \cellcolor{gray25}$0.17137_{0.1714}$ & $0.20745_{0.2074}$ \\
+UF2 & \cellcolor{gray95}$0.06956_{0.0696}$ & \cellcolor{gray25}$0.0854_{0.0854}$ & $0.13763_{0.1376}$ \\
+UF3 & \cellcolor{gray95}$0.22293_{0.2229}$ & \cellcolor{gray25}$0.33182_{0.3318}$ & $0.50245_{0.5024}$ \\
+UF4 & \cellcolor{gray95}$0.03274_{0.0327}$ & \cellcolor{gray25}$0.04251_{0.0425}$ & $0.07558_{0.0756}$ \\
+UF5 & \cellcolor{gray25}$0.49588_{0.4959}$ & \cellcolor{gray95}$0.33798_{0.338}$ & $0.62591_{0.6259}$ \\
+UF6 & \cellcolor{gray25}$0.42806_{0.4281}$ & \cellcolor{gray95}$0.33079_{0.3308}$ & $0.54229_{0.5423}$ \\
+UF7 & \cellcolor{gray95}$0.08982_{0.0898}$ & \cellcolor{gray25}$0.18338_{0.1834}$ & $0.50492_{0.5049}$ \\
+UF8 & \cellcolor{gray95}$0.27084_{0.2708}$ & $0.71276_{0.7128}$ & \cellcolor{gray25}$0.70359_{0.7036}$ \\
+UF9 & \cellcolor{gray95}$0.14042_{0.1404}$ & \cellcolor{gray25}$0.34525_{0.3452}$ & $0.38318_{0.3832}$ \\
+UF10 & \cellcolor{gray95}$0.88315_{0.8831}$ & \cellcolor{gray25}$0.88808_{0.8881}$ & $0.90939_{0.9094}$ \\
+\hline
+& \textbf{\small IGD}\\
+\hline 
+UF1 & \cellcolor{gray95}$0.00077_{8e-04}$ & \cellcolor{gray25}$0.00344_{0.0034}$ & $0.00453_{0.0045}$ \\
+UF2 & \cellcolor{gray95}$0.00069_{7e-04}$ & \cellcolor{gray25}$0.0011_{0.0011}$ & $0.00288_{0.0029}$ \\
+UF3 & \cellcolor{gray95}$0.00346_{0.0035}$ & \cellcolor{gray25}$0.00706_{0.0071}$ & $0.0117_{0.0117}$ \\
+UF4 & \cellcolor{gray95}$0.00125_{0.0013}$ & \cellcolor{gray25}$0.0014_{0.0014}$ & $0.00164_{0.0016}$ \\
+UF5 & \cellcolor{gray25}$0.06119_{0.0612}$ & \cellcolor{gray95}$0.04592_{0.0459}$ & $0.09776_{0.0978}$ \\
+UF6 & \cellcolor{gray95}$0.00624_{0.0062}$ & \cellcolor{gray25}$0.0079_{0.0079}$ & $0.01447_{0.0145}$ \\
+UF7 & \cellcolor{gray95}$0.00082_{8e-04}$ & \cellcolor{gray25}$0.0027_{0.0027}$ & $0.01062_{0.0106}$ \\
+UF8 & \cellcolor{gray95}$0.00121_{0.0012}$ & \cellcolor{gray25}$0.00275_{0.0028}$ & $0.00561_{0.0056}$ \\
+UF9 & \cellcolor{gray95}$0.00097_{0.001}$ & \cellcolor{gray25}$0.00161_{0.0016}$ & $0.00302_{0.003}$ \\
+UF10 & \cellcolor{gray95}$0.00356_{0.0036}$ & \cellcolor{gray25}$0.0037_{0.0037}$ & $0.00692_{0.0069}$ \\
+\hline
+\hline
+\end{tabular}
+\end{scriptsize}
+\end{table}
+
+
+
+\newpage
+\section{HV}
+
+\begin{table}[!h]
+\caption{WilcoxonUF1 UF2 UF3 UF4 UF5 UF6 UF7 UF8 UF9 UF10 }
+\label{Table:wilcoxon}
+\centering
+\begin{scriptsize}
+\begin{tabular}{| l | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | }
+\hline \multicolumn{1}{|c|}{} & \multicolumn{10}{c|}{NSGAII}& \multicolumn{10}{c|}{IBEA}\\
+\hline 
+MOEADDRA  & $\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$-$ & $\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\triangledown$ \\ 
+NSGAII  &   &  &  &  &  &  &  &  &  &   & $\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\triangledown$&$-$&$\triangledown$ \\ 
+\hline
+\end{tabular}
+\end{scriptsize}
+\end{table}
+
+
+\begin{table}[!h]
+\caption{Kruskal-WallisUF1 UF2 UF3 UF4 UF5 UF6 UF7 UF8 UF9 UF10 }
+\label{Table:kruskal}
+\centering
+\begin{scriptsize}
+\begin{tabular}{| l | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | }
+\hline \multicolumn{1}{|c|}{} & \multicolumn{10}{c|}{NSGAII}& \multicolumn{10}{c|}{IBEA}\\
+\hline 
+MOEADDRA  & $\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\triangledown$ & $\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\triangledown$ \\ 
+NSGAII  &   &  &  &  &  &  &  &  &  &   & $\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\blacktriangle$&$\triangledown$&$\blacktriangle$&$\triangledown$ \\ 
+\hline
+\end{tabular}
+\end{scriptsize}
+\end{table}
+
+
+
+\newpage
+\section{EP}
+
+\begin{table}[!h]
+\caption{WilcoxonUF1 UF2 UF3 UF4 UF5 UF6 UF7 UF8 UF9 UF10 }
+\label{Table:wilcoxon}
+\centering
+\begin{scriptsize}
+\begin{tabular}{| l | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | }
+\hline \multicolumn{1}{|c|}{} & \multicolumn{10}{c|}{NSGAII}& \multicolumn{10}{c|}{IBEA}\\
+\hline 
+MOEADDRA  & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\blacktriangle$&$\triangledown$&$\triangledown$&$\triangledown$&$-$ & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$-$ \\ 
+NSGAII  &   &  &  &  &  &  &  &  &  &   & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\triangledown$&$-$ \\ 
+\hline
+\end{tabular}
+\end{scriptsize}
+\end{table}
+
+
+\begin{table}[!h]
+\caption{Kruskal-WallisUF1 UF2 UF3 UF4 UF5 UF6 UF7 UF8 UF9 UF10 }
+\label{Table:kruskal}
+\centering
+\begin{scriptsize}
+\begin{tabular}{| l | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | }
+\hline \multicolumn{1}{|c|}{} & \multicolumn{10}{c|}{NSGAII}& \multicolumn{10}{c|}{IBEA}\\
+\hline 
+MOEADDRA  & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\blacktriangle$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$ & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$-$ \\ 
+NSGAII  &   &  &  &  &  &  &  &  &  &   & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\triangledown$&$\triangledown$ \\ 
+\hline
+\end{tabular}
+\end{scriptsize}
+\end{table}
+
+
+
+\newpage
+\section{IGD}
+
+\begin{table}[!h]
+\caption{WilcoxonUF1 UF2 UF3 UF4 UF5 UF6 UF7 UF8 UF9 UF10 }
+\label{Table:wilcoxon}
+\centering
+\begin{scriptsize}
+\begin{tabular}{| l | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | }
+\hline \multicolumn{1}{|c|}{} & \multicolumn{10}{c|}{NSGAII}& \multicolumn{10}{c|}{IBEA}\\
+\hline 
+MOEADDRA  & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$ & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$ \\ 
+NSGAII  &   &  &  &  &  &  &  &  &  &   & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$ \\ 
+\hline
+\end{tabular}
+\end{scriptsize}
+\end{table}
+
+
+\begin{table}[!h]
+\caption{Kruskal-WallisUF1 UF2 UF3 UF4 UF5 UF6 UF7 UF8 UF9 UF10 }
+\label{Table:kruskal}
+\centering
+\begin{scriptsize}
+\begin{tabular}{| l | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm }p{0.03cm } | }
+\hline \multicolumn{1}{|c|}{} & \multicolumn{10}{c|}{NSGAII}& \multicolumn{10}{c|}{IBEA}\\
+\hline 
+MOEADDRA  & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\blacktriangle$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$ & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$ \\ 
+NSGAII  &   &  &  &  &  &  &  &  &  &   & $\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$&$\triangledown$ \\ 
+\hline
+\end{tabular}
+\end{scriptsize}
+\end{table}
+
+
+\end{document}
