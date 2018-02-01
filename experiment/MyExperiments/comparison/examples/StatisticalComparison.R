@@ -4,7 +4,7 @@
 #	Author: Lucas Prestes		lucas.prestes.lp@gmail.com
 #
 #############################################################
-
+#the file must be executed in same directory of main.R
 
 source("main.R")
 

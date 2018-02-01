@@ -5,7 +5,7 @@
 #
 #	https://github.com/LucasLP/ExecuteJMetal
 #
-#	#### Functions avaible in this file: ####
+	#### Functions avaible ####
 #
 #	loadData(algorithm, instance) #Return the data file from instance ant indicator
 #	setBenchmark(benchmark)
@@ -13,6 +13,8 @@
 #	bestIGD(algorithm, instance)
 #	bestEP(algorithm, instance)
 #	bestIndicators(algorithm, instance)
+#	setBenchmark(benchmark) #example, send "UF" and it will return a array with all of instances in this benchmark
+#
 	source("./Statistics/Counter.R")
 #		countWinners(algorithms, instances)
 #		countAll(algorithm, instance)

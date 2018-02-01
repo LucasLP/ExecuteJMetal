@@ -9,31 +9,42 @@
 
 source("main.R") #load these functions
 
-par(mfrow=c(2,4)) #set number of plot/page
+par(mfrow=c(1, 3)) #set number of plot/page   #c(lines, columns)
 #pdf("Rplot.pdf", width=15,height=11)#paper="A4")
 
-algorithms <- c("MOEADDRA","NSGAII","IBEA")#,"UCBHybrid")
+#png("name.png", height=1800, width=1650, pointsize=11, res=230)
+
+algorithms <- c("MOEADDRA","NSGAII","IBEA","UCBHybrid")
+algorithms2 <- c("MOEADDRA","NSGAII","UCBHybrid")
 instances2obj <- c("WFG1","WFG2","WFG4","WFG7","ZDT1","ZDT2","ZDT3","ZDT6")#setBenchmark("DTLZ")
 instances3obj <- c("DTLZ1","DTLZ2","DTLZ3","DTLZ4","DTLZ7")#setBenchmark("DTLZ")
 
-latexMain(algorithms, "UF")
+#latexMain(algorithms, "UF")
 
-if(FALSE){
+
 
 for(instance in instances2obj){
-	linePlotEvolution(instance,"HV",algorithms)
-	linePlotEvolution(instance,"Spread",algorithms)
-	objectivePoints(instance, algorithms)	
+	png(paste(instance,".png",sep=""), height=800, width=1650, pointsize=11, res=230)
+	par(mfrow=c(1, 3))
+
+	linePlotEvolutionPT(instance,"HV",algorithms)
+	#linePlotEvolution(instance,"Spread",algorithms)
+	#objectivePoints(instance, algorithms)	
 	JMetalBoxplot(algorithms, "HV", instance)
+	JMetalBoxplot(algorithms2, "HV", instance)
 }
 
 
 
 for(instance in instances3obj){
-	linePlotEvolution(instance,"HV",algorithms)
-	linePlotEvolution(instance,"Spread",algorithms)
-	objectivePoints3D(instance, algorithms)	
+	png(paste(instance,".png",sep=""), height=800, width=1650, pointsize=11, res=230)
+	par(mfrow=c(1, 3))
+
+	linePlotEvolutionPT(instance,"HV",algorithms)
+	#linePlotEvolution(instance,"Spread",algorithms)
+	#objectivePoints3D(instance, algorithms)	
 	JMetalBoxplot(algorithms, "HV", instance)
+	JMetalBoxplot(algorithms2, "HV", instance)
 }
 
 

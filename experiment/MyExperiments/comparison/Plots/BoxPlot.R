@@ -23,7 +23,7 @@ JMetalBoxplot <- function(algorithms, indicator, problem){
 	boxplot(data,names=algorithms, 
 					notch = TRUE, 
 					use.cols=TRUE,#use boxplot with matrix
-					cex.axis=0.5)#,xaxt='n',xlab="")
+					cex.axis=0.65)#,xaxt='n',xlab="")
 	#axis(1, at=seq(1, length(algorithms), by=1), labels = FALSE)
 	#text(seq(1, length(algorithms), by=1), par("usr")[4] - 0.27, labels = algorithms, srt = 45, pos = 1, xpd = TRUE,cex=0.7)
 
