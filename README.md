@@ -5,7 +5,7 @@ This Scripts use <a href="https://jmetal.github.io/jMetal/">JMetal Framework 5.2
 Only for Linux Users.<br>
 Include another two experiment components for JMetal, see in source code in java.<br>
 Another component included in this project is the statistical comparisons, look at: <a href="https://github.com/LucasLP/ExecuteJMetal/tree/master/experiment/MyExperiments/comparison/examples"> "experiment/MyExperiments/comparison/examples" </a><br>
-
+<i>But this component can be old, please see <a href="https://github.com/LucasLP/Multi-Objective-Algorithms-Comparison">this</a> repository.</i>
 
 1. Use the src in additional files to programming your JMetalMain<br>
  Look at the end of this files for more informations.<br>
