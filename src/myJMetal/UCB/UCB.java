@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * 
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class UCB implements UCBInterface{
@@ -37,6 +37,7 @@ public class UCB implements UCBInterface{
     private Integer[] history_using;
     private List<Object> operatorUsed;
 
+	//Don't use any WeightFunction
     public UCB(Object operator_pool[]){
         operatorUsed = new ArrayList<>();
         SW_operator = new ArrayList<>();

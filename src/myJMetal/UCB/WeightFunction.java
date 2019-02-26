@@ -2,7 +2,7 @@
 package myJMetal.UCB;
 
 /**
- *
+ * Define an weightFunction to use with UCB
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public enum WeightFunction {

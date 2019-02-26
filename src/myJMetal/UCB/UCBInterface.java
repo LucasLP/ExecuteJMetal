@@ -1,6 +1,7 @@
 package myJMetal.UCB;
 
 /**
+ *	UCB Interface
  *
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */

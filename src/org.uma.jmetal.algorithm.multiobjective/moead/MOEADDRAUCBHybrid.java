@@ -143,7 +143,7 @@ public class MOEADDRAUCBHybrid extends MOEADDRA {
         //The MOEADDRA implements 'HistoricAlgorithm' and it has some static function
         //Warning! This method could be very heavy to process!
         //Will store data from Quality Indicators at each 100 generations
-        //  to create the graphics like https://github.com/LucasLP/ExecuteJMetal/blob/master/Additional/example_UF1_HV.png
+        //  to create the graphics like https://github.com/LucasLP/Multi-Objective-Algorithms-Comparison/blob/master/examples/PlotInPNGFile/PlotInPNGFile_DTLZ7.png
 
 
         if(HistoricAlgorithm.testToCalculate(evaluations,maxEvaluations)){
