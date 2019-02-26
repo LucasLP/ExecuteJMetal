@@ -13,25 +13,26 @@ import java.util.Map;
  *  3. At run (main loop of MOEA)
  *     3.1 Select operator if ucbSet is working
  *     3.2 Adjust Sliding window and calculate credit assignment is ucbSet is working
- * 
- * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
+ *
+ * @author Lucas Prestes <lucas.prestes.lp@gmail.com>
  */
 public class UCB_set {
-    
+
     public Integer initDefault;
     public Integer endDefault ;
-    
+
     public Integer maxStep ;
     public Integer step;
-    
+
     public Double C;    //Coefficient to balance exploration and exploitation
     public Double D;    //Decaying Factor
-    
+
     private int WS;                     //Sliding Window Size
-    //private Map<String, UCB> selector;  //label and UCB correspondent
-    private Map<String, UCBInterface> selector;  //label and UCB correspondent
+
+    //label and UCB correspondent, with this Map you can have more than one UCB structure sharing the information
+    private Map<String, UCBInterface> selector;
     private List<Double> SW_reward;     //value calculate with fitness function
-    
+
     private Double x, y;//for fitness value of vector and its child
 
     public UCB_set() {
@@ -41,14 +42,14 @@ public class UCB_set {
         this.step = 0 ;
         this.C = 5.0;
         this.D = 1.0;
-        
+
         WS = 100;
         selector = new HashMap<>();
         SW_reward = new ArrayList<>();
     }
-    
-    
-    
+
+
+
     /**
      * Create UCB object
      * @param popSize Population of algorithm to use this
@@ -63,12 +64,12 @@ public class UCB_set {
         this.step = 0 ;
         this.C = 5.0;
         this.D = 1.0;
-       
+
         selector = new HashMap<>();
         SW_reward = new ArrayList<>();
     }
-    
-    
+
+
      public UCB_set(int WS, int initDefault, int endDefault, int times, Double C, Double D) {
          this.WS = WS;
         this.initDefault = initDefault;
@@ -77,49 +78,49 @@ public class UCB_set {
         this.step = 0 ;
         this.C = C;
         this.D = D;
-        
-        
+
+
         selector = new HashMap<>();
         SW_reward = new ArrayList<>();
     }
-     
-    
+
+
     /**
      * Add an UCB
      * @param name
-     * @param ucb 
+     * @param ucb
      */
     public void addSelector(String name, UCBInterface ucb){
         selector.put(name, ucb);
         ucb.setSetUCB(this);
     }
-    
+
     public void addSelector(String name, Object[] operator_pool){
         UCBInterface ucb = new UCB(operator_pool);
         selector.put(name, ucb);
         ucb.setSetUCB(this);
     }
-    
+
     public UCBInterface getUCB(String name){
         return selector.get(name);
     }
-    
-    
+
+
     public void selectOperators(){
         for (Map.Entry<String, UCBInterface> entrySet : selector.entrySet()) {
             UCBInterface value = entrySet.getValue();
-            value.selectOperator();   
+            value.selectOperator();
         }
     }
-    
+
     public Object getOperator(String name){
         return selector.get(name).getOperator();
     }
-    
+
     public Integer[] getHistory(String name){
         return selector.get(name).getHistory_using();
     }
-    
+
     //x - > vector n
     //y - > vector child
     public void adjustSlidingWindow(){
@@ -132,7 +133,7 @@ public class UCB_set {
             entrySet.getValue().adjustSlidingWindow();
         }
     }
-    
+
     public void creditAssignment(){
         for (Map.Entry<String, UCBInterface> entrySet : selector.entrySet()) {
             entrySet.getValue().creditAssignment();
@@ -146,10 +147,10 @@ public class UCB_set {
     public List<Double> getSW_reward() {
         return SW_reward;
     }
-    
+
     public boolean isWSfull(){return (WS <= SW_reward.size());}
-    
-    
+
+
     @Override
     public String toString(){
         String str="Operators = {";
@@ -157,7 +158,7 @@ public class UCB_set {
         for (Map.Entry<String, UCBInterface> entrySet : selector.entrySet()) {
             String key = entrySet.getKey();
             UCBInterface value = entrySet.getValue();
-            
+
             str += key+":"+value.getOperator();
             if(n<selector.size()){str+=", ";}
             n++;
@@ -165,12 +166,12 @@ public class UCB_set {
         str+="}";
         return str;
     }
-    
-    
+
+
     public String info(){
         String str = "UCB{init="+initDefault+", end="+endDefault+", "
                 + "C="+C+", D="+D+", MaxStep="+maxStep+", ws="+WS+"}";
-        
+
         return str;
     }
 
@@ -193,23 +194,23 @@ public class UCB_set {
     public Double getY() {
         return y;
     }
-    
-    
-    
+
+
+
     public boolean isWorking(int evaluations, int maxEvaluations){
         return (evaluations > initDefault) //more than initial value
                 && (evaluations + endDefault < maxEvaluations);//less than end value
     }
-    
+
     public void printHistory(String tag){
         UCBInterface ucb = selector.get(tag);
         Integer[] hist = ucb.getHistory_using();
-        Object[] pool = ucb.getOperatorPool();        
+        Object[] pool = ucb.getOperatorPool();
         for (int i = 0; i < hist.length; i++) {
             System.out.println( pool[i] +" = "+hist[i]);
         }
     }
-    
+
     public void nextStep(){
         if(step+1 >= maxStep){
             step=0;
@@ -217,6 +218,6 @@ public class UCB_set {
             step++;
         }
     }
-    
-    
+
+
 }

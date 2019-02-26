@@ -89,6 +89,7 @@ public class ExecuteExperiment {
             new GenerateFriedmanTestTables<>(experiment).run();
             new GenerateBoxplotsWithR<>(experiment).setRows(4).setColumns(3).setDisplayNotch().run();
             new GenerateScatterPoints(experiment).run();
+            
         }
     }
 

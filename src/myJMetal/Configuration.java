@@ -20,7 +20,14 @@ import org.uma.jmetal.algorithm.multiobjective.ibea.IBEABuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.AbstractMOEAD;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRA;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRASBX;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCB;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBIrace;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBIraceHyperHybrid;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv1;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAUCBv4;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADDRAqs;
+import org.uma.jmetal.algorithm.multiobjective.moead.MOEADUCB;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAII;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2;
@@ -215,7 +222,7 @@ public class Configuration {
                 problemList.add(new ExperimentProblem<>(new DTLZ2()));
                 problemList.add(new ExperimentProblem<>(new DTLZ3()));
                 problemList.add(new ExperimentProblem<>(new DTLZ4()));
-                problemList.add(new ExperimentProblem<>(new DTLZ5()));
+                //problemList.add(new ExperimentProblem<>(new DTLZ5()));
                 problemList.add(new ExperimentProblem<>(new DTLZ6()));
                 problemList.add(new ExperimentProblem<>(new DTLZ7()));
                 break;
@@ -407,6 +414,94 @@ public class Configuration {
                  a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
                  a.setRunNumber(this.Runs);
                 return a;
+            
+            } else if (algorithm.equals("MOEADDRASBX") ){
+                 MOEADDRASBX a = (MOEADDRASBX) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRASBX)
+                        .setCrossover(new SBXCrossover(1.0, 5))
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                 a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                 a.setRunNumber(this.Runs);
+                return a;
+                
+            }else if (algorithm.equals("MOEADDRAUCB")){
+                MOEADDRAUCB a = (MOEADDRAUCB) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCB)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                a.setName(algorithm);
+                a.setRunNumber(this.Runs);
+                return a;
+
+            }  else if (algorithm.equals("MOEADUCB")){
+                MOEADUCB a = (MOEADUCB) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADUCB)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                a.setName(algorithm);
+                //a.setRunNumber(this.Runs);
+                return a;
+
+            }  else if (algorithm.equals("MOEADDRAUCBv1")){
+                MOEADDRAUCBv1 a = (MOEADDRAUCBv1) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBv1)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                a.setName(algorithm);
+                a.setRunNumber(this.Runs);
+                return a;
+
+            } else if (algorithm.equals("MOEADDRAUCBv4")){
+                MOEADDRAUCBv4 a = (MOEADDRAUCBv4) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBv4)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                a.setName(algorithm);
+                a.setRunNumber(this.Runs);
+                return a;
 
             }else if (algorithm.equals("MOEADDRAqs")){
                 MOEADDRAqs a = (MOEADDRAqs) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAqs)
@@ -425,7 +520,57 @@ public class Configuration {
                 a.setName(algorithm);
                 return a;
                 
+            }else if (algorithm.equals("MOEADDRAUCBIrace")){
+                MOEADDRAUCBIrace a = (MOEADDRAUCBIrace) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBIrace)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                a.setName(algorithm);
+                a.setRunNumber(this.Runs);
+                a.setParameters(parameters);
+                return a;
+
+            }else if (algorithm.equals("MOEADDRAUCBIraceHyperHybrid")){
+                MOEADDRAUCBIraceHyperHybrid a = (MOEADDRAUCBIraceHyperHybrid) new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADDRAUCBIraceHyperHybrid)
+                        .setCrossover(crossover)
+                        .setMutation(mutation)
+                        .setMaxEvaluations(this.MaxEvaluations)
+                        .setPopulationSize(600)
+                        .setResultPopulationSize(600)
+                        .setNeighborhoodSelectionProbability(Double.valueOf(parameters.get("--delta")))// 0.9)
+                        .setMaximumNumberOfReplacedSolutions(Integer.valueOf(parameters.get("--nr")))//2)
+                        .setNeighborSize(Integer.valueOf(parameters.get("--nrSize")))//20)
+                        .setFunctionType(AbstractMOEAD.FunctionType.valueOf(parameters.get("--fun")))//AbstractMOEAD.FunctionType.TCHE)
+                        .setDataDirectory("resources/MOEAD_Weights")
+                        .build();
+                a.setDraTime(Integer.valueOf(parameters.get("--draTime")));
+                a.setName(algorithm);
+                a.setRunNumber(this.Runs);
+                a.setParameters(parameters);
+                return a;
+
             }
+        } else if (algorithm.equals("NSGAIIrand1bin") ){
+            NSGAII a = new NSGAIIBuilder<>(
+                problem,
+                new DifferentialEvolutionCrossover(1.0, 0.5, "rand/1/bin"),
+                new PolynomialMutation(1.0 / problem.getNumberOfVariables(), 10.0))
+                .setMaxEvaluations(MaxEvaluations)
+                .setPopulationSize(600)
+                .build();
+            a.setRunNumber(this.Runs);
+            return a;
+            
+            
         }else if (algorithm.equals("NSGAII") ){
             NSGAII a = new NSGAIIBuilder<>(
                 problem,

@@ -28,8 +28,8 @@ import org.uma.jmetal.util.AlgorithmBuilder;
  * @version 1.0
  */
 public class MOEADBuilder implements AlgorithmBuilder<AbstractMOEAD<DoubleSolution>> {
-  public enum Variant {MOEAD, ConstraintMOEAD, MOEADDRA, MOEADSTM, 
-        MOEADDRAUCB, MOEADDRAUCBv1, MOEADDRAUCBv4, MOEADDRAqs, MOEADDRAUCBIrace} ;
+  public enum Variant {MOEAD, ConstraintMOEAD, MOEADDRA, MOEADDRASBX, MOEADSTM,
+        MOEADUCB, MOEADDRAUCB, MOEADDRAUCBv1, MOEADDRAUCBv4, MOEADDRAqs, MOEADDRAUCBIrace, MOEADDRAUCBIraceHyperHybrid} ;
 
   protected Problem<DoubleSolution> problem ;
 
@@ -198,31 +198,27 @@ public class MOEADBuilder implements AlgorithmBuilder<AbstractMOEAD<DoubleSoluti
       algorithm =  new MOEADDRA(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
           crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
           maximumNumberOfReplacedSolutions, neighborSize);
+    } else if (moeadVariant.equals(Variant.MOEADDRASBX)) {
+      algorithm =  new MOEADDRASBX(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
+          crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
+          maximumNumberOfReplacedSolutions, neighborSize);
     } else if (moeadVariant.equals(Variant.MOEADSTM)) {
         algorithm =  new MOEADSTM(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
                 crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
                 maximumNumberOfReplacedSolutions, neighborSize);
-    } else if (moeadVariant.equals(Variant.MOEADDRAUCB)) {
-      algorithm =  new MOEADDRAUCB(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
+    } else if (moeadVariant.equals(Variant.MOEADUCB)) {
+      algorithm =  new MOEADUCB(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
           crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
           maximumNumberOfReplacedSolutions, neighborSize);
-    } else if (moeadVariant.equals(Variant.MOEADDRAUCBv1)) {
-      algorithm =  new MOEADDRAUCBv1(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
-          crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
-          maximumNumberOfReplacedSolutions, neighborSize);
-    } else if (moeadVariant.equals(Variant.MOEADDRAUCBv4)) {
-      algorithm =  new MOEADDRAUCBv4(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
+    } else if (moeadVariant.equals(Variant.MOEADDRAUCBHybrid)) {
+      algorithm =  new MOEADDRAUCBHybrid(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
           crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
           maximumNumberOfReplacedSolutions, neighborSize);
     }else if (moeadVariant.equals(Variant.MOEADDRAqs)) {
       algorithm =  new MOEADDRAqs(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
           crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
           maximumNumberOfReplacedSolutions, neighborSize);
-    }else if (moeadVariant.equals(Variant.MOEADDRAUCBIrace)) {
-      algorithm =  new MOEADDRAUCBIrace(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,
-          crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
-          maximumNumberOfReplacedSolutions, neighborSize);
-    } 
+    }
 
     return algorithm ;
   }

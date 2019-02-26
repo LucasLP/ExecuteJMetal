@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import myJMetal.Chart.GenerateEvolutionChart;
-import myJMetal.Chart.HistoricAlgorithm;
-import myJMetal.Chart.HistoryData;
+import org.uma.jmetal.util.experiment.component.GenerateEvolutionChart;
+import org.uma.jmetal.util.experiment.component.EvolutionChart.HistoricAlgorithm;
+import org.uma.jmetal.util.experiment.component.EvolutionChart.HistoryData;
 import myJMetal.Configuration;
 
 /**
@@ -98,6 +98,14 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> implements HistoricA
         randomGenerator = JMetalRandom.getInstance() ;
     }
   
+  private void setConfig(Double delta, Integer nr,Double Cr, Double F, String variant) {
+        neighborhoodSelectionProbability = delta;
+        maximumNumberOfReplacedSolutions = nr;
+
+        differentialEvolutionCrossover.setCr(Cr);
+        differentialEvolutionCrossover.setF(F);
+        differentialEvolutionCrossover.setVariant(variant);
+    }
 
   @Override public void run() {
     initializePopulation() ;
@@ -107,7 +115,7 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> implements HistoricA
 
     int generation = 0 ;
     evaluations = populationSize ;
-    
+    //setConfig(0.16, 4, 0.53, 0.08, "rand/1/bin");//600//300k
     do {
       int[] permutation = new int[populationSize];
       MOEADUtils.randomPermutation(permutation, populationSize);
@@ -144,7 +152,18 @@ public class MOEADDRA extends AbstractMOEAD<DoubleSolution> implements HistoricA
       }
 
     } while (evaluations < maxEvaluations);
-
+    /*System.out.println("\n\nhv <- c(");
+    int i=0;
+      Double[] hd = getHistory("HV").getDataTest(0);
+      for (Double d : hd) {
+          if(i>100) {
+            System.out.println("");
+            i=0;
+          }
+          System.out.print(d+", ");
+          i++;
+      }
+      System.out.println(")");/**/
   }
   
    protected List<DoubleSolution> parentSelection(int subProblemId, NeighborType neighborType, String variant) {

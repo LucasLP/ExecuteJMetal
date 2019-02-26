@@ -14,12 +14,12 @@ import javax.management.JMException;
  * @author Lucas Prestes <lucas.prestes.lp@gmail.com> 
  */
 public class JMetalMain {
-    public static String myVersion(){return "v1.7   20/11/2017";}
+    public static String myVersion(){return "v1.7.1   29/01/2018";}
     
 
     public static void main(String[] args) throws FileNotFoundException, JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
         /**
-        String instance = "WFG9";
+        String instance = "WFG1";
         String algorithm =
                 //"NSGAII"
                 //"MOEADDRA"
@@ -33,8 +33,13 @@ public class JMetalMain {
         
         //args = "--single-run DTLZ2 --algorithm NSGAIIrand1bin ".split(" ");
         //args = "--single-run DTLZ1 --algorithm MOEADDRASBX ".split(" ");
-        execute(args);
         
+        //execute(args);
+        
+        //args = ("--comparative UF --algorithm MOEADDRAUCB --tag UCBHybrid --algorithm NSGAII --algorithm MOEADDRA --algorithm IBEA ").split(" ");
+        //args = "--single-run /UF3 --algorithm MOEADDRAUCB".split(" ");
+        execute(args);
+
     }
     
     // --single-run  --statistic  --indicators   --comparative
