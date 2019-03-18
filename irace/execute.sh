@@ -1,17 +1,17 @@
 #!/bin/sh
 
-#How to execute IRace
-# 1 - Set paramenters.txt
-# 2 - Set instances (tune-conf)
-# 3 - Code target-runner to print only an float value to be minimized
-# 4 - Execute THIS sh "sh execute.sh name" the parameter name is for output data
-# 5 - Results at output directory "Tests"
+#Como executar o Irace
+# 1 - Configure paramenters.txt
+# 2 - configure as instâncias de teste (tune-conf) (o da instância vira nos argumentos de entrada)
+# 3 - Codifique target-runner para impirimir somente o valor que deve ser minimizado (caso seja um maximizador deve ter um sinal negativo)
+# 4 - Execute este arquivo "sh execute.sh nome" o paramentro "nome" é para os dados de saída.
+# 5 - Os resultados estarão na pasta "Tests"
 
 
 # OBS:
-#	1. The JMetalLogger don't can print anything, else it will generate an error.
-#	2. certify if the last thing of you program will show is the quality indicator.
-#	3. Remember, Irace is a minimizer, then, if you use a max, you need multiply by -1.
+#	1. Caso seja impresso log de erro na saída do algoritmo isto irá gerar erro.
+#	2. Certifique que a ultima coisa que seu algoritmo irá imprimir será o indicador de qualidade (fitness).
+#	3. Lembre-se o Irace é um minimizador então, se seu algoritmo/problema for um maximizador então multiplique a saída final por -1 (isto pode ser feito por meio do arquivo target-runner).
 
 
 name="Default"
